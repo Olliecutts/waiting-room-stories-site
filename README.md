@@ -23,10 +23,25 @@ This package contains only deployable public static site files:
 - `CNAME`
 - `data/public_patterns_sample.json`
 - `assets/images/waiting-room-header-side-heart.png`
-- `assets/images/waiting-room-launch-square.jpg`
-- `assets/images/waiting-room-core-line.jpg`
 
-It intentionally excludes private project files, source bundles, handoff files, internal lane state, deployment history notes, automation docs, and non-public response data.
+It intentionally excludes private project files, handoff files, internal lane state, deployment history notes, automation docs, launch social graphics, and non-public response data.
+
+## Public Pages
+
+- Home: `index.html`
+- Share: `share.html`
+- Patterns: `patterns.html`
+- Change: `what-needs-to-change.html`
+- About: `about.html`
+- How stories are used: `privacy.html`
+
+## Assets
+
+The current visual identity uses the approved Chilli flower-hat side-heart/header artwork from Ollie's desktop asset folder:
+
+- `assets/images/waiting-room-header-side-heart.png`
+
+The old placeholder mark is not used as the main site identity. The launch-square social graphic is not used on public site pages.
 
 ## GitHub Pages Setup
 
@@ -34,29 +49,17 @@ Use this package as the root of the separate public GitHub repository.
 
 1. Copy the contents of this folder to the root of `Olliecutts/waiting-room-stories-site`.
 2. Commit and push to the repository's `main` branch.
-3. In GitHub, open Settings > Pages.
-4. Set the publishing source to deploy from `main` / root.
-5. Set the custom domain to:
+3. GitHub Pages should publish from `main` / root with custom domain `waitingroom.kingchillithepug.com`.
 
-```text
-waitingroom.kingchillithepug.com
-```
+## Safety Rules
 
-The included `CNAME` file should contain the same domain.
+- Do not add raw stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
+- Keep the site non-anti-vet.
+- The form link should remain a link, not an embed, until a later human decision.
+- This is not a donation, charity, emergency support, veterinary advice, legal advice, financial advice, or insurance advice site.
 
-## DNS Needed Later
+## Pattern Data
 
-DNS for `kingchillithepug.com` is hosted at Name.com. After GitHub accepts the custom domain, add or replace the subdomain record there:
+The patterns page reads `data/public_patterns_sample.json`.
 
-```text
-Type: CNAME
-Host: waitingroom
-Value: olliecutts.github.io
-TTL: Automatic / default
-```
-
-Do not include `https://` or the repository name in the DNS value.
-
-## Safety
-
-This export should contain public pages, public-safe aggregate data, and approved public images only. It must not contain raw stories, owner names, pet names, email addresses, contact details, exact locations, vet names, insurer names, claim numbers, private response files, or internal handoff files.
+Any replacement data must contain public-safe aggregate counts only and no raw response text or identifiers.
