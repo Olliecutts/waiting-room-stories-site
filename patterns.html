@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patterns so far | The Waiting Room Stories Project</title>
+  <meta name="description" content="Public-safe aggregate patterns from The Waiting Room Stories Project pilot.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-patterns-page>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">♥</span><span>The Waiting Room Stories Project</span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="share.html">Share</a>
+        <a aria-current="page" href="patterns.html">Patterns</a>
+        <a href="what-needs-to-change.html">Change</a>
+        <a href="about.html">About</a>
+        <a href="updates.html">Updates</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Patterns so far</p>
+        <h1>Early pilot patterns, shown safely.</h1>
+        <p class="lede">Live pilot data. These responses are not representative of all pet owners, but they show recurring patterns in emergency and specialist veterinary care access.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <p class="note">This page uses public-safe aggregate data only: <strong><span data-sample-size>37</span> unflagged rows</strong>, with <strong><span data-excluded-flags>5</span> current/emergency/help flags excluded</strong>. Updated <span data-updated>2026-05-24</span>. No quotes or raw stories are shown in v1.</p>
+        <p class="note" data-patterns-warning hidden></p>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Country</h3>
+            <div class="bar-list" data-chart="countries"></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Care needed</h3>
+            <div class="bar-list" data-chart="care"></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Main barriers</h3>
+            <div class="bar-list" data-chart="barriers"></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Insurance status</h3>
+            <div class="bar-list" data-chart="insurance"></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Outcomes</h3>
+            <div class="bar-list" data-chart="outcomes"></div>
+          </article>
+          <article class="card chart-card">
+            <h3>What would have helped</h3>
+            <div class="bar-list" data-chart="helped"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p><strong>The Waiting Room Stories Project</strong><br>Aggregate pilot patterns only. No raw stories.</p>
+      <p><a href="share.html">Share your story</a></p>
+    </div>
+  </footer>
+  <script src="site.js"></script>
+</body>
+</html>
