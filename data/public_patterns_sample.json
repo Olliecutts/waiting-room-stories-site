@@ -1,9 +1,7 @@
 {
-  "status": "public_safe_aggregate_sample",
+  "status": "latest_public_safe_snapshot",
   "updated": "2026-05-24",
-  "note": "Safe aggregate pilot data from unflagged rows only. Excludes the 5 current/emergency/help flags. No quotes or raw stories.",
-  "sample_size": 37,
-  "excluded_flagged_rows": 5,
+  "note": "Public-safe aggregate patterns only. Submissions needing extra care are reviewed privately and are not included in public pattern summaries. No quotes or raw stories.",
   "countries": [
     { "label": "USA", "value": 26 },
     { "label": "Australia", "value": 5 },
@@ -13,7 +11,7 @@
   "care_needed": [
     { "label": "ICU or hospitalisation", "value": 11 },
     { "label": "Surgery or treatment", "value": 10 },
-    { "label": "Heart/breathing emergency care", "value": 9 },
+    { "label": "Heart or breathing emergency care", "value": 9 },
     { "label": "Cancer or complex care", "value": 9 },
     { "label": "Diagnostic imaging", "value": 6 },
     { "label": "Specialist referral or transfer", "value": 5 }
@@ -22,7 +20,7 @@
     { "label": "Upfront payment barrier", "value": 12 },
     { "label": "Surgery or treatment unaffordable", "value": 8 },
     { "label": "Other barrier", "value": 5 },
-    { "label": "ICU/hospitalisation unaffordable", "value": 4 },
+    { "label": "ICU or hospitalisation unaffordable", "value": 4 },
     { "label": "Insurance limit ran out", "value": 2 },
     { "label": "Diagnostic imaging unaffordable", "value": 2 }
   ],
@@ -30,7 +28,7 @@
     { "label": "No insurance", "value": 25 },
     { "label": "Insurance did not cover this", "value": 4 },
     { "label": "Insurance ran out", "value": 3 },
-    { "label": "Insurance marked yes", "value": 3 },
+    { "label": "Had insurance", "value": 3 },
     { "label": "Had insurance but had to pay upfront", "value": 2 }
   ],
   "outcomes": [
@@ -42,7 +40,7 @@
   ],
   "helped": [
     { "label": "Fast emergency grant", "value": 20 },
-    { "label": "Safe bridge-payment/payment plan", "value": 12 },
+    { "label": "Safe bridge payment or payment plan", "value": 12 },
     { "label": "Other support", "value": 7 },
     { "label": "Direct-to-vet payment", "value": 6 },
     { "label": "Clearer options or communication", "value": 5 },

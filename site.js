@@ -20,7 +20,7 @@ function renderBarChart(container, items) {
     track.className = "bar-track";
     const fill = document.createElement("div");
     fill.className = "bar-fill";
-    fill.style.setProperty("--bar-width", `${Math.max(6, Math.round((item.value / max) * 100))}%`);
+    fill.style.setProperty("--bar-width", `${Math.max(8, Math.round((item.value / max) * 100))}%`);
     track.append(fill);
 
     row.append(meta, track);
@@ -41,8 +41,6 @@ async function loadPatterns() {
     const response = await fetch(DATA_PATH);
     if (!response.ok) throw new Error(`Could not load ${DATA_PATH}`);
     const data = await response.json();
-    setText("[data-sample-size]", data.sample_size);
-    setText("[data-excluded-flags]", data.excluded_flagged_rows);
     setText("[data-updated]", data.updated);
     renderBarChart(document.querySelector("[data-chart='countries']"), data.countries);
     renderBarChart(document.querySelector("[data-chart='care']"), data.care_needed);
@@ -54,7 +52,7 @@ async function loadPatterns() {
     const warning = document.querySelector("[data-patterns-warning]");
     if (warning) {
       warning.hidden = false;
-      warning.textContent = "Pattern data could not be loaded locally. Check the JSON path before deployment.";
+      warning.textContent = "Pattern data could not be loaded. Please try again later.";
     }
   }
 }
