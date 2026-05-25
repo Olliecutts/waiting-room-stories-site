@@ -474,13 +474,21 @@ p {
 .donut-card {
   display: grid;
   align-content: start;
-  gap: 18px;
-  min-height: 410px;
+  gap: 12px;
+  min-height: 440px;
   border-color: rgba(74, 37, 116, 0.12);
   background:
     linear-gradient(145deg, rgba(255, 253, 247, 0.96), rgba(247, 240, 251, 0.72)),
     radial-gradient(circle at top right, rgba(233, 184, 208, 0.24), transparent 42%),
     var(--white);
+}
+
+.chart-helper {
+  margin: -4px 0 8px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.45;
 }
 
 .donut-wrap {
@@ -528,8 +536,9 @@ p {
 
 .chart-legend {
   display: grid;
-  gap: 10px;
+  gap: 11px;
   min-width: 0;
+  width: 100%;
 }
 
 .legend-row,
@@ -550,6 +559,7 @@ p {
 
 .legend-label {
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .legend-label span:last-child {
@@ -569,6 +579,7 @@ p {
   flex: 0 0 auto;
   color: var(--plum);
   font-variant-numeric: tabular-nums;
+  margin-left: 12px;
 }
 
 .share-project-band {

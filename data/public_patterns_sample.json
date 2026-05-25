@@ -3,134 +3,229 @@
   "status": "latest_pattern_update",
   "last_updated": "2026-05-25T12:41:42.452Z",
   "minimum_category_count": 3,
-  "small_sample_label": "Other responses",
+  "small_sample_label": "Smaller categories",
   "privacy": "Aggregate categories only. No identifying details or story text.",
   "charts": {
     "country": [
       {
         "label": "USA",
-        "count": 10,
-        "percentage": 71.4
+        "count": 31,
+        "percentage": 73.8
       },
       {
-        "label": "Other responses",
+        "label": "Australia",
+        "count": 5,
+        "percentage": 11.9
+      },
+      {
+        "label": "UK",
         "count": 4,
-        "percentage": 28.6
+        "percentage": 9.5
+      },
+      {
+        "label": "Canada",
+        "count": 2,
+        "percentage": 4.8
       }
     ],
     "care_needed": [
       {
-        "label": "Diagnostic imaging",
-        "count": 9,
-        "percentage": 20.9
+        "label": "Surgery or treatment",
+        "count": 13,
+        "percentage": 14.9
       },
       {
         "label": "ICU or hospitalisation",
-        "count": 5,
-        "percentage": 11.6
+        "count": 12,
+        "percentage": 13.8
       },
       {
-        "label": "Specialist referral or transfer",
-        "count": 5,
-        "percentage": 11.6
-      },
-      {
-        "label": "Emergency vet or out-of-hours care",
-        "count": 4,
-        "percentage": 9.3
-      },
-      {
-        "label": "Surgery or treatment",
-        "count": 4,
-        "percentage": 9.3
+        "label": "Heart or breathing emergency care",
+        "count": 10,
+        "percentage": 11.5
       },
       {
         "label": "Cancer treatment",
-        "count": 3,
-        "percentage": 7
+        "count": 10,
+        "percentage": 11.5
+      },
+      {
+        "label": "Diagnostic imaging",
+        "count": 8,
+        "percentage": 9.2
+      },
+      {
+        "label": "Specialist referral or transfer",
+        "count": 6,
+        "percentage": 6.9
       },
       {
         "label": "Neurological emergency care",
-        "count": 3,
-        "percentage": 7
+        "count": 5,
+        "percentage": 5.7
       },
       {
-        "label": "Other responses",
-        "count": 10,
-        "percentage": 23.3
+        "label": "Other emergency or specialist care",
+        "count": 4,
+        "percentage": 4.6
+      },
+      {
+        "label": "Emergency vet or out-of-hours care",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
+        "label": "Spinal emergency care",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
+        "label": "Ongoing treatment after discharge",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
+        "label": "Trauma emergency care",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
+        "label": "Cancer or complex care",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
+        "label": "Other answer",
+        "count": 1,
+        "percentage": 1.1
+      },
+      {
+        "label": "Smaller categories",
+        "count": 3,
+        "percentage": 3.4
       }
     ],
     "main_barriers": [
       {
-        "label": "No insurance",
-        "count": 11,
-        "percentage": 37.9
-      },
-      {
         "label": "Had to pay upfront",
-        "count": 7,
-        "percentage": 24.1
+        "count": 13,
+        "percentage": 31.0
       },
       {
         "label": "Surgery or treatment unaffordable",
-        "count": 4,
-        "percentage": 13.8
+        "count": 8,
+        "percentage": 19.0
       },
       {
-        "label": "Other responses",
+        "label": "Other answer",
         "count": 7,
-        "percentage": 24.1
+        "percentage": 16.7
+      },
+      {
+        "label": "ICU or hospitalisation unaffordable",
+        "count": 4,
+        "percentage": 9.5
+      },
+      {
+        "label": "Insurance limit ran out",
+        "count": 3,
+        "percentage": 7.1
+      },
+      {
+        "label": "Smaller categories",
+        "count": 7,
+        "percentage": 16.7
       }
     ],
     "insurance_status": [
       {
-        "label": "No",
-        "count": 11,
-        "percentage": 78.6
+        "label": "No insurance",
+        "count": 28,
+        "percentage": 66.7
       },
       {
-        "label": "Other responses",
+        "label": "Insurance did not cover this",
+        "count": 4,
+        "percentage": 9.5
+      },
+      {
+        "label": "Had insurance",
+        "count": 4,
+        "percentage": 9.5
+      },
+      {
+        "label": "Insurance ran out",
         "count": 3,
-        "percentage": 21.4
+        "percentage": 7.1
+      },
+      {
+        "label": "Had insurance but had to pay upfront",
+        "count": 3,
+        "percentage": 7.1
       }
     ],
     "outcomes": [
       {
         "label": "I had to say goodbye",
-        "count": 9,
-        "percentage": 64.3
+        "count": 26,
+        "percentage": 61.9
+      },
+      {
+        "label": "My pet recovered",
+        "count": 8,
+        "percentage": 19.0
       },
       {
         "label": "I am still going through it",
-        "count": 3,
-        "percentage": 21.4
+        "count": 4,
+        "percentage": 9.5
       },
       {
-        "label": "Other responses",
-        "count": 2,
-        "percentage": 14.3
+        "label": "Smaller categories",
+        "count": 4,
+        "percentage": 9.5
       }
     ],
     "what_would_have_helped": [
       {
         "label": "Fast emergency grant would have helped",
-        "count": 6,
-        "percentage": 33.3
+        "count": 24,
+        "percentage": 31.2
       },
       {
         "label": "Safe payment plan would have helped",
-        "count": 6,
-        "percentage": 33.3
+        "count": 15,
+        "percentage": 19.5
       },
       {
-        "label": "Other",
-        "count": 3,
-        "percentage": 16.7
+        "label": "Direct-to-vet payment would have helped",
+        "count": 8,
+        "percentage": 10.4
       },
       {
-        "label": "Other responses",
-        "count": 3,
-        "percentage": 16.7
+        "label": "Other answer",
+        "count": 8,
+        "percentage": 10.4
+      },
+      {
+        "label": "Insurance that covered more would have helped",
+        "count": 8,
+        "percentage": 10.4
+      },
+      {
+        "label": "More time to decide would have helped",
+        "count": 5,
+        "percentage": 6.5
+      },
+      {
+        "label": "Someone explaining options simply would have helped",
+        "count": 5,
+        "percentage": 6.5
+      },
+      {
+        "label": "Unclear policy terms",
+        "count": 4,
+        "percentage": 5.2
       }
     ]
   }

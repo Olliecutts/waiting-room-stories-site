@@ -4,9 +4,25 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
-const OTHER_RESPONSES_LABEL = "Other responses";
+const SMALLER_CATEGORIES_LABEL = "Smaller categories";
+const OTHER_ANSWER_LABEL = "Other answer";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
-const SMALL_SAMPLE_ALIASES = new Set([LEGACY_SMALL_SAMPLE_LABEL, OTHER_RESPONSES_LABEL]);
+const SMALL_SAMPLE_ALIASES = new Set([
+  LEGACY_SMALL_SAMPLE_LABEL,
+  ["Other", " responses"].join(""),
+  SMALLER_CATEGORIES_LABEL
+]);
+const PUBLIC_LABEL_MAP = {
+  Other: OTHER_ANSWER_LABEL,
+  other: OTHER_ANSWER_LABEL,
+  No: "No insurance",
+  Yes: "Had insurance",
+  "I had insurance but it ran out": "Insurance ran out",
+  "I had insurance but it did not cover this": "Insurance did not cover this",
+  "I had insurance but had to pay upfront first": "Had insurance but had to pay upfront",
+  "I am not sure": "Not sure",
+  "Prefer not to say": "Prefer not to say"
+};
 const CHART_PALETTE = [
   "#4a2574",
   "#c9addc",
@@ -68,16 +84,17 @@ function normaliseChartItems(items) {
 
 function normalisePublicLabel(label) {
   const text = String(label || "Unknown").trim();
-  return SMALL_SAMPLE_ALIASES.has(text) ? OTHER_RESPONSES_LABEL : text;
+  if (SMALL_SAMPLE_ALIASES.has(text)) return SMALLER_CATEGORIES_LABEL;
+  return PUBLIC_LABEL_MAP[text] || text;
 }
 
-function isOtherResponses(item) {
-  return item.label === OTHER_RESPONSES_LABEL;
+function isSmallerCategories(item) {
+  return item.label === SMALLER_CATEGORIES_LABEL;
 }
 
 function sortChartItems(a, b) {
-  if (isOtherResponses(a) && !isOtherResponses(b)) return 1;
-  if (!isOtherResponses(a) && isOtherResponses(b)) return -1;
+  if (isSmallerCategories(a) && !isSmallerCategories(b)) return 1;
+  if (!isSmallerCategories(a) && isSmallerCategories(b)) return -1;
   if (b.percentage !== a.percentage) return b.percentage - a.percentage;
   return a.label.localeCompare(b.label);
 }
