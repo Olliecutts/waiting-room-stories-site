@@ -1,33 +1,8 @@
-# The Waiting Room Stories Project Site
+# The Waiting Room Stories Project Static Site
 
-Public-safe static site export for The Waiting Room Stories Project.
+Public website files for The Waiting Room Stories Project.
 
-Target domain:
-
-```text
-waitingroom.kingchillithepug.com
-```
-
-## Contents
-
-This package contains only deployable public static site files:
-
-- `index.html`
-- `share.html`
-- `patterns.html`
-- `what-needs-to-change.html`
-- `about.html`
-- `contact.html`
-- `professionals.html`
-- `faq.html`
-- `privacy.html`
-- `styles.css`
-- `site.js`
-- `CNAME`
-- `data/public_patterns_sample.json`
-- `assets/images/waiting-room-header-side-heart.png`
-
-It intentionally excludes private project files, handoff files, internal lane state, deployment history notes, automation docs, launch social graphics, and non-public response data.
+Target domain: `waitingroom.kingchillithepug.com`.
 
 ## Public Pages
 
@@ -41,6 +16,8 @@ It intentionally excludes private project files, handoff files, internal lane st
 - FAQ: `faq.html`
 - How stories are used: `privacy.html`
 
+`updates.html` remains a plain unlinked placeholder. It is not part of the main public navigation.
+
 ## Assets
 
 The current visual identity uses the approved Chilli flower-hat side-heart/header artwork from Ollie's desktop asset folder:
@@ -49,16 +26,23 @@ The current visual identity uses the approved Chilli flower-hat side-heart/heade
 
 The old placeholder mark is not used as the main site identity. The launch-square social graphic is not used on public site pages.
 
-## GitHub Pages Setup
+## Local Test
 
-Use this package as the root of the separate public GitHub repository.
+From the repo root:
 
-1. Copy the contents of this folder to the root of `Olliecutts/waiting-room-stories-site`.
-2. Commit and push to the repository's `main` branch.
-3. GitHub Pages should publish from `main` / root with custom domain `waitingroom.kingchillithepug.com`.
+```bash
+python3 -m http.server 8787 --directory campaigns/car_park_stories/site
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8787/
+```
 
 ## Safety Rules
 
+- Do not deploy until Ollie approves.
 - Do not add raw stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
 - Keep the site non-anti-vet.
 - Keep Contact, For professionals, and FAQ informational only. They should not imply emergency support, bill payment, charity/fund status, or advice.
@@ -67,6 +51,8 @@ Use this package as the root of the separate public GitHub repository.
 
 ## Pattern Data
 
-The patterns page reads `data/public_patterns_sample.json`.
+The patterns page reads `data/public_patterns_sample.json` as a public-safe fallback.
 
-Any replacement data must contain public-safe aggregate counts only and no raw response text or identifiers.
+Live pattern data should come only from a reviewed public-safe aggregate JSON endpoint or file using schema `wrs_public_patterns_v1`.
+
+Any replacement data must contain public-safe aggregate categories and percentages only. It must not include raw response text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or private review notes. Categories with fewer than 3 responses must be grouped as `Other / small sample`.

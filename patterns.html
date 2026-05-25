@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/images/waiting-room-header-side-heart.png">
 </head>
-<body data-patterns-page>
+<body data-patterns-page data-patterns-source="data/public_patterns_sample.json" data-patterns-live-source="">
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="index.html" aria-label="The Waiting Room Stories Project home">
@@ -37,34 +37,40 @@
 
     <section class="section">
       <div class="wrap">
-        <p class="note">These are early patterns from people who chose to share their experiences. They are not a representative survey of all pet owners, but they help show where the same barriers keep appearing. Updated <span data-updated>2026-05-24</span>.</p>
+        <div class="patterns-meta">
+          <p class="eyebrow">Latest public-safe snapshot</p>
+          <p class="note">These are early patterns from people who chose to share their experiences. They are not a representative survey of all pet owners, but they help show where the same barriers keep appearing.</p>
+          <p class="patterns-status">Last updated: <span data-updated>Loading</span></p>
+          <p class="patterns-status" data-patterns-source-status>Loading public-safe pattern data.</p>
+        </div>
         <p class="note" data-patterns-warning hidden></p>
-        <div class="chart-grid">
-          <article class="card chart-card">
-            <h3>Country</h3>
-            <div class="bar-list" data-chart="countries"></div>
-          </article>
-          <article class="card chart-card">
-            <h3>Care needed</h3>
-            <div class="bar-list" data-chart="care"></div>
-          </article>
-          <article class="card chart-card">
+        <div class="chart-dashboard" aria-live="polite">
+          <article class="card donut-card">
             <h3>Main barriers</h3>
-            <div class="bar-list" data-chart="barriers"></div>
+            <div class="donut-wrap" data-chart-key="main_barriers"></div>
           </article>
-          <article class="card chart-card">
-            <h3>Insurance position</h3>
-            <div class="bar-list" data-chart="insurance"></div>
+          <article class="card donut-card">
+            <h3>Care needed</h3>
+            <div class="donut-wrap" data-chart-key="care_needed"></div>
           </article>
-          <article class="card chart-card">
+          <article class="card donut-card">
             <h3>Outcomes</h3>
-            <div class="bar-list" data-chart="outcomes"></div>
+            <div class="donut-wrap" data-chart-key="outcomes"></div>
           </article>
-          <article class="card chart-card">
+          <article class="card donut-card">
+            <h3>Insurance position</h3>
+            <div class="donut-wrap" data-chart-key="insurance_status"></div>
+          </article>
+          <article class="card donut-card">
             <h3>What would have helped</h3>
-            <div class="bar-list" data-chart="helped"></div>
+            <div class="donut-wrap" data-chart-key="what_would_have_helped"></div>
+          </article>
+          <article class="card donut-card">
+            <h3>Country</h3>
+            <div class="donut-wrap" data-chart-key="country"></div>
           </article>
         </div>
+        <p class="patterns-footnote">Patterns are shown carefully. Individual stories are protected.</p>
       </div>
     </section>
   </main>
