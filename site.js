@@ -4,17 +4,21 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
-const SMALLER_CATEGORIES_LABEL = "Smaller categories";
-const OTHER_ANSWER_LABEL = "Other answer";
+const OTHER_BUCKET_LABEL = "Other or less common responses";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
+const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
+const LEGACY_OTHER_ANSWER_LABEL = ["Other", " answer"].join("");
+const LEGACY_SMALLER_CATEGORIES_LABEL = ["Smaller", " categories"].join("");
 const SMALL_SAMPLE_ALIASES = new Set([
   LEGACY_SMALL_SAMPLE_LABEL,
-  ["Other", " responses"].join(""),
-  SMALLER_CATEGORIES_LABEL
+  LEGACY_OTHER_RESPONSES_LABEL,
+  LEGACY_OTHER_ANSWER_LABEL,
+  LEGACY_SMALLER_CATEGORIES_LABEL,
+  OTHER_BUCKET_LABEL
 ]);
 const PUBLIC_LABEL_MAP = {
-  Other: OTHER_ANSWER_LABEL,
-  other: OTHER_ANSWER_LABEL,
+  Other: OTHER_BUCKET_LABEL,
+  other: OTHER_BUCKET_LABEL,
   No: "No insurance",
   Yes: "Had insurance",
   "I had insurance but it ran out": "Insurance ran out",
@@ -24,14 +28,16 @@ const PUBLIC_LABEL_MAP = {
   "Prefer not to say": "Prefer not to say"
 };
 const CHART_PALETTE = [
-  "#4a2574",
-  "#c9addc",
-  "#e9b8d0",
-  "#7c9b7d",
-  "#f4d872",
-  "#8a5aa8",
-  "#6e3f93",
-  "#fff9ef"
+  "#4B2E59",
+  "#6F3FA0",
+  "#B68CC9",
+  "#F6AFC8",
+  "#E65F8E",
+  "#8DB596",
+  "#F4D35E",
+  "#5CB8B2",
+  "#5B8DEF",
+  "#7B416F"
 ];
 
 function setText(selector, text) {
@@ -50,6 +56,10 @@ function getPatternRoot() {
   return document.querySelector("[data-patterns-page]");
 }
 
+function getHomeRoot() {
+  return document.querySelector("[data-home-page]");
+}
+
 function getConfiguredSources(root) {
   const liveSource = root?.dataset.patternsLiveSource?.trim();
   const fallbackSource = root?.dataset.patternsSource?.trim() || DEFAULT_PATTERN_DATA_PATH;
@@ -65,36 +75,38 @@ async function fetchJson(source) {
 function normaliseChartItems(items) {
   if (!Array.isArray(items)) return [];
   const total = items.reduce((sum, item) => sum + Number(item.count ?? item.value ?? 0), 0);
+  const grouped = new Map();
 
-  return items
-    .map((item) => {
-      const count = Number(item.count ?? item.value ?? 0);
-      const percentage = Number(
-        item.percentage ?? (total > 0 ? ((count / total) * 100).toFixed(1) : 0)
-      );
+  items.forEach((item) => {
+    const count = Number(item.count ?? item.value ?? 0);
+    const percentage = Number(
+      item.percentage ?? (total > 0 ? ((count / total) * 100).toFixed(1) : 0)
+    );
+    const label = normalisePublicLabel(item.label || "Unknown");
+    const existing = grouped.get(label) || { label, count: 0, percentage: 0 };
+    existing.count += Number.isFinite(count) ? count : 0;
+    existing.percentage += Number.isFinite(percentage) ? percentage : 0;
+    grouped.set(label, existing);
+  });
 
-      return {
-        label: normalisePublicLabel(item.label || "Unknown"),
-        percentage: Number.isFinite(percentage) ? percentage : 0
-      };
-    })
+  return Array.from(grouped.values())
     .filter((item) => item.percentage > 0)
     .sort(sortChartItems);
 }
 
 function normalisePublicLabel(label) {
   const text = String(label || "Unknown").trim();
-  if (SMALL_SAMPLE_ALIASES.has(text)) return SMALLER_CATEGORIES_LABEL;
+  if (SMALL_SAMPLE_ALIASES.has(text)) return OTHER_BUCKET_LABEL;
   return PUBLIC_LABEL_MAP[text] || text;
 }
 
-function isSmallerCategories(item) {
-  return item.label === SMALLER_CATEGORIES_LABEL;
+function isOtherBucket(item) {
+  return item.label === OTHER_BUCKET_LABEL;
 }
 
 function sortChartItems(a, b) {
-  if (isSmallerCategories(a) && !isSmallerCategories(b)) return 1;
-  if (!isSmallerCategories(a) && isSmallerCategories(b)) return -1;
+  if (isOtherBucket(a) && !isOtherBucket(b)) return 1;
+  if (!isOtherBucket(a) && isOtherBucket(b)) return -1;
   if (b.percentage !== a.percentage) return b.percentage - a.percentage;
   return a.label.localeCompare(b.label);
 }
@@ -118,17 +130,32 @@ function buildGradient(items) {
   let cursor = 0;
   const segments = items.map((item, index) => {
     const start = cursor;
-    const end = Math.min(100, cursor + item.percentage);
+    const isLast = index === items.length - 1;
+    const end = isLast ? 100 : Math.min(100, cursor + item.percentage);
     cursor = end;
-    const colour = CHART_PALETTE[index % CHART_PALETTE.length];
+    const colour = getChartColour(index);
     return `${colour} ${start}% ${end}%`;
   });
 
-  if (cursor < 100 && segments.length > 0) {
-    segments.push(`${CHART_PALETTE[segments.length % CHART_PALETTE.length]} ${cursor}% 100%`);
-  }
-
   return segments.length ? `conic-gradient(${segments.join(", ")})` : "none";
+}
+
+function getChartColour(index) {
+  const base = CHART_PALETTE[index % CHART_PALETTE.length];
+  const cycle = Math.floor(index / CHART_PALETTE.length);
+  if (cycle === 0) return base;
+  return adjustHexLightness(base, cycle % 2 === 0 ? -12 : 12);
+}
+
+function adjustHexLightness(hex, amount) {
+  const clean = hex.replace("#", "");
+  const value = Number.parseInt(clean, 16);
+  const channels = [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+  const adjusted = channels.map((channel) => {
+    const delta = amount >= 0 ? (255 - channel) * (amount / 100) : channel * (amount / 100);
+    return Math.max(0, Math.min(255, Math.round(channel + delta)));
+  });
+  return `#${adjusted.map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
 }
 
 function renderDonutChart(container, items) {
@@ -145,7 +172,7 @@ function renderDonutChart(container, items) {
 
   const chart = document.createElement("div");
   chart.className = "donut-chart";
-  chart.style.background = buildGradient(items);
+  chart.style.setProperty("--chart-gradient", buildGradient(items));
   chart.setAttribute("role", "img");
   chart.setAttribute(
     "aria-label",
@@ -156,6 +183,7 @@ function renderDonutChart(container, items) {
   hole.className = "donut-hole";
   const center = document.createElement("span");
   center.className = "donut-center";
+  center.textContent = "♥";
   center.setAttribute("aria-hidden", "true");
   hole.append(center);
   chart.append(hole);
@@ -171,7 +199,7 @@ function renderDonutChart(container, items) {
 
     const swatch = document.createElement("span");
     swatch.className = "legend-swatch";
-    swatch.style.background = CHART_PALETTE[index % CHART_PALETTE.length];
+    swatch.style.background = getChartColour(index);
     swatch.setAttribute("aria-hidden", "true");
 
     const label = document.createElement("span");
@@ -189,6 +217,30 @@ function renderDonutChart(container, items) {
   container.append(chart, legend);
 }
 
+function initChartReveal() {
+  const cards = document.querySelectorAll(".donut-card");
+  if (!cards.length) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    cards.forEach((card) => card.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "0px 0px -12% 0px", threshold: 0.18 }
+  );
+
+  cards.forEach((card) => observer.observe(card));
+}
+
 function renderPatterns(data, sourceLabel) {
   setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
   setText("[data-patterns-source-status]", sourceLabel);
@@ -198,6 +250,7 @@ function renderPatterns(data, sourceLabel) {
     const key = container.getAttribute("data-chart-key");
     renderDonutChart(container, getChartItems(data, key));
   });
+  initChartReveal();
 }
 
 function formatPatternDate(value) {
@@ -210,6 +263,64 @@ function formatPatternDate(value) {
     year: "numeric"
   });
   return `Updated ${formatted}`;
+}
+
+function formatSnapshotDate(value) {
+  const formatted = formatPatternDate(value).replace(/^Updated /, "");
+  return formatted === "date unavailable" ? "Snapshot unavailable" : formatted;
+}
+
+function setSnapshotCard(key, value) {
+  const card = document.querySelector(`[data-snapshot-card="${key}"]`);
+  const node = card?.querySelector("[data-snapshot-value]");
+  if (node) node.textContent = value || "Snapshot unavailable";
+}
+
+function renderHomeSnapshot(data, isFallback) {
+  setSnapshotCard("total_stories", Number.isFinite(Number(data.total_stories)) ? Number(data.total_stories).toLocaleString("en-GB") : "Snapshot unavailable");
+  setSnapshotCard("countries_represented", Number.isFinite(Number(data.countries_represented)) ? Number(data.countries_represented).toLocaleString("en-GB") : "Snapshot unavailable");
+  setSnapshotCard("top_barrier", data.top_barrier?.label || "Snapshot unavailable");
+  setSnapshotCard("top_care_type", data.top_care_type?.label || "Snapshot unavailable");
+  setSnapshotCard("last_updated", formatSnapshotDate(data.last_updated || data.updated));
+  setText(
+    "[data-snapshot-status]",
+    isFallback && getConfiguredSources(getHomeRoot()).length > 1
+      ? "Showing the latest public pattern update available."
+      : "Latest public pattern update."
+  );
+}
+
+function renderHomeSnapshotFallback() {
+  ["total_stories", "countries_represented", "top_barrier", "top_care_type", "last_updated"].forEach((key) => {
+    setSnapshotCard(key, "Snapshot unavailable");
+  });
+  setText(
+    "[data-snapshot-status]",
+    "The latest public-safe snapshot could not load. Please check the Patterns page later."
+  );
+}
+
+async function loadHomeSnapshot() {
+  const homeRoot = getHomeRoot();
+  const container = document.querySelector("[data-home-snapshot]");
+  if (!homeRoot || !container) return;
+
+  const sources = getConfiguredSources(homeRoot);
+  let lastError = null;
+
+  for (let index = 0; index < sources.length; index += 1) {
+    const source = sources[index];
+    try {
+      const data = await fetchJson(source);
+      renderHomeSnapshot(data, index > 0 || source === DEFAULT_PATTERN_DATA_PATH);
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  renderHomeSnapshotFallback();
+  if (lastError) console.warn(lastError.message);
 }
 
 async function loadPatterns() {
@@ -407,11 +518,13 @@ window.WRSSite = {
   formatPatternDate,
   handleNativeShare,
   initShareTools,
+  loadHomeSnapshot,
   loadPatterns,
   loadShareAssets,
   normaliseChartItems
 };
 
+loadHomeSnapshot();
 loadPatterns();
 initShareTools();
 loadShareAssets();

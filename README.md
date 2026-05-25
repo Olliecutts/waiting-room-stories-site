@@ -55,7 +55,7 @@ The patterns page reads `data/public_patterns_sample.json` as a public-safe fall
 
 Live pattern data should come only from a reviewed public-safe aggregate JSON endpoint or file using schema `wrs_public_patterns_v1`.
 
-Any replacement data must contain public-safe aggregate categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or private review notes. Categories with fewer than 3 responses should be grouped as `Smaller categories`, except the Country chart, which may show all broad country categories.
+Any replacement data must contain public-safe aggregate categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or private review notes. Categories with fewer than 3 responses should be grouped as `Other or less common responses`, except the Country chart, which may show all broad country categories.
 
 ## Share Assets
 

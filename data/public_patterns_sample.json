@@ -1,9 +1,9 @@
 {
-  "schema_version": "wrs_public_patterns_v1",
+  "schema_version": "wrs_public_patterns_v2",
   "status": "latest_pattern_update",
   "last_updated": "2026-05-25T12:41:42.452Z",
   "minimum_category_count": 3,
-  "small_sample_label": "Smaller categories",
+  "small_sample_label": "Other or less common responses",
   "privacy": "Aggregate categories only. No identifying details or story text.",
   "charts": {
     "country": [
@@ -40,12 +40,12 @@
         "percentage": 13.8
       },
       {
-        "label": "Heart or breathing emergency care",
+        "label": "Cancer treatment",
         "count": 10,
         "percentage": 11.5
       },
       {
-        "label": "Cancer treatment",
+        "label": "Heart or breathing emergency care",
         "count": 10,
         "percentage": 11.5
       },
@@ -70,12 +70,12 @@
         "percentage": 4.6
       },
       {
-        "label": "Emergency vet or out-of-hours care",
+        "label": "Cancer or complex care",
         "count": 3,
         "percentage": 3.4
       },
       {
-        "label": "Spinal emergency care",
+        "label": "Emergency vet or out-of-hours care",
         "count": 3,
         "percentage": 3.4
       },
@@ -85,24 +85,19 @@
         "percentage": 3.4
       },
       {
+        "label": "Spinal emergency care",
+        "count": 3,
+        "percentage": 3.4
+      },
+      {
         "label": "Trauma emergency care",
         "count": 3,
         "percentage": 3.4
       },
       {
-        "label": "Cancer or complex care",
-        "count": 3,
-        "percentage": 3.4
-      },
-      {
-        "label": "Other answer",
-        "count": 1,
-        "percentage": 1.1
-      },
-      {
-        "label": "Smaller categories",
-        "count": 3,
-        "percentage": 3.4
+        "label": "Other or less common responses",
+        "count": 4,
+        "percentage": 4.5
       }
     ],
     "main_barriers": [
@@ -117,11 +112,6 @@
         "percentage": 19.0
       },
       {
-        "label": "Other answer",
-        "count": 7,
-        "percentage": 16.7
-      },
-      {
         "label": "ICU or hospitalisation unaffordable",
         "count": 4,
         "percentage": 9.5
@@ -132,9 +122,9 @@
         "percentage": 7.1
       },
       {
-        "label": "Smaller categories",
-        "count": 7,
-        "percentage": 16.7
+        "label": "Other or less common responses",
+        "count": 14,
+        "percentage": 33.4
       }
     ],
     "insurance_status": [
@@ -144,22 +134,22 @@
         "percentage": 66.7
       },
       {
-        "label": "Insurance did not cover this",
-        "count": 4,
-        "percentage": 9.5
-      },
-      {
         "label": "Had insurance",
         "count": 4,
         "percentage": 9.5
       },
       {
-        "label": "Insurance ran out",
+        "label": "Insurance did not cover this",
+        "count": 4,
+        "percentage": 9.5
+      },
+      {
+        "label": "Had insurance but had to pay upfront",
         "count": 3,
         "percentage": 7.1
       },
       {
-        "label": "Had insurance but had to pay upfront",
+        "label": "Insurance ran out",
         "count": 3,
         "percentage": 7.1
       }
@@ -181,7 +171,7 @@
         "percentage": 9.5
       },
       {
-        "label": "Smaller categories",
+        "label": "Other or less common responses",
         "count": 4,
         "percentage": 9.5
       }
@@ -199,11 +189,6 @@
       },
       {
         "label": "Direct-to-vet payment would have helped",
-        "count": 8,
-        "percentage": 10.4
-      },
-      {
-        "label": "Other answer",
         "count": 8,
         "percentage": 10.4
       },
@@ -226,7 +211,23 @@
         "label": "Unclear policy terms",
         "count": 4,
         "percentage": 5.2
+      },
+      {
+        "label": "Other or less common responses",
+        "count": 8,
+        "percentage": 10.4
       }
     ]
-  }
+  },
+  "total_stories": 42,
+  "countries_represented": 4,
+  "top_barrier": {
+    "label": "Had to pay upfront",
+    "percentage": 31.0
+  },
+  "top_care_type": {
+    "label": "Surgery or treatment",
+    "percentage": 14.9
+  },
+  "snapshot_note": "These are early patterns from people who chose to share their experiences, not a representative survey."
 }
