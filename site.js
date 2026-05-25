@@ -327,10 +327,20 @@ function initShareTools() {
 function createAssetCard(asset) {
   const card = document.createElement("article");
   card.className = "card asset-card";
+  const isLive = asset.status === "live" && asset.image_path && asset.download_path;
 
   const status = document.createElement("span");
-  status.className = "coming-soon";
-  status.textContent = asset.status_label || "Coming soon";
+  status.className = isLive ? "asset-status live" : "coming-soon";
+  status.textContent = isLive ? "Ready to share" : asset.status_label || "Coming soon";
+
+  if (asset.image_path) {
+    const preview = document.createElement("img");
+    preview.className = "asset-preview";
+    preview.src = asset.image_path;
+    preview.alt = asset.alt_text || "";
+    preview.loading = "lazy";
+    card.append(preview);
+  }
 
   const title = document.createElement("h3");
   title.textContent = asset.title || "Project asset";
@@ -341,17 +351,26 @@ function createAssetCard(asset) {
   const actions = document.createElement("div");
   actions.className = "asset-actions";
 
-  const download = document.createElement("button");
+  const download = document.createElement(isLive ? "a" : "button");
   download.className = "button secondary";
-  download.type = "button";
-  download.disabled = true;
-  download.textContent = "Download";
+  download.textContent = "Download image";
+  if (isLive) {
+    download.href = asset.download_path;
+    download.download = "";
+  } else {
+    download.type = "button";
+    download.disabled = true;
+  }
 
   const share = document.createElement("button");
   share.className = "button secondary";
   share.type = "button";
-  share.disabled = true;
-  share.textContent = "Share";
+  share.textContent = isLive ? "Copy link" : "Share";
+  if (isLive) {
+    share.addEventListener("click", () => copyShareLink(document.querySelector("[data-share-project]")));
+  } else {
+    share.disabled = true;
+  }
 
   actions.append(download, share);
   card.append(status, title, description, actions);

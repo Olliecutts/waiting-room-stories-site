@@ -638,11 +638,22 @@ p {
     linear-gradient(155deg, rgba(255, 253, 247, 0.98), rgba(238, 226, 245, 0.68));
 }
 
+.asset-preview {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(74, 37, 116, 0.12);
+  border-radius: var(--radius);
+  background: var(--cream-soft);
+  object-fit: cover;
+  box-shadow: 0 12px 24px rgba(74, 37, 116, 0.1);
+}
+
 .asset-card p {
   margin-top: 0;
 }
 
-.coming-soon {
+.coming-soon,
+.asset-status {
   justify-self: start;
   border: 1px solid rgba(74, 37, 116, 0.16);
   border-radius: 999px;
@@ -652,6 +663,10 @@ p {
   font-size: 12px;
   font-weight: 950;
   text-transform: uppercase;
+}
+
+.asset-status.live {
+  background: rgba(168, 203, 166, 0.35);
 }
 
 .site-footer {

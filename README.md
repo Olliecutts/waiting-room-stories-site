@@ -59,6 +59,13 @@ Any replacement data must contain public-safe aggregate categories and percentag
 
 ## Share Assets
 
-The Share page reads `data/share_assets.json` for the future "Help spread the project" section.
+The Share page reads `data/share_assets.json` for the "Help spread the project" section.
 
-The current file contains placeholders only. Do not add image URLs until approved public assets exist.
+The current file points to the first four approved public share graphics under:
+
+- `assets/share/care-existed-love-existed-money-did-not.png`
+- `assets/share/emergency-care-out-of-reach.png`
+- `assets/share/share-your-emergency-vet-care-story.png`
+- `assets/share/share-your-emergency-vet-care-story-cushion.png`
+
+Only add or replace image URLs after Ollie approves the assets for public use.

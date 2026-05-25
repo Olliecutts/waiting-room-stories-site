@@ -1,42 +1,42 @@
 {
   "schema_version": "wrs_share_assets_v1",
-  "status": "placeholders_only",
+  "status": "live_assets",
   "assets": [
     {
-      "id": "project_launch_graphic",
-      "title": "Project launch graphic",
-      "description": "A simple public graphic introducing The Waiting Room Stories Project.",
-      "status_label": "Coming soon",
-      "file": null,
-      "download_enabled": false,
-      "share_enabled": false
+      "id": "care_existed_love_existed_money_did_not",
+      "title": "Care existed. Love existed. The money did not.",
+      "description": "A core-line graphic explaining the heart of The Waiting Room Stories Project.",
+      "image_path": "assets/share/care-existed-love-existed-money-did-not.png",
+      "download_path": "assets/share/care-existed-love-existed-money-did-not.png",
+      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Care existed. Love existed. The money did not.",
+      "status": "live"
     },
     {
-      "id": "core_line_graphic",
-      "title": "Core line graphic",
-      "description": "A shareable version of: Care existed. Love existed. The money did not.",
-      "status_label": "Coming soon",
-      "file": null,
-      "download_enabled": false,
-      "share_enabled": false
+      "id": "emergency_care_out_of_reach",
+      "title": "Emergency care can be out of reach",
+      "description": "A shareable graphic about emergency and specialist vet care existing but still being unreachable.",
+      "image_path": "assets/share/emergency-care-out-of-reach.png",
+      "download_path": "assets/share/emergency-care-out-of-reach.png",
+      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Emergency and specialist vet care can exist and still be out of reach.",
+      "status": "live"
     },
     {
-      "id": "share_your_story_graphic",
-      "title": "Share your story graphic",
-      "description": "A gentle prompt for owners who want to share an emergency or specialist care story.",
-      "status_label": "Coming soon",
-      "file": null,
-      "download_enabled": false,
-      "share_enabled": false
+      "id": "share_your_emergency_vet_care_story",
+      "title": "Share your emergency vet care story",
+      "description": "A direct invitation for people to share an emergency or specialist vet care access story.",
+      "image_path": "assets/share/share-your-emergency-vet-care-story.png",
+      "download_path": "assets/share/share-your-emergency-vet-care-story.png",
+      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Share your emergency vet care story.",
+      "status": "live"
     },
     {
-      "id": "patterns_so_far_graphic",
-      "title": "Patterns so far graphic",
-      "description": "A future public-safe graphic pointing people toward the Patterns page.",
-      "status_label": "Coming soon",
-      "file": null,
-      "download_enabled": false,
-      "share_enabled": false
+      "id": "share_your_story_cushion",
+      "title": "Share your story",
+      "description": "A second approved share-story graphic with the same invitation in a softer layout.",
+      "image_path": "assets/share/share-your-emergency-vet-care-story-cushion.png",
+      "download_path": "assets/share/share-your-emergency-vet-care-story-cushion.png",
+      "alt_text": "The Waiting Room Stories Project graphic with Chilli on a cushion in a flower hat and the words Share your emergency vet care story.",
+      "status": "live"
     }
   ]
 }
