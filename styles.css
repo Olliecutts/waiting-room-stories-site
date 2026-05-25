@@ -356,6 +356,10 @@ p {
   margin-top: 22px;
 }
 
+.compact-actions {
+  margin-top: 18px;
+}
+
 .card p,
 .callout p,
 .section p:not(.eyebrow):not(.note) {
@@ -451,6 +455,7 @@ p {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 24px;
+  align-items: center;
   width: min(calc(100% - 32px), var(--content));
   margin: 0 auto;
   padding: 30px 0;
@@ -458,6 +463,13 @@ p {
 
 .site-footer a {
   color: #fff;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  justify-content: flex-end;
 }
 
 @media (max-width: 900px) {
@@ -498,6 +510,10 @@ p {
   }
 
   .nav-links {
+    justify-content: flex-start;
+  }
+
+  .footer-links {
     justify-content: flex-start;
   }
 }
