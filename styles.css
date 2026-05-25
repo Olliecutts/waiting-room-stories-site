@@ -381,6 +381,36 @@ p {
   background: var(--lavender-soft);
 }
 
+.faq-list {
+  display: grid;
+  gap: 14px;
+}
+
+.faq-list details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 10px 22px rgba(74, 37, 116, 0.07);
+}
+
+.faq-list summary {
+  cursor: pointer;
+  padding: 18px 20px;
+  color: var(--purple-dark);
+  font-size: 19px;
+  font-weight: 950;
+}
+
+.faq-list summary:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+.faq-list p {
+  padding: 0 20px 20px;
+  color: var(--muted);
+}
+
 .page-hero {
   padding: 62px 0 46px;
   background: linear-gradient(135deg, var(--cream) 0%, var(--lavender-soft) 100%);

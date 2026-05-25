@@ -17,6 +17,9 @@ This package contains only deployable public static site files:
 - `patterns.html`
 - `what-needs-to-change.html`
 - `about.html`
+- `contact.html`
+- `professionals.html`
+- `faq.html`
 - `privacy.html`
 - `styles.css`
 - `site.js`
@@ -33,6 +36,9 @@ It intentionally excludes private project files, handoff files, internal lane st
 - Patterns: `patterns.html`
 - Change: `what-needs-to-change.html`
 - About: `about.html`
+- Contact: `contact.html`
+- For professionals: `professionals.html`
+- FAQ: `faq.html`
 - How stories are used: `privacy.html`
 
 ## Assets
@@ -55,6 +61,7 @@ Use this package as the root of the separate public GitHub repository.
 
 - Do not add raw stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
 - Keep the site non-anti-vet.
+- Keep Contact, For professionals, and FAQ informational only. They should not imply emergency support, bill payment, charity/fund status, or advice.
 - The form link should remain a link, not an embed, until a later human decision.
 - This is not a donation, charity, emergency support, veterinary advice, legal advice, financial advice, or insurance advice site.
 
