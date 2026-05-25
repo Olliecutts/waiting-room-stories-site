@@ -1,10 +1,10 @@
 {
   "schema_version": "wrs_public_patterns_v1",
-  "status": "latest_public_safe_snapshot",
+  "status": "latest_pattern_update",
   "last_updated": "2026-05-25T12:41:42.452Z",
   "minimum_category_count": 3,
-  "small_sample_label": "Other / small sample",
-  "privacy": "Aggregate public-safe categories only. No raw stories, names, contact details, pet names, locations, vet names, insurer names, claim details, or quotes.",
+  "small_sample_label": "Other responses",
+  "privacy": "Aggregate categories only. No identifying details or story text.",
   "charts": {
     "country": [
       {
@@ -13,17 +13,12 @@
         "percentage": 71.4
       },
       {
-        "label": "Other / small sample",
+        "label": "Other responses",
         "count": 4,
         "percentage": 28.6
       }
     ],
     "care_needed": [
-      {
-        "label": "Other / small sample",
-        "count": 10,
-        "percentage": 23.3
-      },
       {
         "label": "Diagnostic imaging",
         "count": 9,
@@ -58,6 +53,11 @@
         "label": "Neurological emergency care",
         "count": 3,
         "percentage": 7
+      },
+      {
+        "label": "Other responses",
+        "count": 10,
+        "percentage": 23.3
       }
     ],
     "main_barriers": [
@@ -72,14 +72,14 @@
         "percentage": 24.1
       },
       {
-        "label": "Other / small sample",
-        "count": 7,
-        "percentage": 24.1
-      },
-      {
         "label": "Surgery or treatment unaffordable",
         "count": 4,
         "percentage": 13.8
+      },
+      {
+        "label": "Other responses",
+        "count": 7,
+        "percentage": 24.1
       }
     ],
     "insurance_status": [
@@ -89,7 +89,7 @@
         "percentage": 78.6
       },
       {
-        "label": "Other / small sample",
+        "label": "Other responses",
         "count": 3,
         "percentage": 21.4
       }
@@ -106,7 +106,7 @@
         "percentage": 21.4
       },
       {
-        "label": "Other / small sample",
+        "label": "Other responses",
         "count": 2,
         "percentage": 14.3
       }
@@ -128,7 +128,7 @@
         "percentage": 16.7
       },
       {
-        "label": "Other / small sample",
+        "label": "Other responses",
         "count": 3,
         "percentage": 16.7
       }

@@ -1,0 +1,42 @@
+{
+  "schema_version": "wrs_share_assets_v1",
+  "status": "placeholders_only",
+  "assets": [
+    {
+      "id": "project_launch_graphic",
+      "title": "Project launch graphic",
+      "description": "A simple public graphic introducing The Waiting Room Stories Project.",
+      "status_label": "Coming soon",
+      "file": null,
+      "download_enabled": false,
+      "share_enabled": false
+    },
+    {
+      "id": "core_line_graphic",
+      "title": "Core line graphic",
+      "description": "A shareable version of: Care existed. Love existed. The money did not.",
+      "status_label": "Coming soon",
+      "file": null,
+      "download_enabled": false,
+      "share_enabled": false
+    },
+    {
+      "id": "share_your_story_graphic",
+      "title": "Share your story graphic",
+      "description": "A gentle prompt for owners who want to share an emergency or specialist care story.",
+      "status_label": "Coming soon",
+      "file": null,
+      "download_enabled": false,
+      "share_enabled": false
+    },
+    {
+      "id": "patterns_so_far_graphic",
+      "title": "Patterns so far graphic",
+      "description": "A future public-safe graphic pointing people toward the Patterns page.",
+      "status_label": "Coming soon",
+      "file": null,
+      "download_enabled": false,
+      "share_enabled": false
+    }
+  ]
+}

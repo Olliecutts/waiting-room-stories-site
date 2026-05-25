@@ -1,12 +1,21 @@
 const DEFAULT_PATTERN_DATA_PATH = "data/public_patterns_sample.json";
+const DEFAULT_SHARE_ASSETS_PATH = "data/share_assets.json";
+const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
+const SHARE_TEXT =
+  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
+const SHARE_TITLE = "The Waiting Room Stories Project";
+const OTHER_RESPONSES_LABEL = "Other responses";
+const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
+const SMALL_SAMPLE_ALIASES = new Set([LEGACY_SMALL_SAMPLE_LABEL, OTHER_RESPONSES_LABEL]);
 const CHART_PALETTE = [
   "#4a2574",
-  "#8a5aa8",
+  "#c9addc",
   "#e9b8d0",
   "#7c9b7d",
   "#f4d872",
-  "#c9addc",
-  "#6e3f93"
+  "#8a5aa8",
+  "#6e3f93",
+  "#fff9ef"
 ];
 
 function setText(selector, text) {
@@ -49,11 +58,28 @@ function normaliseChartItems(items) {
       );
 
       return {
-        label: String(item.label || "Unknown"),
+        label: normalisePublicLabel(item.label || "Unknown"),
         percentage: Number.isFinite(percentage) ? percentage : 0
       };
     })
-    .filter((item) => item.percentage > 0);
+    .filter((item) => item.percentage > 0)
+    .sort(sortChartItems);
+}
+
+function normalisePublicLabel(label) {
+  const text = String(label || "Unknown").trim();
+  return SMALL_SAMPLE_ALIASES.has(text) ? OTHER_RESPONSES_LABEL : text;
+}
+
+function isOtherResponses(item) {
+  return item.label === OTHER_RESPONSES_LABEL;
+}
+
+function sortChartItems(a, b) {
+  if (isOtherResponses(a) && !isOtherResponses(b)) return 1;
+  if (!isOtherResponses(a) && isOtherResponses(b)) return -1;
+  if (b.percentage !== a.percentage) return b.percentage - a.percentage;
+  return a.label.localeCompare(b.label);
 }
 
 function getChartItems(data, key) {
@@ -113,7 +139,7 @@ function renderDonutChart(container, items) {
   hole.className = "donut-hole";
   const center = document.createElement("span");
   center.className = "donut-center";
-  center.textContent = "100%";
+  center.setAttribute("aria-hidden", "true");
   hole.append(center);
   chart.append(hole);
 
@@ -147,7 +173,7 @@ function renderDonutChart(container, items) {
 }
 
 function renderPatterns(data, sourceLabel) {
-  setText("[data-updated]", data.last_updated || data.updated || "Unknown");
+  setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
   setText("[data-patterns-source-status]", sourceLabel);
   setWarning("");
 
@@ -155,6 +181,18 @@ function renderPatterns(data, sourceLabel) {
     const key = container.getAttribute("data-chart-key");
     renderDonutChart(container, getChartItems(data, key));
   });
+}
+
+function formatPatternDate(value) {
+  if (!value) return "Updated date unavailable";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Updated date unavailable";
+  const formatted = date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+  return `Updated ${formatted}`;
 }
 
 async function loadPatterns() {
@@ -171,10 +209,10 @@ async function loadPatterns() {
       const isFallback = index > 0 || source === DEFAULT_PATTERN_DATA_PATH;
       renderPatterns(
         data,
-        isFallback ? "Showing the public-safe sample snapshot." : "Showing the latest public-safe live snapshot."
+        isFallback ? "Latest pattern update." : "Latest pattern update."
       );
       if (isFallback && sources.length > 1) {
-        setWarning("Using public-safe sample data because live pattern data could not be loaded.");
+        setWarning("Using the latest saved pattern update because live pattern data could not be loaded.");
       }
       return;
     } catch (error) {
@@ -188,5 +226,156 @@ async function loadPatterns() {
   if (lastError) console.warn(lastError.message);
 }
 
-window.WRSPatterns = { loadPatterns };
+function encodedShareBody() {
+  return encodeURIComponent(`${SHARE_TEXT}\n\n${SHARE_URL}`);
+}
+
+function setShareStatus(panel, message) {
+  if (!panel) return;
+  const status = panel.querySelector("[data-share-status]");
+  if (status) status.textContent = message || "";
+}
+
+async function copyShareLink(panel) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(SHARE_URL);
+    } else {
+      const input = document.createElement("textarea");
+      input.value = SHARE_URL;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.left = "-9999px";
+      document.body.append(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+    }
+    setShareStatus(panel, "Link copied.");
+    return true;
+  } catch (error) {
+    setShareStatus(panel, "Copy did not work. You can copy the page address from your browser.");
+    return false;
+  }
+}
+
+async function handleNativeShare(panel) {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: SHARE_TITLE,
+        text: SHARE_TEXT,
+        url: SHARE_URL
+      });
+      setShareStatus(panel, "Share sheet opened.");
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        setShareStatus(panel, "");
+        return;
+      }
+    }
+  }
+
+  await copyShareLink(panel);
+}
+
+function initShareTools() {
+  document.querySelectorAll("[data-share-project]").forEach((panel) => {
+    const nativeButton = panel.querySelector("[data-share-native]");
+    const copyButton = panel.querySelector("[data-copy-link]");
+    const emailLink = panel.querySelector("[data-share-email]");
+    const whatsappLink = panel.querySelector("[data-share-whatsapp]");
+    const facebookLink = panel.querySelector("[data-share-facebook]");
+
+    if (emailLink) {
+      emailLink.href = `mailto:?subject=${encodeURIComponent(SHARE_TITLE)}&body=${encodedShareBody()}`;
+    }
+    if (whatsappLink) {
+      whatsappLink.href = `https://wa.me/?text=${encodedShareBody()}`;
+      whatsappLink.target = "_blank";
+      whatsappLink.rel = "noopener";
+    }
+    if (facebookLink) {
+      facebookLink.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`;
+      facebookLink.target = "_blank";
+      facebookLink.rel = "noopener";
+    }
+
+    nativeButton?.addEventListener("click", () => handleNativeShare(panel));
+    copyButton?.addEventListener("click", () => copyShareLink(panel));
+  });
+}
+
+function createAssetCard(asset) {
+  const card = document.createElement("article");
+  card.className = "card asset-card";
+
+  const status = document.createElement("span");
+  status.className = "coming-soon";
+  status.textContent = asset.status_label || "Coming soon";
+
+  const title = document.createElement("h3");
+  title.textContent = asset.title || "Project asset";
+
+  const description = document.createElement("p");
+  description.textContent = asset.description || "A shareable project image will appear here once approved.";
+
+  const actions = document.createElement("div");
+  actions.className = "asset-actions";
+
+  const download = document.createElement("button");
+  download.className = "button secondary";
+  download.type = "button";
+  download.disabled = true;
+  download.textContent = "Download";
+
+  const share = document.createElement("button");
+  share.className = "button secondary";
+  share.type = "button";
+  share.disabled = true;
+  share.textContent = "Share";
+
+  actions.append(download, share);
+  card.append(status, title, description, actions);
+  return card;
+}
+
+async function loadShareAssets() {
+  const container = document.querySelector("[data-share-assets]");
+  if (!container) return;
+
+  const source = container.dataset.shareAssetsSource || DEFAULT_SHARE_ASSETS_PATH;
+
+  try {
+    const data = await fetchJson(source);
+    const assets = Array.isArray(data.assets) ? data.assets : [];
+    if (!assets.length) return;
+    container.innerHTML = "";
+    assets.forEach((asset) => container.append(createAssetCard(asset)));
+  } catch (error) {
+    const fallback = container.querySelector(".asset-card");
+    if (fallback) return;
+    container.append(
+      createAssetCard({
+        title: "Project launch graphic",
+        description: "A simple public graphic introducing The Waiting Room Stories Project.",
+        status_label: "Coming soon"
+      })
+    );
+  }
+}
+
+window.WRSSite = {
+  copyShareLink,
+  formatPatternDate,
+  handleNativeShare,
+  initShareTools,
+  loadPatterns,
+  loadShareAssets,
+  normaliseChartItems
+};
+
 loadPatterns();
+initShareTools();
+loadShareAssets();
