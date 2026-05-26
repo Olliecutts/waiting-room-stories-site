@@ -4,7 +4,7 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
-const OTHER_BUCKET_LABEL = "Other";
+const OTHER_BUCKET_LABEL = "Other answer selected";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
 const LEGACY_OTHER_ANSWER_LABEL = ["Other", " answer"].join("");
@@ -16,8 +16,7 @@ const SMALL_SAMPLE_ALIASES = new Set([
   LEGACY_OTHER_RESPONSES_LABEL,
   LEGACY_OTHER_ANSWER_LABEL,
   LEGACY_SMALLER_CATEGORIES_LABEL,
-  LEGACY_OTHER_LESS_COMMON_LABEL,
-  OTHER_BUCKET_LABEL
+  LEGACY_OTHER_LESS_COMMON_LABEL
 ]);
 const PUBLIC_LABEL_MAP = {
   Other: OTHER_BUCKET_LABEL,
@@ -30,13 +29,11 @@ const PUBLIC_LABEL_MAP = {
   "Clearer insurance information before the emergency": "Clearer policy terms would have helped",
   "I did not know what my policy actually covered": "Clearer policy terms would have helped",
   "Insurance paying the vet directly": "Direct-to-vet payment would have helped",
-  "A fast emergency grant": "Fast emergency grant would have helped",
+  "A fast emergency grant": "Fast emergency support would have helped",
   "A safe payment plan": "Safe payment plan would have helped",
   "Insurance that covered more": "Insurance that covered more would have helped",
   "More time to decide": "More time to decide would have helped",
   "Someone explaining the options simply": "Someone explaining options simply would have helped",
-  No: "No insurance",
-  Yes: "Had insurance",
   "I had insurance but it ran out": "Insurance ran out",
   "I had insurance but it did not cover this": "Insurance did not cover this",
   "I had insurance but had to pay upfront first": "Had insurance but had to pay upfront",
@@ -181,7 +178,7 @@ function renderDonutChart(container, items) {
   if (!items.length) {
     const empty = document.createElement("p");
     empty.className = "patterns-status";
-    empty.textContent = "No public-safe data is available for this chart yet.";
+    empty.textContent = "No pattern data is available for this chart yet.";
     container.append(empty);
     return;
   }
@@ -293,7 +290,8 @@ function setSnapshotCard(key, value) {
 }
 
 function renderHomeSnapshot(data, isFallback) {
-  setSnapshotCard("total_stories", Number.isFinite(Number(data.total_stories)) ? Number(data.total_stories).toLocaleString("en-GB") : "Snapshot unavailable");
+  const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
+  setSnapshotCard("total_stories", Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable");
   setSnapshotCard("countries_represented", Number.isFinite(Number(data.countries_represented)) ? Number(data.countries_represented).toLocaleString("en-GB") : "Snapshot unavailable");
   setSnapshotCard("top_barrier", data.top_barrier?.label || "Snapshot unavailable");
   setSnapshotCard("top_care_type", data.top_care_type?.label || "Snapshot unavailable");
@@ -302,7 +300,7 @@ function renderHomeSnapshot(data, isFallback) {
     "[data-snapshot-status]",
     isFallback && getConfiguredSources(getHomeRoot()).length > 1
       ? "Showing the latest public pattern update available."
-      : "Latest public pattern update."
+      : "Every story contributes to the project. Charts show grouped, non-identifying patterns."
   );
 }
 
@@ -312,7 +310,7 @@ function renderHomeSnapshotFallback() {
   });
   setText(
     "[data-snapshot-status]",
-    "The latest public-safe snapshot could not load. Please check the Patterns page later."
+    "The latest project update could not load. Please check the Patterns page later."
   );
 }
 
@@ -365,7 +363,7 @@ async function loadPatterns() {
   }
 
   setText("[data-updated]", "Unavailable");
-  setText("[data-patterns-source-status]", "Public-safe pattern data could not be loaded.");
+  setText("[data-patterns-source-status]", "Pattern data could not be loaded.");
   setWarning("Pattern data could not be loaded. Please try again later.");
   if (lastError) console.warn(lastError.message);
 }
@@ -451,6 +449,34 @@ function initShareTools() {
   });
 }
 
+function iconSvg(name) {
+  const paths = {
+    share: '<path d="M8.5 12.5 15.5 8.5"/><path d="M8.5 15.5 15.5 19.5"/><circle cx="6" cy="14" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="18" cy="21" r="2.4"/>',
+    link: '<path d="M9.5 14.5 14.5 9.5"/><path d="M8.2 10.8 6.8 12.2a4 4 0 0 0 5.7 5.7l1.4-1.4"/><path d="M15.8 17.2 17.2 15.8a4 4 0 0 0-5.7-5.7l-1.4 1.4"/>',
+    email: '<rect x="4" y="7" width="16" height="11" rx="2"/><path d="m5 8 7 6 7-6"/>',
+    whatsapp: '<path d="M7 20.5 8.2 17A7 7 0 1 1 12 19a7.4 7.4 0 0 1-3.3-.8Z"/><path d="M10.2 9.4c.2 3 2 4.8 4.8 5.4l1.2-1.3-2-.9-.8.7c-.9-.4-1.6-1.1-2-2l.7-.8-.9-2Z"/>',
+    facebook: '<path d="M14 8.2h2V5h-2.5A4.5 4.5 0 0 0 9 9.5V12H6.8v3.2H9V23h3.5v-7.8h2.7l.5-3.2h-3.2V9.5c0-.7.5-1.3 1.5-1.3Z"/>',
+    guidance: '<path d="M6 5.5h8.5a3.5 3.5 0 0 1 0 7H6z"/><path d="M6 12.5h9.5a3.5 3.5 0 0 1 0 7H6z"/><path d="M6 5.5v14"/>',
+    heart: '<path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/>'
+  };
+  if (!paths[name]) return null;
+
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  icon.setAttribute("class", "button-icon");
+  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = paths[name];
+  return icon;
+}
+
+function initButtonIcons() {
+  document.querySelectorAll("[data-icon]").forEach((button) => {
+    if (button.querySelector(".button-icon")) return;
+    const icon = iconSvg(button.dataset.icon);
+    if (icon) button.prepend(icon);
+  });
+}
+
 function initExpandableChangeCards() {
   document.querySelectorAll("details.change-card").forEach((card) => {
     const label = card.querySelector("[data-change-toggle-text]");
@@ -492,6 +518,7 @@ function createAssetCard(asset) {
 
   const download = document.createElement(isLive ? "a" : "button");
   download.className = "button secondary";
+  download.dataset.icon = "link";
   download.textContent = "Download image";
   if (isLive) {
     download.href = asset.download_path;
@@ -504,6 +531,7 @@ function createAssetCard(asset) {
   const share = document.createElement("button");
   share.className = "button secondary";
   share.type = "button";
+  share.dataset.icon = "link";
   share.textContent = isLive ? "Copy link" : "Share";
   if (isLive) {
     share.addEventListener("click", () => copyShareLink(document.querySelector("[data-share-project]")));
@@ -528,6 +556,7 @@ async function loadShareAssets() {
     if (!assets.length) return;
     container.innerHTML = "";
     assets.forEach((asset) => container.append(createAssetCard(asset)));
+    initButtonIcons();
   } catch (error) {
     const fallback = container.querySelector(".asset-card");
     if (fallback) return;
@@ -545,6 +574,7 @@ window.WRSSite = {
   copyShareLink,
   formatPatternDate,
   handleNativeShare,
+  initButtonIcons,
   initExpandableChangeCards,
   initShareTools,
   loadHomeSnapshot,
@@ -556,5 +586,6 @@ window.WRSSite = {
 loadHomeSnapshot();
 loadPatterns();
 initExpandableChangeCards();
+initButtonIcons();
 initShareTools();
 loadShareAssets();

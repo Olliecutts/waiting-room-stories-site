@@ -43,7 +43,7 @@ http://127.0.0.1:8787/
 ## Safety Rules
 
 - Do not deploy until Ollie approves.
-- Do not add raw stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
+- Do not add full stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
 - Keep the site non-anti-vet.
 - Keep Contact, For professionals, and FAQ informational only. They should not imply emergency support, bill payment, charity/fund status, or advice.
 - The form link should remain a link, not an embed, until a later human decision.
@@ -51,11 +51,11 @@ http://127.0.0.1:8787/
 
 ## Pattern Data
 
-The patterns page reads `data/public_patterns_sample.json` as a public-safe fallback.
+The patterns page reads `data/public_patterns_sample.json` as its saved project update.
 
-Live pattern data should come only from a reviewed public-safe aggregate JSON endpoint or file using schema `wrs_public_patterns_v1`.
+Live pattern data should come only from a reviewed grouped-pattern JSON endpoint or file using schema `wrs_public_patterns_v2`.
 
-Any replacement data must contain public-safe aggregate categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or private review notes. Categories with fewer than 3 responses should be grouped as `Other`, except the Country chart, which may show all broad country categories.
+Any replacement data must contain grouped categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or review notes. Fixed-answer charts should show concrete public answer labels, with the actual `Other` form option labelled as `Other answer selected`.
 
 ## Share Assets
 

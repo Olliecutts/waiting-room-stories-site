@@ -1,10 +1,21 @@
 {
   "schema_version": "wrs_public_patterns_v2",
-  "status": "latest_pattern_update",
-  "last_updated": "2026-05-25T12:41:42.452Z",
-  "minimum_category_count": 3,
-  "small_sample_label": "Other",
-  "privacy": "Aggregate categories only. No identifying details or story text.",
+  "status": "latest_project_update",
+  "last_updated": "2026-05-24T18:55:31Z",
+  "total_stories": 42,
+  "stories_shared_so_far": 42,
+  "countries_represented": 4,
+  "top_barrier": {
+    "label": "Had to pay upfront",
+    "percentage": 31.0
+  },
+  "top_care_type": {
+    "label": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
+    "percentage": 28.7
+  },
+  "story_count_source": "Verified combined project summary from legacy Google and current live responses. Fake test submissions are not counted.",
+  "chart_note": "Every story contributes to the project. Charts show grouped, non-identifying patterns.",
+  "privacy": "Grouped categories only. No identifying details or story text.",
   "charts": {
     "country": [
       {
@@ -30,7 +41,17 @@
     ],
     "care_needed": [
       {
-        "label": "Surgery or treatment",
+        "label": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
+        "count": 25,
+        "percentage": 28.7
+      },
+      {
+        "label": "Cancer treatment or complex medical care",
+        "count": 13,
+        "percentage": 14.9
+      },
+      {
+        "label": "Surgery",
         "count": 13,
         "percentage": 14.9
       },
@@ -40,17 +61,7 @@
         "percentage": 13.8
       },
       {
-        "label": "Cancer treatment",
-        "count": 10,
-        "percentage": 11.5
-      },
-      {
-        "label": "Heart or breathing emergency care",
-        "count": 10,
-        "percentage": 11.5
-      },
-      {
-        "label": "Diagnostic imaging",
+        "label": "MRI, CT, ultrasound, or other imaging",
         "count": 8,
         "percentage": 9.2
       },
@@ -58,21 +69,6 @@
         "label": "Specialist referral or transfer",
         "count": 6,
         "percentage": 6.9
-      },
-      {
-        "label": "Neurological emergency care",
-        "count": 5,
-        "percentage": 5.7
-      },
-      {
-        "label": "Other emergency or specialist care",
-        "count": 4,
-        "percentage": 4.6
-      },
-      {
-        "label": "Cancer or complex care",
-        "count": 3,
-        "percentage": 3.4
       },
       {
         "label": "Emergency vet or out-of-hours care",
@@ -85,19 +81,19 @@
         "percentage": 3.4
       },
       {
-        "label": "Spinal emergency care",
-        "count": 3,
-        "percentage": 3.4
+        "label": "Emergency medication or stabilisation",
+        "count": 2,
+        "percentage": 2.3
       },
       {
-        "label": "Trauma emergency care",
-        "count": 3,
-        "percentage": 3.4
+        "label": "I am not sure",
+        "count": 1,
+        "percentage": 1.1
       },
       {
-        "label": "Other",
-        "count": 4,
-        "percentage": 4.5
+        "label": "Other answer selected",
+        "count": 1,
+        "percentage": 1.1
       }
     ],
     "main_barriers": [
@@ -107,12 +103,12 @@
         "percentage": 31.0
       },
       {
-        "label": "Surgery or treatment unaffordable",
+        "label": "Surgery or treatment was unaffordable",
         "count": 8,
         "percentage": 19.0
       },
       {
-        "label": "ICU or hospitalisation unaffordable",
+        "label": "ICU or hospitalisation was unaffordable",
         "count": 4,
         "percentage": 9.5
       },
@@ -122,9 +118,29 @@
         "percentage": 7.1
       },
       {
-        "label": "Other",
-        "count": 14,
-        "percentage": 33.4
+        "label": "Credit or payment plan was not possible",
+        "count": 2,
+        "percentage": 4.8
+      },
+      {
+        "label": "Diagnostic imaging was unaffordable",
+        "count": 2,
+        "percentage": 4.8
+      },
+      {
+        "label": "Specialist referral was unaffordable",
+        "count": 2,
+        "percentage": 4.8
+      },
+      {
+        "label": "Insurance did not cover it",
+        "count": 1,
+        "percentage": 2.4
+      },
+      {
+        "label": "Other answer selected",
+        "count": 7,
+        "percentage": 16.7
       }
     ],
     "insurance_status": [
@@ -171,14 +187,24 @@
         "percentage": 9.5
       },
       {
-        "label": "Other",
-        "count": 4,
-        "percentage": 9.5
+        "label": "My pet survived but treatment was limited",
+        "count": 2,
+        "percentage": 4.8
+      },
+      {
+        "label": "I had to delay treatment",
+        "count": 1,
+        "percentage": 2.4
+      },
+      {
+        "label": "I had to stop treatment",
+        "count": 1,
+        "percentage": 2.4
       }
     ],
     "what_would_have_helped": [
       {
-        "label": "Fast emergency grant would have helped",
+        "label": "Fast emergency support would have helped",
         "count": 24,
         "percentage": 31.2
       },
@@ -213,21 +239,10 @@
         "percentage": 5.2
       },
       {
-        "label": "Other",
+        "label": "Other answer selected",
         "count": 8,
         "percentage": 10.4
       }
     ]
-  },
-  "total_stories": 42,
-  "countries_represented": 4,
-  "top_barrier": {
-    "label": "Had to pay upfront",
-    "percentage": 31.0
-  },
-  "top_care_type": {
-    "label": "Surgery or treatment",
-    "percentage": 14.9
-  },
-  "snapshot_note": "These are early patterns from people who chose to share their experiences, not a representative survey."
+  }
 }

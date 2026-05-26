@@ -349,6 +349,7 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 9px;
   min-height: 48px;
   padding: 12px 18px;
   border: 2px solid var(--button-bg);
@@ -362,6 +363,17 @@ p {
   white-space: normal;
   box-shadow: 0 10px 20px rgba(74, 37, 116, 0.16);
   cursor: pointer;
+}
+
+.button-icon {
+  flex: 0 0 auto;
+  width: 1.08em;
+  height: 1.08em;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .button.secondary {
@@ -383,8 +395,22 @@ p {
   transform: translateY(-1px);
 }
 
+.button-helper {
+  max-width: 680px;
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 760;
+  line-height: 1.45;
+}
+
 .section {
   padding: 62px 0;
+}
+
+main > .section:last-child,
+main > .page-hero:last-child {
+  padding-bottom: max(78px, calc(62px + env(safe-area-inset-bottom)));
 }
 
 .intro-band,
@@ -531,11 +557,17 @@ p {
 }
 
 .card {
+  position: relative;
   padding: 24px;
+  cursor: default;
 }
 
-.accent-card {
-  border-top: 6px solid var(--lavender-deep);
+.card:not(.change-card):not(.donut-card):not(.asset-card) {
+  border-left: 6px solid var(--lavender-deep);
+}
+
+.accent-card:not(.change-card) {
+  border-left-color: var(--lavender-deep);
 }
 
 .change-section {
@@ -549,6 +581,7 @@ p {
 .change-card {
   padding: 0;
   overflow: hidden;
+  border-top: 6px solid var(--lavender-deep);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -940,6 +973,9 @@ p {
   gap: 11px;
   min-width: 0;
   width: 100%;
+  max-height: 330px;
+  overflow-y: auto;
+  padding-right: 4px;
   opacity: 0;
   transform: translateY(8px);
   transition:
@@ -964,12 +1000,19 @@ p {
 }
 
 .legend-row {
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  padding-bottom: 8px;
   justify-content: space-between;
   min-width: 0;
   color: var(--purple-dark);
   font-size: 15px;
   font-weight: 900;
   line-height: 1.35;
+}
+
+.legend-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .legend-label {
