@@ -4,21 +4,37 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
-const OTHER_BUCKET_LABEL = "Other or less common responses";
+const OTHER_BUCKET_LABEL = "Other";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
 const LEGACY_OTHER_ANSWER_LABEL = ["Other", " answer"].join("");
 const LEGACY_SMALLER_CATEGORIES_LABEL = ["Smaller", " categories"].join("");
+const LEGACY_OTHER_LESS_COMMON_LABEL = ["Other", " or ", "less common", " responses"].join("");
+const LEGACY_UNCLEAR_POLICY_LABEL = ["Unclear", " policy", " terms"].join("");
 const SMALL_SAMPLE_ALIASES = new Set([
   LEGACY_SMALL_SAMPLE_LABEL,
   LEGACY_OTHER_RESPONSES_LABEL,
   LEGACY_OTHER_ANSWER_LABEL,
   LEGACY_SMALLER_CATEGORIES_LABEL,
+  LEGACY_OTHER_LESS_COMMON_LABEL,
   OTHER_BUCKET_LABEL
 ]);
 const PUBLIC_LABEL_MAP = {
   Other: OTHER_BUCKET_LABEL,
   other: OTHER_BUCKET_LABEL,
+  [LEGACY_OTHER_LESS_COMMON_LABEL]: OTHER_BUCKET_LABEL,
+  [LEGACY_OTHER_ANSWER_LABEL]: OTHER_BUCKET_LABEL,
+  [LEGACY_OTHER_RESPONSES_LABEL]: OTHER_BUCKET_LABEL,
+  [LEGACY_SMALLER_CATEGORIES_LABEL]: OTHER_BUCKET_LABEL,
+  [LEGACY_UNCLEAR_POLICY_LABEL]: "Clearer policy terms would have helped",
+  "Clearer insurance information before the emergency": "Clearer policy terms would have helped",
+  "I did not know what my policy actually covered": "Clearer policy terms would have helped",
+  "Insurance paying the vet directly": "Direct-to-vet payment would have helped",
+  "A fast emergency grant": "Fast emergency grant would have helped",
+  "A safe payment plan": "Safe payment plan would have helped",
+  "Insurance that covered more": "Insurance that covered more would have helped",
+  "More time to decide": "More time to decide would have helped",
+  "Someone explaining the options simply": "Someone explaining options simply would have helped",
   No: "No insurance",
   Yes: "Had insurance",
   "I had insurance but it ran out": "Insurance ran out",
@@ -435,6 +451,18 @@ function initShareTools() {
   });
 }
 
+function initExpandableChangeCards() {
+  document.querySelectorAll("details.change-card").forEach((card) => {
+    const label = card.querySelector("[data-change-toggle-text]");
+    const update = () => {
+      card.dataset.expanded = card.open ? "true" : "false";
+      if (label) label.textContent = card.open ? "Show less" : "Read more";
+    };
+    card.addEventListener("toggle", update);
+    update();
+  });
+}
+
 function createAssetCard(asset) {
   const card = document.createElement("article");
   card.className = "card asset-card";
@@ -517,6 +545,7 @@ window.WRSSite = {
   copyShareLink,
   formatPatternDate,
   handleNativeShare,
+  initExpandableChangeCards,
   initShareTools,
   loadHomeSnapshot,
   loadPatterns,
@@ -526,5 +555,6 @@ window.WRSSite = {
 
 loadHomeSnapshot();
 loadPatterns();
+initExpandableChangeCards();
 initShareTools();
 loadShareAssets();

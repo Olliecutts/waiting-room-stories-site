@@ -3,7 +3,7 @@
   "status": "latest_pattern_update",
   "last_updated": "2026-05-25T12:41:42.452Z",
   "minimum_category_count": 3,
-  "small_sample_label": "Other or less common responses",
+  "small_sample_label": "Other",
   "privacy": "Aggregate categories only. No identifying details or story text.",
   "charts": {
     "country": [
@@ -95,7 +95,7 @@
         "percentage": 3.4
       },
       {
-        "label": "Other or less common responses",
+        "label": "Other",
         "count": 4,
         "percentage": 4.5
       }
@@ -122,7 +122,7 @@
         "percentage": 7.1
       },
       {
-        "label": "Other or less common responses",
+        "label": "Other",
         "count": 14,
         "percentage": 33.4
       }
@@ -171,7 +171,7 @@
         "percentage": 9.5
       },
       {
-        "label": "Other or less common responses",
+        "label": "Other",
         "count": 4,
         "percentage": 9.5
       }
@@ -208,12 +208,12 @@
         "percentage": 6.5
       },
       {
-        "label": "Unclear policy terms",
+        "label": "Clearer policy terms would have helped",
         "count": 4,
         "percentage": 5.2
       },
       {
-        "label": "Other or less common responses",
+        "label": "Other",
         "count": 8,
         "percentage": 10.4
       }

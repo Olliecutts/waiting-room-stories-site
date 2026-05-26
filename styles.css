@@ -121,6 +121,10 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 img,
 svg {
   display: block;
@@ -532,6 +536,137 @@ p {
 
 .accent-card {
   border-top: 6px solid var(--lavender-deep);
+}
+
+.change-section {
+  padding-bottom: max(72px, calc(64px + env(safe-area-inset-bottom)));
+}
+
+.change-card-grid {
+  align-items: start;
+}
+
+.change-card {
+  padding: 0;
+  overflow: hidden;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.change-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  box-shadow: 0 18px 34px rgba(74, 37, 116, 0.12);
+  transform: translateY(-2px);
+}
+
+.change-card[open] {
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--border));
+  box-shadow: var(--shadow);
+}
+
+.change-card-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+  min-height: 176px;
+  padding: 24px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.change-card-summary::-webkit-details-marker {
+  display: none;
+}
+
+.change-card-summary:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: -6px;
+}
+
+.change-card-copy {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.change-card-title {
+  color: var(--heading);
+  font-size: 22px;
+  font-weight: 950;
+  line-height: 1.16;
+}
+
+.change-card-short {
+  color: var(--text-muted);
+  font-size: 16px;
+  font-weight: 720;
+  line-height: 1.48;
+}
+
+.change-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--bg-soft) 76%, var(--surface));
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.change-chevron {
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.change-card[open] .change-chevron {
+  transform: rotate(180deg);
+}
+
+.change-card-detail {
+  border-top: 1px solid var(--border);
+  padding: 0 24px 24px;
+  animation: changeDetailIn 220ms ease;
+}
+
+.change-detail-inner {
+  display: grid;
+  gap: 16px;
+  padding-top: 20px;
+}
+
+.change-detail-inner h4 {
+  margin: 0 0 4px;
+  color: var(--heading);
+  font-size: 15px;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.change-detail-inner p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+@keyframes changeDetailIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mission-callout .button {
@@ -1088,6 +1223,10 @@ p {
     min-height: 0;
   }
 
+  .change-card-summary {
+    min-height: 0;
+  }
+
   .professional-insight-icon {
     width: 48px;
     height: 48px;
@@ -1188,6 +1327,24 @@ p {
     padding: 20px;
   }
 
+  .change-card {
+    padding: 0;
+  }
+
+  .change-card-summary {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .change-card-action {
+    justify-self: start;
+  }
+
+  .change-card-detail {
+    padding: 0 20px 20px;
+  }
+
   .share-panel {
     padding: 22px;
   }
@@ -1243,8 +1400,12 @@ p {
   }
 
   .donut-chart::before,
-  .chart-legend {
+  .chart-legend,
+  .change-card,
+  .change-chevron,
+  .change-card-detail {
     transition: none;
+    animation: none;
   }
 
   .chart-legend {
