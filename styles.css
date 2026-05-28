@@ -905,6 +905,18 @@ main > .page-hero:last-child {
   line-height: 1.45;
 }
 
+.chart-review-note {
+  margin: 2px 0 0;
+  border-left: 4px solid var(--accent-2);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .donut-wrap {
   display: grid;
   grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);

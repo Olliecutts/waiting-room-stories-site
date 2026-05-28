@@ -55,7 +55,7 @@ The patterns page reads `data/public_patterns_sample.json` as its saved project 
 
 Live pattern data should come only from a reviewed grouped-pattern JSON endpoint or file using schema `wrs_public_patterns_v2`.
 
-Any replacement data must contain grouped categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or review notes. Fixed-answer charts should show concrete public answer labels, with the actual `Other` form option labelled as `Other answer selected`.
+Any replacement data must contain grouped categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or review notes. Fixed-answer charts should show concrete public answer labels. Written `Other` answers should be reviewed and safely grouped where possible; if they cannot be grouped yet, they should count in the denominator but not appear as a vague public chart segment.
 
 ## Share Assets
 

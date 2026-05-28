@@ -4,28 +4,32 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
-const OTHER_BUCKET_LABEL = "Other answer selected";
+const HIDDEN_OTHER_LABEL = "";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
 const LEGACY_OTHER_ANSWER_LABEL = ["Other", " answer"].join("");
+const LEGACY_OTHER_ANSWER_SELECTED_LABEL = ["Other", " answer", " selected"].join("");
 const LEGACY_SMALLER_CATEGORIES_LABEL = ["Smaller", " categories"].join("");
 const LEGACY_OTHER_LESS_COMMON_LABEL = ["Other", " or ", "less common", " responses"].join("");
 const LEGACY_UNCLEAR_POLICY_LABEL = ["Unclear", " policy", " terms"].join("");
-const SMALL_SAMPLE_ALIASES = new Set([
+const HIDDEN_OTHER_ALIASES = new Set([
+  "Other",
+  "other",
   LEGACY_SMALL_SAMPLE_LABEL,
   LEGACY_OTHER_RESPONSES_LABEL,
   LEGACY_OTHER_ANSWER_LABEL,
+  LEGACY_OTHER_ANSWER_SELECTED_LABEL,
   LEGACY_SMALLER_CATEGORIES_LABEL,
   LEGACY_OTHER_LESS_COMMON_LABEL
 ]);
 const PUBLIC_LABEL_MAP = {
-  Other: OTHER_BUCKET_LABEL,
-  other: OTHER_BUCKET_LABEL,
-  [LEGACY_OTHER_LESS_COMMON_LABEL]: OTHER_BUCKET_LABEL,
-  [LEGACY_OTHER_ANSWER_LABEL]: OTHER_BUCKET_LABEL,
-  [LEGACY_OTHER_RESPONSES_LABEL]: OTHER_BUCKET_LABEL,
-  [LEGACY_SMALLER_CATEGORIES_LABEL]: OTHER_BUCKET_LABEL,
+  [LEGACY_OTHER_LESS_COMMON_LABEL]: HIDDEN_OTHER_LABEL,
+  [LEGACY_OTHER_ANSWER_LABEL]: HIDDEN_OTHER_LABEL,
+  [LEGACY_OTHER_ANSWER_SELECTED_LABEL]: HIDDEN_OTHER_LABEL,
+  [LEGACY_OTHER_RESPONSES_LABEL]: HIDDEN_OTHER_LABEL,
+  [LEGACY_SMALLER_CATEGORIES_LABEL]: HIDDEN_OTHER_LABEL,
   [LEGACY_UNCLEAR_POLICY_LABEL]: "Clearer policy terms would have helped",
+  "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care": "Complex emergency care",
   "Clearer insurance information before the emergency": "Clearer policy terms would have helped",
   "I did not know what my policy actually covered": "Clearer policy terms would have helped",
   "Insurance paying the vet directly": "Direct-to-vet payment would have helped",
@@ -96,6 +100,7 @@ function normaliseChartItems(items) {
       item.percentage ?? (total > 0 ? ((count / total) * 100).toFixed(1) : 0)
     );
     const label = normalisePublicLabel(item.label || "Unknown");
+    if (!label) return;
     const existing = grouped.get(label) || { label, count: 0, percentage: 0 };
     existing.count += Number.isFinite(count) ? count : 0;
     existing.percentage += Number.isFinite(percentage) ? percentage : 0;
@@ -109,12 +114,12 @@ function normaliseChartItems(items) {
 
 function normalisePublicLabel(label) {
   const text = String(label || "Unknown").trim();
-  if (SMALL_SAMPLE_ALIASES.has(text)) return OTHER_BUCKET_LABEL;
+  if (HIDDEN_OTHER_ALIASES.has(text)) return HIDDEN_OTHER_LABEL;
   return PUBLIC_LABEL_MAP[text] || text;
 }
 
 function isOtherBucket(item) {
-  return item.label === OTHER_BUCKET_LABEL;
+  return !item.label;
 }
 
 function sortChartItems(a, b) {
@@ -141,10 +146,12 @@ function getChartItems(data, key) {
 
 function buildGradient(items) {
   let cursor = 0;
+  const visibleTotal = items.reduce((sum, item) => sum + Number(item.percentage || 0), 0);
+  const closeFinalSlice = Math.abs(visibleTotal - 100) < 0.6;
   const segments = items.map((item, index) => {
     const start = cursor;
     const isLast = index === items.length - 1;
-    const end = isLast ? 100 : Math.min(100, cursor + item.percentage);
+    const end = isLast && closeFinalSlice ? 100 : Math.min(100, cursor + item.percentage);
     cursor = end;
     const colour = getChartColour(index);
     return `${colour} ${start}% ${end}%`;
@@ -256,12 +263,18 @@ function initChartReveal() {
 
 function renderPatterns(data, sourceLabel) {
   setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
-  setText("[data-patterns-source-status]", sourceLabel);
+  setText("[data-patterns-source-status]", data.refresh_note || sourceLabel);
   setWarning("");
 
   document.querySelectorAll("[data-chart-key]").forEach((container) => {
     const key = container.getAttribute("data-chart-key");
     renderDonutChart(container, getChartItems(data, key));
+  });
+  document.querySelectorAll("[data-chart-note]").forEach((note) => {
+    const key = note.getAttribute("data-chart-note");
+    const text = data?.chart_notes?.[key] || "";
+    note.hidden = !text;
+    note.textContent = text;
   });
   initChartReveal();
 }
@@ -289,12 +302,19 @@ function setSnapshotCard(key, value) {
   if (node) node.textContent = value || "Snapshot unavailable";
 }
 
+function setSnapshotCopy(key, value) {
+  const card = document.querySelector(`[data-snapshot-card="${key}"]`);
+  const node = card?.querySelector(".snapshot-copy");
+  if (node && value) node.textContent = value;
+}
+
 function renderHomeSnapshot(data, isFallback) {
   const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
   setSnapshotCard("total_stories", Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable");
   setSnapshotCard("countries_represented", Number.isFinite(Number(data.countries_represented)) ? Number(data.countries_represented).toLocaleString("en-GB") : "Snapshot unavailable");
   setSnapshotCard("top_barrier", data.top_barrier?.label || "Snapshot unavailable");
   setSnapshotCard("top_care_type", data.top_care_type?.label || "Snapshot unavailable");
+  setSnapshotCopy("top_care_type", data.top_care_type?.helper);
   setSnapshotCard("last_updated", formatSnapshotDate(data.last_updated || data.updated));
   setText(
     "[data-snapshot-status]",

@@ -1,7 +1,7 @@
 {
   "schema_version": "wrs_public_patterns_v2",
   "status": "latest_project_update",
-  "last_updated": "2026-05-24T18:55:31Z",
+  "last_updated": "2026-05-28T03:15:45+01:00",
   "total_stories": 42,
   "stories_shared_so_far": 42,
   "countries_represented": 4,
@@ -10,12 +10,19 @@
     "percentage": 31.0
   },
   "top_care_type": {
-    "label": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
-    "percentage": 28.7
+    "label": "Complex emergency care",
+    "percentage": 28.7,
+    "helper": "Including heart, breathing, neurological, spinal, trauma, poisoning, or other emergency cases."
   },
   "story_count_source": "Verified combined project summary from legacy Google and current live responses. Fake test submissions are not counted.",
+  "refresh_note": "Updated after the latest reviewed data refresh.",
   "chart_note": "Every story contributes to the project. Charts show grouped, non-identifying patterns.",
   "privacy": "Grouped categories only. No identifying details or story text.",
+  "chart_notes": {
+    "care_needed": "Some written answers are still being reviewed and grouped.",
+    "main_barriers": "Some written answers are still being reviewed and grouped.",
+    "what_would_have_helped": "Some written answers are still being reviewed and grouped."
+  },
   "charts": {
     "country": [
       {
@@ -41,7 +48,7 @@
     ],
     "care_needed": [
       {
-        "label": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
+        "label": "Complex emergency care",
         "count": 25,
         "percentage": 28.7
       },
@@ -86,12 +93,7 @@
         "percentage": 2.3
       },
       {
-        "label": "I am not sure",
-        "count": 1,
-        "percentage": 1.1
-      },
-      {
-        "label": "Other answer selected",
+        "label": "Not sure",
         "count": 1,
         "percentage": 1.1
       }
@@ -136,11 +138,6 @@
         "label": "Insurance did not cover it",
         "count": 1,
         "percentage": 2.4
-      },
-      {
-        "label": "Other answer selected",
-        "count": 7,
-        "percentage": 16.7
       }
     ],
     "insurance_status": [
@@ -237,11 +234,6 @@
         "label": "Clearer policy terms would have helped",
         "count": 4,
         "percentage": 5.2
-      },
-      {
-        "label": "Other answer selected",
-        "count": 8,
-        "percentage": 10.4
       }
     ]
   }
