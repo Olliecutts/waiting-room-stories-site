@@ -1,0 +1,80 @@
+name: Refresh Waiting Room Stories public data
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "wrs-public-data-refresh"
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Fetch public aggregate JSON
+        env:
+          WRS_PUBLIC_DATA_URL: ${{ secrets.WRS_PUBLIC_DATA_URL }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const url = process.env.WRS_PUBLIC_DATA_URL;
+          if (!url) {
+            throw new Error('Missing WRS_PUBLIC_DATA_URL repository secret.');
+          }
+
+          const response = await fetch(url, {
+            headers: {
+              accept: 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`Public data endpoint returned HTTP ${response.status}`);
+          }
+
+          const text = await response.text();
+          const payload = JSON.parse(text);
+          fs.writeFileSync('/tmp/wrs_public_patterns.json', JSON.stringify(payload, null, 2) + '\n');
+          NODE
+
+      - name: Validate fetched JSON
+        run: node scripts/validate-public-data.mjs /tmp/wrs_public_patterns.json
+
+      - name: Update site data file
+        run: |
+          cp /tmp/wrs_public_patterns.json data/public_patterns_sample.json
+          node scripts/validate-public-data.mjs data/public_patterns_sample.json
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/public_patterns_sample.json; then
+            echo "No public data changes to commit."
+            exit 0
+          fi
+
+          changed_files="$(git diff --name-only)"
+          if [ "$changed_files" != "data/public_patterns_sample.json" ]; then
+            echo "Unexpected changed files:"
+            echo "$changed_files"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/public_patterns_sample.json
+          git commit -m "Refresh Waiting Room Stories public data"
+          git push
