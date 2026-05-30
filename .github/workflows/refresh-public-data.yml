@@ -28,28 +28,36 @@ jobs:
         env:
           WRS_PUBLIC_DATA_URL: ${{ secrets.WRS_PUBLIC_DATA_URL }}
         run: |
-          node <<'NODE'
+          cat > /tmp/fetch-public-data.cjs <<'NODE'
           const fs = require('fs');
 
-          const url = process.env.WRS_PUBLIC_DATA_URL;
-          if (!url) {
-            throw new Error('Missing WRS_PUBLIC_DATA_URL repository secret.');
-          }
-
-          const response = await fetch(url, {
-            headers: {
-              accept: 'application/json'
+          async function main() {
+            const url = process.env.WRS_PUBLIC_DATA_URL;
+            if (!url) {
+              throw new Error('Missing WRS_PUBLIC_DATA_URL repository secret.');
             }
-          });
 
-          if (!response.ok) {
-            throw new Error(`Public data endpoint returned HTTP ${response.status}`);
+            const response = await fetch(url, {
+              headers: {
+                accept: 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              throw new Error(`Public data endpoint returned HTTP ${response.status}`);
+            }
+
+            const text = await response.text();
+            const payload = JSON.parse(text);
+            fs.writeFileSync('/tmp/wrs_public_patterns.json', JSON.stringify(payload, null, 2) + '\n');
           }
 
-          const text = await response.text();
-          const payload = JSON.parse(text);
-          fs.writeFileSync('/tmp/wrs_public_patterns.json', JSON.stringify(payload, null, 2) + '\n');
+          main().catch((error) => {
+            console.error(error.message);
+            process.exit(1);
+          });
           NODE
+          node /tmp/fetch-public-data.cjs
 
       - name: Validate fetched JSON
         run: node scripts/validate-public-data.mjs /tmp/wrs_public_patterns.json
