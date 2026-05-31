@@ -970,6 +970,13 @@ main > .page-hero:last-child {
   align-items: stretch;
 }
 
+.role-selector {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
 .roadmap-status-grid {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
@@ -2225,6 +2232,18 @@ main > .page-hero:last-child {
 
   .chart-legend {
     width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .way-grid.role-selector {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .way-grid.role-selector {
+    grid-template-columns: 1fr;
   }
 }
 
