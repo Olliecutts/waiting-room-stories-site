@@ -11,6 +11,8 @@ Target domain: `waitingroom.kingchillithepug.com`.
 - Patterns: `patterns.html`
 - Change: `what-needs-to-change.html`
 - About: `about.html`
+- Help spread the project: `help-spread.html`
+- Ways to help: `ways-to-help.html`
 - Contact: `contact.html`
 - For professionals: `professionals.html`
 - FAQ: `faq.html`

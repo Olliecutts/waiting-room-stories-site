@@ -4,6 +4,8 @@ const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
+const DEFAULT_SHARE_CAPTION =
+  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nhttps://waitingroom.kingchillithepug.com/";
 const HIDDEN_OTHER_LABEL = "";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
@@ -394,8 +396,15 @@ function encodedShareBody() {
 
 function setShareStatus(panel, message) {
   if (!panel) return;
-  const status = panel.querySelector("[data-share-status]");
+  const status = panel.querySelector("[data-share-status], [data-action-status]");
   if (status) status.textContent = message || "";
+}
+
+function setActionStatus(trigger, message) {
+  const scopedStatus =
+    trigger?.closest("[data-caption-card], .asset-card, [data-share-project]")?.querySelector("[data-action-status], [data-share-status]") ||
+    document.querySelector("[data-page-action-status]");
+  if (scopedStatus) scopedStatus.textContent = message || "";
 }
 
 async function copyShareLink(panel) {
@@ -419,6 +428,41 @@ async function copyShareLink(panel) {
     setShareStatus(panel, "Copy did not work. You can copy the page address from your browser.");
     return false;
   }
+}
+
+async function copyTextToClipboard(text, trigger, successMessage) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.left = "-9999px";
+      document.body.append(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+    }
+    setActionStatus(trigger, successMessage || "Copied.");
+    return true;
+  } catch (error) {
+    setActionStatus(trigger, "Copy did not work. You can select and copy the text manually.");
+    return false;
+  }
+}
+
+function initCaptionTools() {
+  document.querySelectorAll("[data-copy-caption]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const caption =
+        button.dataset.copyCaption ||
+        button.closest("[data-caption-card], .asset-card")?.querySelector("[data-caption-text]")?.textContent?.trim() ||
+        DEFAULT_SHARE_CAPTION;
+      copyTextToClipboard(caption, button, "Caption copied.");
+    });
+  });
 }
 
 async function handleNativeShare(panel) {
@@ -464,8 +508,26 @@ function initShareTools() {
       facebookLink.rel = "noopener";
     }
 
-    nativeButton?.addEventListener("click", () => handleNativeShare(panel));
-    copyButton?.addEventListener("click", () => copyShareLink(panel));
+    if (nativeButton) {
+      nativeButton.dataset.shareBound = "true";
+      nativeButton.addEventListener("click", () => handleNativeShare(panel));
+    }
+    if (copyButton) {
+      copyButton.dataset.copyLinkBound = "true";
+      copyButton.addEventListener("click", () => copyShareLink(panel));
+    }
+  });
+
+  document.querySelectorAll("[data-share-native]").forEach((button) => {
+    if (button.dataset.shareBound === "true") return;
+    button.dataset.shareBound = "true";
+    button.addEventListener("click", () => handleNativeShare(button.closest("[data-share-project], [data-caption-card], .asset-card") || document.body));
+  });
+
+  document.querySelectorAll("[data-copy-link]").forEach((button) => {
+    if (button.dataset.copyLinkBound === "true") return;
+    button.dataset.copyLinkBound = "true";
+    button.addEventListener("click", () => copyShareLink(button.closest("[data-share-project], [data-caption-card], .asset-card") || document.body));
   });
 }
 
@@ -473,6 +535,8 @@ function iconSvg(name) {
   const paths = {
     share: '<path d="M8.5 12.5 15.5 8.5"/><path d="M8.5 15.5 15.5 19.5"/><circle cx="6" cy="14" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="18" cy="21" r="2.4"/>',
     link: '<path d="M9.5 14.5 14.5 9.5"/><path d="M8.2 10.8 6.8 12.2a4 4 0 0 0 5.7 5.7l1.4-1.4"/><path d="M15.8 17.2 17.2 15.8a4 4 0 0 0-5.7-5.7l-1.4 1.4"/>',
+    copy: '<rect x="8" y="8" width="10" height="12" rx="2"/><path d="M6 16H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/>',
+    download: '<path d="M12 4v10"/><path d="m8 10 4 4 4-4"/><path d="M5 20h14"/>',
     email: '<rect x="4" y="7" width="16" height="11" rx="2"/><path d="m5 8 7 6 7-6"/>',
     whatsapp: '<path d="M7 20.5 8.2 17A7 7 0 1 1 12 19a7.4 7.4 0 0 1-3.3-.8Z"/><path d="M10.2 9.4c.2 3 2 4.8 4.8 5.4l1.2-1.3-2-.9-.8.7c-.9-.4-1.6-1.1-2-2l.7-.8-.9-2Z"/>',
     facebook: '<path d="M14 8.2h2V5h-2.5A4.5 4.5 0 0 0 9 9.5V12H6.8v3.2H9V23h3.5v-7.8h2.7l.5-3.2h-3.2V9.5c0-.7.5-1.3 1.5-1.3Z"/>',
@@ -538,7 +602,7 @@ function createAssetCard(asset) {
 
   const download = document.createElement(isLive ? "a" : "button");
   download.className = "button secondary";
-  download.dataset.icon = "link";
+  download.dataset.icon = "download";
   download.textContent = "Download image";
   if (isLive) {
     download.href = asset.download_path;
@@ -548,19 +612,37 @@ function createAssetCard(asset) {
     download.disabled = true;
   }
 
-  const share = document.createElement("button");
-  share.className = "button secondary";
-  share.type = "button";
-  share.dataset.icon = "link";
-  share.textContent = isLive ? "Copy link" : "Share";
+  const copyCaption = document.createElement("button");
+  copyCaption.className = "button secondary";
+  copyCaption.type = "button";
+  copyCaption.dataset.icon = "copy";
+  copyCaption.textContent = "Copy caption";
   if (isLive) {
-    share.addEventListener("click", () => copyShareLink(document.querySelector("[data-share-project]")));
+    copyCaption.addEventListener("click", () => {
+      copyTextToClipboard(asset.caption || DEFAULT_SHARE_CAPTION, copyCaption, "Caption copied.");
+    });
   } else {
-    share.disabled = true;
+    copyCaption.disabled = true;
   }
 
-  actions.append(download, share);
-  card.append(status, title, description, actions);
+  const shareProject = document.createElement("button");
+  shareProject.className = "button secondary";
+  shareProject.type = "button";
+  shareProject.dataset.icon = "share";
+  shareProject.textContent = "Share project";
+  if (isLive) {
+    shareProject.addEventListener("click", () => handleNativeShare(card));
+  } else {
+    shareProject.disabled = true;
+  }
+
+  const actionStatus = document.createElement("p");
+  actionStatus.className = "patterns-status";
+  actionStatus.setAttribute("data-action-status", "");
+  actionStatus.setAttribute("aria-live", "polite");
+
+  actions.append(download, copyCaption, shareProject);
+  card.append(status, title, description, actions, actionStatus);
   return card;
 }
 
@@ -608,4 +690,5 @@ loadPatterns();
 initExpandableChangeCards();
 initButtonIcons();
 initShareTools();
+initCaptionTools();
 loadShareAssets();
