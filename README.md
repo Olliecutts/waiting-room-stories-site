@@ -9,6 +9,7 @@ Target domain: `waitingroom.kingchillithepug.com`.
 - Home: `index.html`
 - Share: `share.html`
 - Patterns: `patterns.html`
+- Evidence so far: `evidence-so-far.html`
 - Change: `what-needs-to-change.html`
 - About: `about.html`
 - Help spread the project: `help-spread.html`
@@ -29,6 +30,7 @@ The Phase A restructure makes each page more specific:
 - Share is focused on owner story submission only.
 - Help Spread owns supporter tools: share buttons, ready-made captions, approved graphics, and direct-send guidance.
 - Patterns is the evidence/data page with headline interpretation cards and charts.
+- Evidence so far is a plain-English evidence explainer based on grouped public patterns.
 - Roadmap is the public mission timeline.
 - About is the Chilli origin page.
 - Professionals is the main professional insight route.
