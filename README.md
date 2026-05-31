@@ -13,12 +13,27 @@ Target domain: `waitingroom.kingchillithepug.com`.
 - About: `about.html`
 - Help spread the project: `help-spread.html`
 - Ways to help: `ways-to-help.html`
+- Roadmap: `roadmap.html`
 - Contact: `contact.html`
 - For professionals: `professionals.html`
 - FAQ: `faq.html`
 - How stories are used: `privacy.html`
 
 `updates.html` remains a plain unlinked placeholder. It is not part of the main public navigation.
+
+## Current Structure
+
+The Phase A restructure makes each page more specific:
+
+- Home is the campaign landing page with a Chilli-led hero, three visitor paths, live snapshot, pattern teaser, origin hook, roadmap teaser, professional teaser, and final CTA.
+- Share is focused on owner story submission only.
+- Help Spread owns supporter tools: share buttons, ready-made captions, approved graphics, and direct-send guidance.
+- Patterns is the evidence/data page with headline interpretation cards and charts.
+- Roadmap is the public mission timeline.
+- About is the Chilli origin page.
+- Professionals is the main professional insight route.
+- Ways to Help is the role selector.
+- Contact is a short practical email route page.
 
 ## Assets
 

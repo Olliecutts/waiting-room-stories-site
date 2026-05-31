@@ -79,6 +79,10 @@ function getHomeRoot() {
   return document.querySelector("[data-home-page]");
 }
 
+function getRoadmapRoot() {
+  return document.querySelector("[data-roadmap-page]");
+}
+
 function getConfiguredSources(root) {
   const liveSource = root?.dataset.patternsLiveSource?.trim();
   const fallbackSource = root?.dataset.patternsSource?.trim() || DEFAULT_PATTERN_DATA_PATH;
@@ -430,6 +434,32 @@ async function copyShareLink(panel) {
   }
 }
 
+async function loadRoadmapSnapshot() {
+  const roadmapRoot = getRoadmapRoot();
+  const storiesNode = document.querySelector("[data-roadmap-stories]");
+  if (!roadmapRoot || !storiesNode) return;
+
+  const sources = getConfiguredSources(roadmapRoot);
+  for (const source of sources) {
+    try {
+      const data = await fetchJson(source);
+      const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
+      if (Number.isFinite(storyCount)) {
+        storiesNode.textContent = storyCount.toLocaleString("en-GB");
+      }
+      const status = document.querySelector("[data-roadmap-status]");
+      if (status && data.last_updated) {
+        status.textContent = `Updated after the latest reviewed data refresh: ${formatPatternDate(data.last_updated)}.`;
+      }
+      return;
+    } catch (error) {
+      // Try the next configured public aggregate source before falling back to the static value.
+    }
+  }
+
+  setText("[data-roadmap-status]", "Using the saved project count until the latest public data can load.");
+}
+
 async function copyTextToClipboard(text, trigger, successMessage) {
   try {
     if (navigator.clipboard?.writeText) {
@@ -680,12 +710,14 @@ window.WRSSite = {
   initExpandableChangeCards,
   initShareTools,
   loadHomeSnapshot,
+  loadRoadmapSnapshot,
   loadPatterns,
   loadShareAssets,
   normaliseChartItems
 };
 
 loadHomeSnapshot();
+loadRoadmapSnapshot();
 loadPatterns();
 initExpandableChangeCards();
 initButtonIcons();
