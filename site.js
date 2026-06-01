@@ -5,7 +5,7 @@ const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
 const DEFAULT_SHARE_CAPTION =
-  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nhttps://waitingroom.kingchillithepug.com/";
+  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nhttps://waitingroom.kingchillithepug.com/\n\n#WaitingRoomStories";
 const HIDDEN_OTHER_LABEL = "";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
@@ -268,13 +268,20 @@ function initChartReveal() {
 }
 
 function renderPatterns(data, sourceLabel) {
+  renderLiveStats(data);
   setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
   setText("[data-patterns-source-status]", data.refresh_note || sourceLabel);
+  setText("[data-patterns-status]", data.refresh_note || sourceLabel || "Latest pattern update loaded.");
   setWarning("");
 
   document.querySelectorAll("[data-chart-key]").forEach((container) => {
     const key = container.getAttribute("data-chart-key");
     renderDonutChart(container, getChartItems(data, key));
+  });
+  document.querySelectorAll("[data-chart-card]").forEach((card) => {
+    const key = card.getAttribute("data-chart-card");
+    const target = card.querySelector(".chart-layout") || card.querySelector("[data-donut-wrap]") || card;
+    renderDonutChart(target, getChartItems(data, key));
   });
   document.querySelectorAll("[data-chart-note]").forEach((note) => {
     const key = note.getAttribute("data-chart-note");
@@ -308,6 +315,54 @@ function setSnapshotCard(key, value) {
   if (node) node.textContent = value || "Snapshot unavailable";
 }
 
+function setHomeStat(key, value) {
+  const aliases = {
+    total_stories: "stories_shared_so_far",
+    top_barrier: "most_common_barrier",
+    top_care_type: "most_common_care_type"
+  };
+  const selector = `[data-home-stat="${key}"], [data-home-stat="${aliases[key] || key}"]`;
+  document.querySelectorAll(selector).forEach((node) => {
+    node.textContent = value || "Snapshot unavailable";
+  });
+}
+
+function barrierHeadline(label) {
+  if (!label || label === "Snapshot unavailable") return "The most common barrier is loading.";
+  if (label === "Had to pay upfront") return "Upfront payment is where care often becomes unreachable.";
+  return `The most common barrier so far: ${label}.`;
+}
+
+function getLiveStats(data) {
+  const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
+  const countries = Number(data.countries_represented);
+  return {
+    stories_shared_so_far: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
+    total_stories: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
+    countries_represented: Number.isFinite(countries) ? countries.toLocaleString("en-GB") : "Snapshot unavailable",
+    most_common_barrier: data.top_barrier?.label || data.most_common_barrier?.label || data.most_common_barrier || "Snapshot unavailable",
+    most_common_care_type: data.top_care_type?.label || data.most_common_care_type?.label || data.most_common_care_type || "Snapshot unavailable",
+    last_updated: formatPatternDate(data.last_updated || data.updated)
+  };
+}
+
+function renderLiveStats(data) {
+  const stats = getLiveStats(data);
+  Object.entries(stats).forEach(([key, value]) => {
+    document.querySelectorAll(`[data-live-stat="${key}"]`).forEach((node) => {
+      node.textContent = value;
+    });
+  });
+  document.querySelectorAll("[data-live-barrier-title]").forEach((node) => {
+    node.textContent = barrierHeadline(stats.most_common_barrier);
+  });
+}
+
+function captionWithHashtag(text) {
+  const value = String(text || DEFAULT_SHARE_CAPTION).trim();
+  return /#WaitingRoomStories\b/i.test(value) ? value : `${value}\n\n#WaitingRoomStories`;
+}
+
 function setSnapshotCopy(key, value) {
   const card = document.querySelector(`[data-snapshot-card="${key}"]`);
   const node = card?.querySelector(".snapshot-copy");
@@ -315,11 +370,20 @@ function setSnapshotCopy(key, value) {
 }
 
 function renderHomeSnapshot(data, isFallback) {
-  const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
-  setSnapshotCard("total_stories", Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable");
-  setSnapshotCard("countries_represented", Number.isFinite(Number(data.countries_represented)) ? Number(data.countries_represented).toLocaleString("en-GB") : "Snapshot unavailable");
-  setSnapshotCard("top_barrier", data.top_barrier?.label || "Snapshot unavailable");
-  setSnapshotCard("top_care_type", data.top_care_type?.label || "Snapshot unavailable");
+  const stats = getLiveStats(data);
+  const stories = stats.stories_shared_so_far;
+  const countries = stats.countries_represented;
+  const barrier = stats.most_common_barrier;
+  const careType = stats.most_common_care_type;
+  renderLiveStats(data);
+  setSnapshotCard("total_stories", stories);
+  setSnapshotCard("countries_represented", countries);
+  setSnapshotCard("top_barrier", barrier);
+  setSnapshotCard("top_care_type", careType);
+  setHomeStat("total_stories", stories);
+  setHomeStat("countries_represented", countries);
+  setHomeStat("top_barrier", barrier);
+  setHomeStat("top_care_type", careType);
   setSnapshotCopy("top_care_type", data.top_care_type?.helper);
   setSnapshotCard("last_updated", formatSnapshotDate(data.last_updated || data.updated));
   setText(
@@ -328,12 +392,18 @@ function renderHomeSnapshot(data, isFallback) {
       ? "Showing the latest public pattern update available."
       : "Every story contributes to the project. Charts show grouped, non-identifying patterns."
   );
+  setText("[data-home-status]", formatPatternDate(data.last_updated || data.updated));
 }
 
 function renderHomeSnapshotFallback() {
   ["total_stories", "countries_represented", "top_barrier", "top_care_type", "last_updated"].forEach((key) => {
     setSnapshotCard(key, "Snapshot unavailable");
   });
+  setHomeStat("total_stories", "Latest count unavailable");
+  setHomeStat("countries_represented", "Latest count unavailable");
+  setHomeStat("top_barrier", "Latest count unavailable");
+  setHomeStat("top_care_type", "Latest count unavailable");
+  setText("[data-home-status]", "Latest count could not load.");
   setText(
     "[data-snapshot-status]",
     "The latest project update could not load. Please check the Patterns page later."
@@ -342,8 +412,7 @@ function renderHomeSnapshotFallback() {
 
 async function loadHomeSnapshot() {
   const homeRoot = getHomeRoot();
-  const container = document.querySelector("[data-home-snapshot]");
-  if (!homeRoot || !container) return;
+  if (!homeRoot) return;
 
   const sources = getConfiguredSources(homeRoot);
   let lastError = null;
@@ -390,6 +459,7 @@ async function loadPatterns() {
 
   setText("[data-updated]", "Unavailable");
   setText("[data-patterns-source-status]", "Pattern data could not be loaded.");
+  setText("[data-patterns-status]", "Pattern data could not be loaded. Please try again later.");
   setWarning("Pattern data could not be loaded. Please try again later.");
   if (lastError) console.warn(lastError.message);
 }
@@ -490,7 +560,7 @@ function initCaptionTools() {
         button.dataset.copyCaption ||
         button.closest("[data-caption-card], .asset-card")?.querySelector("[data-caption-text]")?.textContent?.trim() ||
         DEFAULT_SHARE_CAPTION;
-      copyTextToClipboard(caption, button, "Caption copied.");
+      copyTextToClipboard(captionWithHashtag(caption), button, "Caption copied.");
     });
   });
 }
@@ -649,7 +719,7 @@ function createAssetCard(asset) {
   copyCaption.textContent = "Copy caption";
   if (isLive) {
     copyCaption.addEventListener("click", () => {
-      copyTextToClipboard(asset.caption || DEFAULT_SHARE_CAPTION, copyCaption, "Caption copied.");
+      copyTextToClipboard(captionWithHashtag(asset.caption || DEFAULT_SHARE_CAPTION), copyCaption, "Caption copied.");
     });
   } else {
     copyCaption.disabled = true;

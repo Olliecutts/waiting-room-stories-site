@@ -213,8 +213,42 @@ button:focus-visible {
 }
 
 .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(240px, 0.88fr);
+  gap: 42px;
+  align-items: center;
+  width: min(calc(100% - 32px), var(--content));
+  margin: 0 auto;
+  padding: 64px 0 54px;
   background:
     linear-gradient(140deg, color-mix(in srgb, var(--bg) 98%, white 2%) 0%, var(--bg) 47%, var(--bg-soft) 100%);
+}
+
+.hero-content,
+.hero-art {
+  min-width: 0;
+}
+
+.hero-content {
+  max-width: 700px;
+}
+
+.hero-art {
+  justify-self: center;
+  width: min(100%, 460px);
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--cream-soft);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.hero-art img {
+  width: 100%;
+  max-height: 420px;
+  height: auto;
+  object-fit: contain;
 }
 
 .hero-inner {
@@ -464,8 +498,8 @@ main > .page-hero:last-child {
 
 .snapshot-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
   margin-top: 28px;
 }
 
@@ -478,7 +512,7 @@ main > .page-hero:last-child {
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 22px;
   background:
     radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 34%),
     linear-gradient(145deg, var(--surface) 0%, var(--surface-strong) 100%);
@@ -521,15 +555,18 @@ main > .page-hero:last-child {
 .snapshot-value {
   color: var(--heading);
   font-family: var(--font-heading);
-  font-size: 44px;
+  font-size: clamp(30px, 4vw, 44px);
   font-weight: 950;
   line-height: 0.98;
+  overflow-wrap: anywhere;
 }
 
-.snapshot-value.text-value {
+.snapshot-value.text-value,
+.snapshot-value.text-stat {
   font-family: var(--font-body);
-  font-size: 22px;
-  line-height: 1.12;
+  font-size: clamp(16px, 1.45vw, 20px);
+  line-height: 1.2;
+  hyphens: auto;
 }
 
 .snapshot-copy {
@@ -807,7 +844,8 @@ main > .page-hero:last-child {
 .evidence-barrier-callout .snapshot-value,
 .evidence-barrier-callout .snapshot-label {
   margin: 0;
-  color: var(--button-text);
+  color: #fffdf7 !important;
+  text-shadow: 0 2px 10px rgba(22, 9, 33, 0.35);
 }
 
 .evidence-barrier-callout .snapshot-value {
@@ -989,6 +1027,9 @@ main > .page-hero:last-child {
 .featured-assets .asset-card {
   grid-template-columns: minmax(180px, 0.78fr) minmax(0, 1fr);
   align-items: center;
+  overflow: hidden;
+  padding: 18px;
+  background: var(--surface);
 }
 
 .featured-assets .asset-preview {
@@ -1437,11 +1478,11 @@ main > .page-hero:last-child {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--border);
+  border: 2px solid var(--accent);
   border-radius: 999px;
   padding: 8px 12px;
-  background: color-mix(in srgb, var(--bg-soft) 76%, var(--surface));
-  color: var(--accent);
+  background: var(--button-bg);
+  color: var(--button-text);
   font-size: 13px;
   font-weight: 950;
   line-height: 1;
@@ -1459,15 +1500,20 @@ main > .page-hero:last-child {
 }
 
 .change-card-detail {
-  border-top: 1px solid var(--border);
-  padding: 0 24px 24px;
+  margin: 16px 24px 24px;
+  border: 2px solid color-mix(in srgb, var(--accent) 46%, var(--border));
+  border-left: 7px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0;
+  background: var(--surface-strong);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--surface) 60%, transparent);
   animation: changeDetailIn 220ms ease;
 }
 
 .change-detail-inner {
   display: grid;
   gap: 16px;
-  padding-top: 20px;
+  padding: 18px;
 }
 
 .change-detail-inner h4 {
@@ -1518,8 +1564,10 @@ main > .page-hero:last-child {
 .way-card,
 .caption-card {
   display: grid;
+  grid-template-rows: auto auto minmax(15rem, 1fr) auto auto;
   align-content: start;
   gap: 10px;
+  height: 100%;
 }
 
 .way-card .snapshot-icon {
@@ -1527,13 +1575,19 @@ main > .page-hero:last-child {
 }
 
 .caption-card p[data-caption-text] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  background: var(--surface-strong);
   white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 
 .caption-card .asset-actions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
-  margin-top: 8px;
+  align-self: end;
+  margin-top: auto;
   width: 100%;
 }
 
@@ -1574,8 +1628,27 @@ main > .page-hero:last-child {
   outline-offset: -6px;
 }
 
-.term-card[open] .change-chevron {
-  transform: rotate(180deg);
+.term-card summary::after {
+  content: "Read more  ⌄";
+  flex: 0 0 auto;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-size: 13px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.term-card[open] summary::after {
+  content: "Close  ⌃";
+}
+
+.term-card:hover,
+.term-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  box-shadow: 0 14px 28px rgba(74, 37, 116, 0.1);
 }
 
 .term-detail {
@@ -1583,6 +1656,32 @@ main > .page-hero:last-child {
   gap: 8px;
   border-top: 1px solid var(--border);
   padding: 0 22px 22px;
+}
+
+.term-card > div {
+  display: grid;
+  gap: 10px;
+  margin: 0 20px 20px;
+  border: 2px solid color-mix(in srgb, var(--accent) 46%, var(--border));
+  border-left: 7px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: var(--surface-strong);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--surface) 60%, transparent);
+}
+
+.term-card > div h4 {
+  margin: 8px 0 0;
+  color: var(--heading);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.term-card > div p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 .term-detail h4 {
@@ -1767,12 +1866,20 @@ main > .page-hero:last-child {
   margin-top: 30px;
 }
 
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
 .donut-card {
   --chart-progress: 0%;
   display: grid;
   align-content: start;
-  gap: 14px;
+  gap: 20px;
   min-height: 460px;
+  padding: 30px;
   border-color: rgba(74, 46, 89, 0.14);
   background:
     radial-gradient(circle at top right, rgba(246, 175, 200, 0.28), transparent 34%),
@@ -1783,7 +1890,7 @@ main > .page-hero:last-child {
 }
 
 .chart-helper {
-  margin: -4px 0 8px;
+  margin: 8px 0 4px;
   color: var(--text-muted);
   font-size: 15px;
   font-weight: 750;
@@ -1802,11 +1909,18 @@ main > .page-hero:last-child {
   line-height: 1.45;
 }
 
-.donut-wrap {
+.donut-wrap,
+.chart-layout {
   display: grid;
-  grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
   align-items: center;
+  justify-items: center;
+}
+
+.chart-layout {
+  min-width: 0;
+  width: 100%;
 }
 
 .donut-chart {
@@ -1870,14 +1984,11 @@ main > .page-hero:last-child {
   gap: 11px;
   min-width: 0;
   width: 100%;
-  max-height: 330px;
-  overflow-y: auto;
-  padding-right: 4px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 420ms ease 260ms,
-    transform 420ms ease 260ms;
+  max-height: none;
+  overflow: visible;
+  padding: 4px 10px 4px 2px;
+  opacity: 1;
+  transform: none;
 }
 
 .donut-card.is-visible {
@@ -1898,7 +2009,8 @@ main > .page-hero:last-child {
 
 .legend-row {
   border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
-  padding-bottom: 8px;
+  gap: 16px;
+  padding: 0 10px 10px 0;
   justify-content: space-between;
   min-width: 0;
   color: var(--purple-dark);
@@ -1935,7 +2047,9 @@ main > .page-hero:last-child {
   flex: 0 0 auto;
   color: var(--plum);
   font-variant-numeric: tabular-nums;
-  margin-left: 12px;
+  min-width: 5.25em;
+  margin-left: 16px;
+  text-align: right;
 }
 
 .share-project-band {
@@ -1979,6 +2093,14 @@ main > .page-hero:last-child {
   background: var(--surface-strong);
 }
 
+.caption-card,
+.asset-card,
+.route-tile,
+.contact-route-card,
+.donut-card {
+  min-width: 0;
+}
+
 .asset-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1991,7 +2113,12 @@ main > .page-hero:last-child {
   gap: 12px;
   align-content: start;
   background:
-    linear-gradient(155deg, rgba(255, 253, 247, 0.98), rgba(238, 226, 245, 0.68));
+    linear-gradient(155deg, var(--surface) 0%, var(--surface-strong) 100%);
+}
+
+.asset-card > :not(.asset-preview) {
+  position: relative;
+  z-index: 1;
 }
 
 .asset-card:focus-within,
@@ -2003,6 +2130,12 @@ main > .page-hero:last-child {
   min-height: 44px;
   padding: 10px 13px;
   font-size: 14px;
+}
+
+.asset-card h3 {
+  color: var(--heading);
+  font-size: 21px;
+  line-height: 1.18;
 }
 
 .asset-preview {
@@ -2017,6 +2150,9 @@ main > .page-hero:last-child {
 
 .asset-card p {
   margin-top: 0;
+  color: var(--text-muted);
+  font-weight: 760;
+  line-height: 1.45;
 }
 
 .coming-soon,
@@ -2025,8 +2161,8 @@ main > .page-hero:last-child {
   border: 1px solid rgba(74, 37, 116, 0.16);
   border-radius: 999px;
   padding: 4px 10px;
-  background: var(--lavender);
-  color: var(--purple-dark);
+  background: var(--button-bg);
+  color: var(--button-text);
   font-size: 12px;
   font-weight: 950;
   text-transform: uppercase;
@@ -2131,6 +2267,7 @@ main > .page-hero:last-child {
 
 @media (max-width: 900px) {
   .hero-inner,
+  .hero,
   .split,
   .split.reverse,
   .grid,
@@ -2153,6 +2290,7 @@ main > .page-hero:last-child {
   .evidence-checklist-layout,
   .term-grid,
   .chart-dashboard,
+  .chart-grid,
   .snapshot-grid,
   .professional-insight-card,
   .share-panel,
@@ -2175,15 +2313,18 @@ main > .page-hero:last-child {
     grid-row: auto;
   }
 
-  .donut-wrap {
+  .donut-wrap,
+  .chart-layout {
     grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
   }
 
-  .hero-inner {
+  .hero-inner,
+  .hero {
     padding-top: 42px;
   }
 
-  .hero-copy {
+  .hero-copy,
+  .hero-content {
     max-width: 360px;
   }
 
@@ -2443,17 +2584,23 @@ main > .page-hero:last-child {
     font-size: 38px;
   }
 
-  .snapshot-value.text-value {
-    font-size: 20px;
+  .snapshot-value.text-value,
+  .snapshot-value.text-stat {
+    font-size: 18px;
   }
 
   .donut-card {
     min-height: 0;
   }
 
-  .donut-wrap {
+  .donut-wrap,
+  .chart-layout {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+
+  .chart-layout {
+    width: 100%;
   }
 
   .chart-legend {

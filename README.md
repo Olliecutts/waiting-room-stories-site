@@ -88,3 +88,17 @@ The current file points to the first four approved public share graphics under:
 - `assets/share/share-your-emergency-vet-care-story-cushion.png`
 
 Only add or replace image URLs after Ollie approves the assets for public use.
+
+## Current public structure
+
+The streamlined public site uses these main pages:
+
+- `index.html` — campaign landing page
+- `share.html` — owner story submission route
+- `patterns.html` — evidence summary and live chart patterns
+- `what-needs-to-change.html` — change goals and roadmap milestones
+- `get-involved.html` — share toolkit, approved graphics, professional and press routes
+- `about.html` — Chilli origin story and project purpose
+- `privacy.html` — how stories are used, privacy boundaries, and FAQ
+
+Older route pages remain as simple redirects to the nearest current page.
