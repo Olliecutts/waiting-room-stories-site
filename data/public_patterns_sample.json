@@ -1,25 +1,25 @@
 {
   "schema_version": "wrs_public_patterns_v2",
   "status": "latest_project_update",
-  "last_updated": "2026-06-03T11:24:29.088Z",
-  "total_stories": 238,
-  "stories_shared_so_far": 238,
+  "last_updated": "2026-06-03T15:27:53.744Z",
+  "total_stories": 245,
+  "stories_shared_so_far": 245,
   "countries_represented": 6,
   "top_barrier": {
     "label": "Had to pay upfront",
-    "percentage": 39.4
+    "percentage": 39.9
   },
   "most_common_barrier": {
     "label": "Had to pay upfront",
-    "percentage": 39.4
+    "percentage": 39.9
   },
   "top_care_type": {
     "label": "Surgery",
-    "percentage": 16.9
+    "percentage": 17.9
   },
   "most_common_care_type": {
     "label": "Surgery",
-    "percentage": 16.9
+    "percentage": 17.9
   },
   "most_common_care_type_detail": "",
   "minimum_category_count": 3,
@@ -36,23 +36,23 @@
     "country": [
       {
         "label": "USA",
-        "count": 192,
-        "percentage": 80.7
+        "count": 198,
+        "percentage": 80.8
       },
       {
         "label": "UK",
-        "count": 25,
-        "percentage": 10.5
+        "count": 26,
+        "percentage": 10.6
       },
       {
         "label": "Canada",
         "count": 10,
-        "percentage": 4.2
+        "percentage": 4.1
       },
       {
         "label": "Australia",
         "count": 8,
-        "percentage": 3.4
+        "percentage": 3.3
       },
       {
         "label": "Other countries",
@@ -68,100 +68,100 @@
     "care_needed": [
       {
         "label": "Surgery",
-        "count": 75,
-        "percentage": 16.9
+        "count": 81,
+        "percentage": 17.9
       },
       {
         "label": "ICU or hospitalisation",
         "count": 61,
-        "percentage": 13.8
+        "percentage": 13.5
       },
       {
         "label": "Complex emergency care",
-        "count": 56,
+        "count": 57,
         "percentage": 12.6
       },
       {
         "label": "MRI, CT, ultrasound, or other imaging",
         "count": 56,
-        "percentage": 12.6
+        "percentage": 12.4
       },
       {
         "label": "Cancer treatment or complex medical care",
         "count": 55,
-        "percentage": 12.4
+        "percentage": 12.2
       },
       {
         "label": "Emergency vet or out-of-hours care",
-        "count": 41,
+        "count": 42,
         "percentage": 9.3
       },
       {
         "label": "Specialist referral or transfer",
         "count": 38,
-        "percentage": 8.6
+        "percentage": 8.4
       },
       {
         "label": "Emergency medication or stabilisation",
-        "count": 34,
+        "count": 35,
         "percentage": 7.7
       },
       {
         "label": "Ongoing treatment after discharge",
         "count": 27,
-        "percentage": 6.1
+        "percentage": 6
       }
     ],
     "main_barriers": [
       {
         "label": "Had to pay upfront",
-        "count": 102,
-        "percentage": 39.4
+        "count": 107,
+        "percentage": 39.9
       },
       {
         "label": "Surgery or treatment was unaffordable",
-        "count": 49,
-        "percentage": 18.9
+        "count": 50,
+        "percentage": 18.7
       },
       {
         "label": "Insurance did not cover it",
-        "count": 24,
+        "count": 25,
         "percentage": 9.3
       },
       {
         "label": "ICU or hospitalisation was unaffordable",
         "count": 20,
-        "percentage": 7.7
+        "percentage": 7.5
       },
       {
         "label": "Diagnostic imaging was unaffordable",
-        "count": 17,
-        "percentage": 6.6
+        "count": 18,
+        "percentage": 6.7
       },
       {
         "label": "Credit or payment plan was not possible",
         "count": 16,
-        "percentage": 6.2
+        "percentage": 6
       },
       {
         "label": "Insurance limit ran out",
-        "count": 13,
-        "percentage": 5
+        "count": 14,
+        "percentage": 5.2
       },
       {
         "label": "Specialist referral was unaffordable",
         "count": 12,
-        "percentage": 4.6
+        "percentage": 4.5
       },
       {
         "label": "No fast emergency fund or grant was available",
         "count": 3,
-        "percentage": 1.2
+        "percentage": 1.1
       },
       {
         "label": "Did not know what the policy covered",
         "count": 2,
-        "percentage": 0.8
+        "percentage": 0.7
       },
       {
         "label": "Waiting for reimbursement",
@@ -172,28 +172,28 @@
     "insurance_status": [
       {
         "label": "No insurance",
-        "count": 186,
-        "percentage": 78.2
+        "count": 191,
+        "percentage": 78
       },
       {
         "label": "Insurance did not cover this",
         "count": 20,
-        "percentage": 8.4
+        "percentage": 8.2
       },
       {
         "label": "Had insurance",
-        "count": 14,
-        "percentage": 5.9
+        "count": 16,
+        "percentage": 6.5
       },
       {
         "label": "Insurance ran out",
         "count": 11,
-        "percentage": 4.6
+        "percentage": 4.5
       },
       {
         "label": "Had insurance but had to pay upfront",
         "count": 6,
-        "percentage": 2.5
+        "percentage": 2.4
       },
       {
         "label": "Not sure",
@@ -204,33 +204,33 @@
     "outcomes": [
       {
         "label": "I had to say goodbye",
-        "count": 105,
+        "count": 108,
         "percentage": 44.1
       },
       {
         "label": "My pet recovered",
-        "count": 62,
+        "count": 64,
         "percentage": 26.1
       },
       {
         "label": "I am still going through it",
         "count": 34,
-        "percentage": 14.3
+        "percentage": 13.9
       },
       {
         "label": "My pet survived but treatment was limited",
-        "count": 22,
-        "percentage": 9.2
+        "count": 24,
+        "percentage": 9.8
       },
       {
         "label": "I had to delay treatment",
         "count": 9,
-        "percentage": 3.8
+        "percentage": 3.7
       },
       {
         "label": "Prefer not to say",
         "count": 4,
-        "percentage": 1.7
+        "percentage": 1.6
       },
       {
         "label": "I had to stop treatment",
@@ -241,38 +241,38 @@
     "what_would_have_helped": [
       {
         "label": "Safe payment plan would have helped",
-        "count": 103,
-        "percentage": 35.2
+        "count": 108,
+        "percentage": 35.1
       },
       {
         "label": "Fast emergency support would have helped",
-        "count": 96,
+        "count": 101,
         "percentage": 32.8
       },
       {
         "label": "Direct-to-vet payment would have helped",
-        "count": 28,
-        "percentage": 9.6
+        "count": 30,
+        "percentage": 9.7
       },
       {
         "label": "Insurance that covered more would have helped",
-        "count": 26,
-        "percentage": 8.9
+        "count": 27,
+        "percentage": 8.8
+      },
+      {
+        "label": "Someone explaining options simply would have helped",
+        "count": 16,
+        "percentage": 5.2
       },
       {
         "label": "More time to decide would have helped",
         "count": 14,
-        "percentage": 4.8
-      },
-      {
-        "label": "Someone explaining options simply would have helped",
-        "count": 14,
-        "percentage": 4.8
+        "percentage": 4.5
       },
       {
         "label": "Clearer policy terms would have helped",
         "count": 12,
-        "percentage": 4.1
+        "percentage": 3.9
       }
     ]
   }
