@@ -28,7 +28,7 @@ The Phase A restructure makes each page more specific:
 
 - Home is the campaign landing page with a Chilli-led hero, three visitor paths, live snapshot, pattern teaser, origin hook, roadmap teaser, professional teaser, and final CTA.
 - Share is focused on owner story submission only.
-- Help Spread owns supporter tools: share buttons, ready-made captions, approved graphics, and direct-send guidance.
+- Get involved owns supporter tools: share buttons, ready-made captions, share graphics, and direct-send guidance.
 - Patterns is the evidence/data page with headline interpretation cards and charts.
 - Evidence so far is a plain-English evidence explainer based on grouped public patterns.
 - Roadmap is the public mission timeline.
@@ -97,7 +97,7 @@ The streamlined public site uses these main pages:
 - `share.html` — owner story submission route
 - `patterns.html` — evidence summary and live chart patterns
 - `what-needs-to-change.html` — change goals and roadmap milestones
-- `get-involved.html` — share toolkit, approved graphics, professional and press routes
+- `get-involved.html` — share toolkit, share graphics, professional and press routes
 - `about.html` — Chilli origin story and project purpose
 - `privacy.html` — how stories are used, privacy boundaries, and FAQ
 

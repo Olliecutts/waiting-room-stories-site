@@ -270,8 +270,8 @@ function initChartReveal() {
 function renderPatterns(data, sourceLabel) {
   renderLiveStats(data);
   setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
-  setText("[data-patterns-source-status]", data.refresh_note || sourceLabel);
-  setText("[data-patterns-status]", data.refresh_note || sourceLabel || "Latest pattern update loaded.");
+  setText("[data-patterns-source-status]", sourceLabel || "Latest update loaded.");
+  setText("[data-patterns-status]", "Latest update loaded.");
   setWarning("");
 
   document.querySelectorAll("[data-chart-key]").forEach((container) => {
@@ -319,7 +319,9 @@ function setHomeStat(key, value) {
   const aliases = {
     total_stories: "stories_shared_so_far",
     top_barrier: "most_common_barrier",
-    top_care_type: "most_common_care_type"
+    top_care_type: "most_common_care_type",
+    top_insurance_status: "most_common_insurance_status",
+    top_helped: "most_common_helped"
   };
   const selector = `[data-home-stat="${key}"], [data-home-stat="${aliases[key] || key}"]`;
   document.querySelectorAll(selector).forEach((node) => {
@@ -336,12 +338,16 @@ function barrierHeadline(label) {
 function getLiveStats(data) {
   const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
   const countries = Number(data.countries_represented);
+  const topInsurance = getChartItems(data, "insurance_status")[0];
+  const topHelped = getChartItems(data, "what_would_have_helped")[0];
   return {
     stories_shared_so_far: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
     total_stories: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
     countries_represented: Number.isFinite(countries) ? countries.toLocaleString("en-GB") : "Snapshot unavailable",
     most_common_barrier: data.top_barrier?.label || data.most_common_barrier?.label || data.most_common_barrier || "Snapshot unavailable",
     most_common_care_type: data.top_care_type?.label || data.most_common_care_type?.label || data.most_common_care_type || "Snapshot unavailable",
+    most_common_insurance_status: topInsurance?.label || "Snapshot unavailable",
+    most_common_helped: topHelped?.label || "Snapshot unavailable",
     last_updated: formatPatternDate(data.last_updated || data.updated)
   };
 }
@@ -375,34 +381,42 @@ function renderHomeSnapshot(data, isFallback) {
   const countries = stats.countries_represented;
   const barrier = stats.most_common_barrier;
   const careType = stats.most_common_care_type;
+  const insuranceStatus = stats.most_common_insurance_status;
+  const helped = stats.most_common_helped;
   renderLiveStats(data);
   setSnapshotCard("total_stories", stories);
   setSnapshotCard("countries_represented", countries);
   setSnapshotCard("top_barrier", barrier);
   setSnapshotCard("top_care_type", careType);
+  setSnapshotCard("top_insurance_status", insuranceStatus);
+  setSnapshotCard("top_helped", helped);
   setHomeStat("total_stories", stories);
   setHomeStat("countries_represented", countries);
   setHomeStat("top_barrier", barrier);
   setHomeStat("top_care_type", careType);
+  setHomeStat("top_insurance_status", insuranceStatus);
+  setHomeStat("top_helped", helped);
   setSnapshotCopy("top_care_type", data.top_care_type?.helper);
   setSnapshotCard("last_updated", formatSnapshotDate(data.last_updated || data.updated));
   setText(
     "[data-snapshot-status]",
     isFallback && getConfiguredSources(getHomeRoot()).length > 1
-      ? "Showing the latest public pattern update available."
-      : "Every story contributes to the project. Charts show grouped, non-identifying patterns."
+      ? "Showing the latest project charts available."
+      : "Latest public update loaded."
   );
   setText("[data-home-status]", formatPatternDate(data.last_updated || data.updated));
 }
 
 function renderHomeSnapshotFallback() {
-  ["total_stories", "countries_represented", "top_barrier", "top_care_type", "last_updated"].forEach((key) => {
+  ["total_stories", "countries_represented", "top_barrier", "top_care_type", "top_insurance_status", "top_helped", "last_updated"].forEach((key) => {
     setSnapshotCard(key, "Snapshot unavailable");
   });
   setHomeStat("total_stories", "Latest count unavailable");
   setHomeStat("countries_represented", "Latest count unavailable");
   setHomeStat("top_barrier", "Latest count unavailable");
   setHomeStat("top_care_type", "Latest count unavailable");
+  setHomeStat("top_insurance_status", "Latest count unavailable");
+  setHomeStat("top_helped", "Latest count unavailable");
   setText("[data-home-status]", "Latest count could not load.");
   setText(
     "[data-snapshot-status]",
@@ -481,21 +495,36 @@ function setActionStatus(trigger, message) {
   if (scopedStatus) scopedStatus.textContent = message || "";
 }
 
+function copyTextFallback(text) {
+  const input = document.createElement("textarea");
+  input.value = text;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.left = "-9999px";
+  document.body.append(input);
+  input.select();
+  const copied = document.execCommand("copy");
+  input.remove();
+  if (!copied) throw new Error("Fallback copy failed.");
+}
+
+async function writeTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (error) {
+      copyTextFallback(text);
+      return true;
+    }
+  }
+  copyTextFallback(text);
+  return true;
+}
+
 async function copyShareLink(panel) {
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(SHARE_URL);
-    } else {
-      const input = document.createElement("textarea");
-      input.value = SHARE_URL;
-      input.setAttribute("readonly", "");
-      input.style.position = "fixed";
-      input.style.left = "-9999px";
-      document.body.append(input);
-      input.select();
-      document.execCommand("copy");
-      input.remove();
-    }
+    await writeTextToClipboard(SHARE_URL);
     setShareStatus(panel, "Link copied.");
     return true;
   } catch (error) {
@@ -527,24 +556,12 @@ async function loadRoadmapSnapshot() {
     }
   }
 
-  setText("[data-roadmap-status]", "Using the saved project count until the latest public data can load.");
+  setText("[data-roadmap-status]", "Using the saved project count until the latest charts can load.");
 }
 
 async function copyTextToClipboard(text, trigger, successMessage) {
   try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const input = document.createElement("textarea");
-      input.value = text;
-      input.setAttribute("readonly", "");
-      input.style.position = "fixed";
-      input.style.left = "-9999px";
-      document.body.append(input);
-      input.select();
-      document.execCommand("copy");
-      input.remove();
-    }
+    await writeTextToClipboard(text);
     setActionStatus(trigger, successMessage || "Copied.");
     return true;
   } catch (error) {
@@ -680,7 +697,7 @@ function createAssetCard(asset) {
 
   const status = document.createElement("span");
   status.className = isLive ? "asset-status live" : "coming-soon";
-  status.textContent = isLive ? "Ready to share" : asset.status_label || "Coming soon";
+  status.textContent = isLive ? "Share the project" : asset.status_label || "Coming soon";
 
   if (asset.image_path) {
     const preview = document.createElement("img");

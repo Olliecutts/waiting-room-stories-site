@@ -3,16 +3,6 @@
   "status": "live_assets",
   "assets": [
     {
-      "id": "care_existed_love_existed_money_did_not",
-      "title": "Care existed. Love existed. The money did not.",
-      "description": "A core-line graphic explaining the heart of The Waiting Room Stories Project.",
-      "image_path": "assets/share/care-existed-love-existed-money-did-not.png",
-      "download_path": "assets/share/care-existed-love-existed-money-did-not.png",
-      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Care existed. Love existed. The money did not.",
-      "caption": "Care existed. Love existed. The money did not.\n\nThe Waiting Room Stories Project is collecting real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nShare or read more: https://waitingroom.kingchillithepug.com/\n\n#WaitingRoomStories",
-      "status": "live"
-    },
-    {
       "id": "emergency_care_out_of_reach",
       "title": "Emergency care can be out of reach",
       "description": "A shareable graphic about emergency and specialist vet care existing but still being unreachable.",
@@ -30,16 +20,6 @@
       "download_path": "assets/share/share-your-emergency-vet-care-story.png",
       "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Share your emergency vet care story.",
       "caption": "If emergency or specialist vet care became unreachable because of cost, insurance limits, upfront payment, reimbursement delays, or lack of fast support, your story can help.\n\nShare your story with The Waiting Room Stories Project: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomStories",
-      "status": "live"
-    },
-    {
-      "id": "share_your_story_cushion",
-      "title": "Share your story",
-      "description": "A second approved share-story graphic with the same invitation in a softer layout.",
-      "image_path": "assets/share/share-your-emergency-vet-care-story-cushion.png",
-      "download_path": "assets/share/share-your-emergency-vet-care-story-cushion.png",
-      "alt_text": "The Waiting Room Stories Project graphic with Chilli on a cushion in a flower hat and the words Share your emergency vet care story.",
-      "caption": "A few sentences can help show what happens when care is possible but payment, insurance, or timing puts it out of reach.\n\nShare your emergency vet care story: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomStories",
       "status": "live"
     }
   ]

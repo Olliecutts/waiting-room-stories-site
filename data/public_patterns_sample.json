@@ -25,12 +25,13 @@
   "minimum_category_count": 3,
   "small_sample_label": "",
   "refresh_note": "Updated after the latest reviewed data refresh.",
-  "chart_note": "Every story contributes to the project. Charts show grouped, non-identifying patterns.",
+  "chart_note": "Public updates focus on patterns, not private details.",
   "chart_notes": {
     "main_barriers": "Some written answers are still being reviewed and grouped.",
     "what_would_have_helped": "Some written answers are still being reviewed and grouped."
   },
   "privacy": "Grouped aggregate categories only. No private response data or story text.",
+  "privacy": "Public pages focus on patterns, not private details.",
   "endpoint_mode": "canonical_all_anonymised_current_plus_legacy",
   "charts": {
     "country": [
