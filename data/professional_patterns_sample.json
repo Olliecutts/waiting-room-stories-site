@@ -1,0 +1,191 @@
+{
+  "schema_version": "wrs_professional_patterns_v1",
+  "status": "reviewed_aggregate",
+  "endpoint_mode": "professional_reviewed_aggregate",
+  "last_updated": "2026-06-08T07:07:45.057Z",
+  "public_response_count_enabled": false,
+  "public_response_count": null,
+  "placeholder": {
+    "title": "Professional Insight charts",
+    "message": "Professional insight charts will appear here once the first responses have been reviewed. These charts will stay separate from the owner story charts."
+  },
+  "charts": {
+    "care_situations_affected": {
+      "title": "Care situations affected",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Hospitalisation or ICU",
+          "count": 1,
+          "percentage": 33.3
+        },
+        {
+          "label": "Ongoing treatment",
+          "count": 1,
+          "percentage": 33.3
+        },
+        {
+          "label": "Specialist or referral care",
+          "count": 1,
+          "percentage": 33.3
+        }
+      ]
+    },
+    "barriers_seen": {
+      "title": "Barriers seen",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Referral cost uncertainty",
+          "count": 2,
+          "percentage": 33.3
+        },
+        {
+          "label": "Insurance clarity",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Insurance limits",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Payment plan limits",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Payment timing",
+          "count": 1,
+          "percentage": 16.7
+        }
+      ]
+    },
+    "hardest_for_families": {
+      "title": "Hardest for families",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Limited time to decide",
+          "count": 2,
+          "percentage": 33.3
+        },
+        {
+          "label": "Complex cost information",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Policy uncertainty",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Referral cost uncertainty",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Unclear options",
+          "count": 1,
+          "percentage": 16.7
+        }
+      ]
+    },
+    "hardest_for_teams": {
+      "title": "Hardest for teams",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Balancing care and cost conversations",
+          "count": 2,
+          "percentage": 33.3
+        },
+        {
+          "label": "Explaining costs during care",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Explaining insurance limits",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Referral communication",
+          "count": 1,
+          "percentage": 16.7
+        },
+        {
+          "label": "Support capacity",
+          "count": 1,
+          "percentage": 16.7
+        }
+      ]
+    },
+    "families_do_not_know": {
+      "title": "What families may not know",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Referral and specialist-care costs",
+          "count": 2,
+          "percentage": 40
+        },
+        {
+          "label": "Direct claim options",
+          "count": 1,
+          "percentage": 20
+        },
+        {
+          "label": "Emergency support routes",
+          "count": 1,
+          "percentage": 20
+        },
+        {
+          "label": "Payment options",
+          "count": 1,
+          "percentage": 20
+        }
+      ]
+    },
+    "would_help_most": {
+      "title": "What would help most",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Clearer client information",
+          "count": 2,
+          "percentage": 50
+        },
+        {
+          "label": "Clearer payment options",
+          "count": 1,
+          "percentage": 25
+        },
+        {
+          "label": "Safer payment plans",
+          "count": 1,
+          "percentage": 25
+        }
+      ]
+    },
+    "who_needs_to_be_part_of_solution": {
+      "title": "Who needs to be part of the solution",
+      "description": "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      "items": [
+        {
+          "label": "Policy and access organisations",
+          "count": 2,
+          "percentage": 66.7
+        },
+        {
+          "label": "Payment providers",
+          "count": 1,
+          "percentage": 33.3
+        }
+      ]
+    }
+  }
+}

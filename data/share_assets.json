@@ -3,23 +3,23 @@
   "status": "live_assets",
   "assets": [
     {
-      "id": "emergency_care_out_of_reach",
-      "title": "Emergency care can be out of reach",
-      "description": "A shareable graphic about emergency and specialist vet care existing but still being unreachable.",
-      "image_path": "assets/share/emergency-care-out-of-reach.png",
-      "download_path": "assets/share/emergency-care-out-of-reach.png",
-      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Emergency and specialist vet care can exist and still be out of reach.",
-      "caption": "Emergency and specialist vet care can exist and still be out of reach.\n\nThe Waiting Room Stories Project is gathering owner stories to show where cost, insurance limits, upfront payment, and lack of fast support leave families with impossible choices.\n\nhttps://waitingroom.kingchillithepug.com/\n\n#WaitingRoomStories",
-      "status": "live"
-    },
-    {
-      "id": "share_your_emergency_vet_care_story",
-      "title": "Share your emergency vet care story",
-      "description": "A direct invitation for people to share an emergency or specialist vet care access story.",
+      "id": "ask_people_to_share_a_story",
+      "title": "Ask people to share a story",
+      "description": "Use this when asking pet owners to add an owner story to the project.",
       "image_path": "assets/share/share-your-emergency-vet-care-story.png",
       "download_path": "assets/share/share-your-emergency-vet-care-story.png",
       "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Share your emergency vet care story.",
-      "caption": "If emergency or specialist vet care became unreachable because of cost, insurance limits, upfront payment, reimbursement delays, or lack of fast support, your story can help.\n\nShare your story with The Waiting Room Stories Project: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomStories",
+      "caption": "If emergency or specialist vet care became hard to reach because of cost, insurance limits, upfront payment, reimbursement delays, or lack of fast support, your story can help. Share your story: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomProject #KingChilliThePug #WaitingRoomStories",
+      "status": "live"
+    },
+    {
+      "id": "pattern_update_share",
+      "title": "Pattern Update share",
+      "description": "Use this when pointing people to the first 250+ Pattern Update and the owner-story charts.",
+      "image_path": "assets/share/emergency-care-out-of-reach.png",
+      "download_path": "assets/share/emergency-care-out-of-reach.png",
+      "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and text about emergency and specialist vet care being out of reach.",
+      "caption": "The first 250+ Pattern Update is live. Owner stories are starting to show repeated access problems around emergency and specialist vet care. Read the update: https://waitingroom.kingchillithepug.com/first-pattern-update.html\n\n#WaitingRoomProject #KingChilliThePug #WaitingRoomStories",
       "status": "live"
     }
   ]

@@ -1,11 +1,14 @@
 const DEFAULT_PATTERN_DATA_PATH = "data/public_patterns_sample.json";
+const DEFAULT_PROFESSIONAL_PATTERNS_PATH = "data/professional_patterns_sample.json";
 const DEFAULT_SHARE_ASSETS_PATH = "data/share_assets.json";
+document.documentElement.classList.add("motion-ready");
 const SHARE_URL = "https://waitingroom.kingchillithepug.com/";
 const SHARE_TEXT =
   "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.";
 const SHARE_TITLE = "The Waiting Room Stories Project";
+const REQUIRED_SHARE_HASHTAGS = "#WaitingRoomProject #KingChilliThePug";
 const DEFAULT_SHARE_CAPTION =
-  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nhttps://waitingroom.kingchillithepug.com/\n\n#WaitingRoomStories";
+  "The Waiting Room Stories Project collects real owner stories about emergency and specialist vet care becoming unreachable because of cost, insurance limits, upfront payment, or lack of fast support.\n\nhttps://waitingroom.kingchillithepug.com/\n\n#WaitingRoomProject #KingChilliThePug #WaitingRoomStories";
 const HIDDEN_OTHER_LABEL = "";
 const LEGACY_SMALL_SAMPLE_LABEL = ["Other", " / ", "small sample"].join("");
 const LEGACY_OTHER_RESPONSES_LABEL = ["Other", " responses"].join("");
@@ -83,10 +86,22 @@ function getRoadmapRoot() {
   return document.querySelector("[data-roadmap-page]");
 }
 
+function getOwnerDataRoot() {
+  return document.querySelector("[data-owner-data-page]");
+}
+
+function getProfessionalPatternsRoot() {
+  return document.querySelector("[data-professional-patterns-page]");
+}
+
 function getConfiguredSources(root) {
   const liveSource = root?.dataset.patternsLiveSource?.trim();
   const fallbackSource = root?.dataset.patternsSource?.trim() || DEFAULT_PATTERN_DATA_PATH;
   return liveSource ? [liveSource, fallbackSource] : [fallbackSource];
+}
+
+function getProfessionalPatternSource(root) {
+  return root?.dataset.professionalPatternsSource?.trim() || DEFAULT_PROFESSIONAL_PATTERNS_PATH;
 }
 
 async function fetchJson(source) {
@@ -150,6 +165,350 @@ function getChartItems(data, key) {
   return normaliseChartItems(data?.[legacyMap[key]]);
 }
 
+function formatPercentValue(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "Snapshot unavailable";
+  return `${number.toFixed(1).replace(/\.0$/, "")}%`;
+}
+
+function formatCountValue(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "Snapshot unavailable";
+  return number.toLocaleString("en-GB");
+}
+
+function ownerTopItem(data, key) {
+  return getChartItems(data, key)[0] || null;
+}
+
+function getOwnerDisplayStats(data) {
+  const storyCount = Number(data?.stories_shared_so_far ?? data?.total_stories);
+  const mainBarrier = ownerTopItem(data, "main_barriers");
+  const insurance = ownerTopItem(data, "insurance_status");
+  const helped = ownerTopItem(data, "what_would_have_helped");
+  const care = ownerTopItem(data, "care_needed");
+  const countryItems = getChartItems(data, "country");
+
+  return {
+    story_count: formatCountValue(storyCount),
+    story_count_label: Number.isFinite(storyCount) ? `${formatCountValue(storyCount)} stories` : "Snapshot unavailable",
+    total_stories: formatCountValue(Number(data?.total_stories ?? storyCount)),
+    main_barrier_label: mainBarrier?.label || "Snapshot unavailable",
+    main_barrier_percent: Number.isFinite(mainBarrier?.percentage) ? formatPercentValue(mainBarrier.percentage) : "Snapshot unavailable",
+    main_barrier_fill: Number.isFinite(mainBarrier?.percentage) ? `${mainBarrier.percentage}%` : "0%",
+    insurance_label: insurance?.label || "Snapshot unavailable",
+    insurance_percent: Number.isFinite(insurance?.percentage) ? formatPercentValue(insurance.percentage) : "Snapshot unavailable",
+    insurance_fill: Number.isFinite(insurance?.percentage) ? `${insurance.percentage}%` : "0%",
+    helped_label: helped?.label || "Snapshot unavailable",
+    helped_percent: Number.isFinite(helped?.percentage) ? formatPercentValue(helped.percentage) : "Snapshot unavailable",
+    helped_fill: Number.isFinite(helped?.percentage) ? `${helped.percentage}%` : "0%",
+    care_label: care?.label || "Snapshot unavailable",
+    care_percent: Number.isFinite(care?.percentage) ? formatPercentValue(care.percentage) : "Snapshot unavailable",
+    last_updated: formatPatternDate(data?.last_updated || data?.updated),
+    country_items: countryItems
+  };
+}
+
+function setCountAwareText(node, value) {
+  node.textContent = value;
+  if (!node.matches("[data-count-up]")) return;
+  const target = numericValueFromText(value);
+  if (target === null) return;
+  node.dataset.countValue = String(target);
+  node.dataset.countAnimated = "false";
+  delete node.dataset.countAnimated;
+  setCountFinal(node);
+}
+
+function renderOwnerCountryBars(container, items) {
+  if (!container) return;
+  const visible = items.filter((item) => Number(item.count) > 0).slice(0, 5);
+  if (!visible.length) return;
+  const maxCount = Math.max(...visible.map((item) => Number(item.count) || 0));
+  container.innerHTML = "";
+  visible.forEach((item) => {
+    const count = Number(item.count) || 0;
+    const level = maxCount > 0 ? Math.max(1, (count / maxCount) * 100) : 1;
+    const displayLabel = item.label === "Other countries" ? "Other" : item.label;
+
+    const bar = document.createElement("div");
+    bar.className = "country-bar";
+    bar.style.setProperty("--level", `${level}%`);
+    bar.setAttribute("aria-label", `${displayLabel}: ${count.toLocaleString("en-GB")} owner stories`);
+
+    const label = document.createElement("div");
+    label.className = "country-label";
+    const strong = document.createElement("strong");
+    strong.textContent = displayLabel;
+    const value = document.createElement("span");
+    value.textContent = count.toLocaleString("en-GB");
+    label.append(strong, value);
+
+    const column = document.createElement("div");
+    column.className = "country-column";
+    const fill = document.createElement("i");
+    fill.setAttribute("aria-hidden", "true");
+    column.append(fill);
+
+    bar.append(label, column);
+    container.append(bar);
+  });
+}
+
+function renderOwnerDataDisplays(data) {
+  const stats = getOwnerDisplayStats(data);
+
+  document.querySelectorAll("[data-owner-value]").forEach((node) => {
+    const key = node.getAttribute("data-owner-value");
+    if (!key || !(key in stats)) return;
+    setCountAwareText(node, stats[key]);
+  });
+
+  document.querySelectorAll("[data-owner-fill]").forEach((node) => {
+    const key = node.getAttribute("data-owner-fill");
+    const value = stats[`${key}_fill`] || stats[key] || "0%";
+    node.style.setProperty("--fill", value);
+  });
+
+  document.querySelectorAll("[data-owner-bar]").forEach((node) => {
+    const key = node.getAttribute("data-owner-bar");
+    const value = stats[`${key}_fill`] || stats[key] || "0%";
+    node.style.setProperty("--bar", value);
+  });
+
+  document.querySelectorAll("[data-owner-country-bars]").forEach((container) => {
+    renderOwnerCountryBars(container, stats.country_items);
+  });
+}
+
+function normaliseProfessionalChartItems(items) {
+  if (!Array.isArray(items)) return [];
+  const rawItems = items
+    .map((item) => ({
+      label: String(item.label || "").trim(),
+      count: Number(item.count ?? 0),
+      percentage: Number(item.percentage)
+    }))
+    .filter((item) => item.label && Number.isFinite(item.count) && item.count >= 0);
+
+  const total = rawItems.reduce((sum, item) => sum + item.count, 0);
+  return rawItems
+    .map((item) => ({
+      label: item.label,
+      count: item.count,
+      percentage: Number.isFinite(item.percentage)
+        ? item.percentage
+        : total > 0
+          ? Number(((item.count / total) * 100).toFixed(1))
+          : 0
+    }))
+    .filter((item) => item.percentage > 0)
+    .sort(sortChartItems);
+}
+
+function getProfessionalChartEntries(data) {
+  const charts = data?.charts && typeof data.charts === "object" ? data.charts : {};
+  return Object.entries(charts).map(([key, chart]) => {
+    const chartObject = Array.isArray(chart) ? { items: chart } : chart || {};
+    return {
+      key,
+      title: chartObject.title || key.replace(/_/g, " "),
+      description: chartObject.description || "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      items: normaliseProfessionalChartItems(chartObject.items)
+    };
+  });
+}
+
+function hasReviewedProfessionalCharts(data) {
+  if (data?.status !== "reviewed_aggregate") return false;
+  return getProfessionalChartEntries(data).some((chart) => chart.items.length > 0);
+}
+
+function renderProfessionalPlaceholder(data, message) {
+  const root = getProfessionalPatternsRoot();
+  if (!root) return;
+  const shell = root.querySelector("[data-professional-charts]");
+  const placeholder = root.querySelector("[data-professional-placeholder]");
+  const panel = root.querySelector("[data-professional-placeholder-panel]");
+  const grid = root.querySelector("[data-professional-chart-grid]");
+  const status = root.querySelector("[data-professional-patterns-status]");
+  const placeholderMessage =
+    message ||
+    data?.placeholder?.message ||
+    "Professional insight charts will appear here once the first responses have been reviewed. These charts will stay separate from the owner story charts.";
+
+  root.classList.remove("has-reviewed-professional-charts");
+  shell?.classList.remove("has-reviewed-professional-charts");
+  if (placeholder) placeholder.hidden = false;
+  if (panel) {
+    panel.hidden = false;
+    panel.textContent = placeholderMessage;
+  }
+  root.querySelectorAll("[data-professional-placeholder-message]").forEach((node) => {
+    node.textContent = placeholderMessage;
+  });
+  if (grid) {
+    grid.hidden = true;
+    grid.innerHTML = "";
+  }
+  if (status) {
+    status.textContent = data?.last_updated ? formatPatternDate(data.last_updated) : "";
+  }
+}
+
+function createProfessionalChartCard(chart) {
+  const card = document.createElement("article");
+  card.className = "chart-module chart-card donut-card professional-chart-card professional-bar-card";
+
+  const copy = document.createElement("div");
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "eyebrow";
+  eyebrow.textContent = "Professional Insight";
+  const title = document.createElement("h3");
+  title.textContent = chart.title;
+  const description = document.createElement("p");
+  description.className = "chart-helper";
+  description.textContent = chart.description;
+  copy.append(eyebrow, title, description);
+
+  const layout = document.createElement("div");
+  layout.className = "professional-ranked-chart";
+  renderProfessionalRankedChart(layout, chart.items);
+
+  card.append(copy, layout);
+  return card;
+}
+
+function renderProfessionalRankedChart(container, items) {
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!items.length) {
+    const empty = document.createElement("p");
+    empty.className = "patterns-status";
+    empty.textContent = "No reviewed Professional Insight chart data is available for this category yet.";
+    container.append(empty);
+    return;
+  }
+
+  const list = document.createElement("ol");
+  list.className = "professional-bar-list";
+  items.forEach((item, index) => {
+    const row = document.createElement("li");
+    row.className = "professional-bar-row";
+    row.style.setProperty("--bar", `${Math.max(4, Math.min(100, item.percentage))}%`);
+    row.style.setProperty("--accent", getChartColour(index));
+
+    const top = document.createElement("div");
+    top.className = "professional-bar-topline";
+
+    const label = document.createElement("span");
+    label.className = "professional-bar-label";
+    label.textContent = item.label;
+
+    const value = document.createElement("span");
+    value.className = "professional-bar-value";
+    value.textContent = `${item.percentage.toFixed(1)}% · ${item.count}`;
+
+    const track = document.createElement("span");
+    track.className = "professional-bar-track";
+    track.setAttribute("aria-hidden", "true");
+    const fill = document.createElement("i");
+    track.append(fill);
+
+    top.append(label, value);
+    row.append(top, track);
+    list.append(row);
+  });
+
+  container.append(list);
+}
+
+function renderOwnerRankedChart(container, items) {
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!items.length) {
+    const empty = document.createElement("p");
+    empty.className = "patterns-status";
+    empty.textContent = "No owner pattern data is available for this chart yet.";
+    container.append(empty);
+    return;
+  }
+
+  const list = document.createElement("ol");
+  list.className = "owner-bar-list";
+  items.forEach((item, index) => {
+    const row = document.createElement("li");
+    row.className = "owner-bar-row";
+    row.style.setProperty("--bar", `${Math.max(4, Math.min(100, item.percentage))}%`);
+    row.style.setProperty("--accent", getChartColour(index));
+
+    const top = document.createElement("div");
+    top.className = "owner-bar-topline";
+
+    const label = document.createElement("span");
+    label.className = "owner-bar-label";
+    label.textContent = item.label;
+
+    const value = document.createElement("span");
+    value.className = "owner-bar-value";
+    value.textContent = `${item.percentage.toFixed(1)}% · ${item.count.toLocaleString("en-GB")}`;
+
+    const track = document.createElement("span");
+    track.className = "owner-bar-track";
+    track.setAttribute("aria-hidden", "true");
+    const fill = document.createElement("i");
+    track.append(fill);
+
+    top.append(label, value);
+    row.append(top, track);
+    list.append(row);
+  });
+
+  container.append(list);
+}
+
+function renderProfessionalCharts(data) {
+  const root = getProfessionalPatternsRoot();
+  if (!root) return;
+
+  if (!hasReviewedProfessionalCharts(data)) {
+    renderProfessionalPlaceholder(data);
+    return;
+  }
+
+  const placeholder = root.querySelector("[data-professional-placeholder]");
+  const panel = root.querySelector("[data-professional-placeholder-panel]");
+  const grid = root.querySelector("[data-professional-chart-grid]");
+  const status = root.querySelector("[data-professional-patterns-status]");
+  const shell = root.querySelector("[data-professional-charts]");
+  const summary =
+    data?.summary ||
+    "Reviewed anonymous Professional Insight charts. These charts stay separate from the owner story charts.";
+  const chartEntries = getProfessionalChartEntries(data).filter((chart) => chart.items.length > 0);
+
+  root.classList.add("has-reviewed-professional-charts");
+  shell?.classList.add("has-reviewed-professional-charts");
+  if (placeholder) placeholder.hidden = false;
+  root.querySelectorAll("[data-professional-placeholder-message]").forEach((node) => {
+    node.textContent = summary;
+  });
+  if (panel) {
+    panel.hidden = true;
+    panel.textContent = "";
+  }
+  if (!grid) return;
+  grid.hidden = false;
+  grid.innerHTML = "";
+  chartEntries.forEach((chart) => grid.append(createProfessionalChartCard(chart)));
+  if (status) {
+    status.textContent = data?.last_updated ? formatPatternDate(data.last_updated) : "Reviewed professional aggregate charts loaded.";
+  }
+  initChartReveal();
+  refreshMotion();
+}
+
 function buildGradient(items) {
   let cursor = 0;
   const visibleTotal = items.reduce((sum, item) => sum + Number(item.percentage || 0), 0);
@@ -209,7 +568,9 @@ function renderDonutChart(container, items) {
   hole.className = "donut-hole";
   const center = document.createElement("span");
   center.className = "donut-center";
-  center.textContent = "♥";
+  const mark = document.createElement("span");
+  mark.className = "sketched-heart-mark";
+  center.append(mark);
   center.setAttribute("aria-hidden", "true");
   hole.append(center);
   chart.append(hole);
@@ -236,7 +597,15 @@ function renderDonutChart(container, items) {
     percent.className = "legend-percent";
     percent.textContent = `${item.percentage.toFixed(1)}%`;
 
-    row.append(labelWrap, percent);
+    const progress = document.createElement("span");
+    progress.className = "legend-progress";
+    progress.setAttribute("aria-hidden", "true");
+    const fill = document.createElement("i");
+    fill.style.setProperty("--bar", `${Math.max(4, Math.min(100, item.percentage))}%`);
+    fill.style.background = getChartColour(index);
+    progress.append(fill);
+
+    row.append(labelWrap, percent, progress);
     legend.append(row);
   });
 
@@ -267,11 +636,100 @@ function initChartReveal() {
   cards.forEach((card) => observer.observe(card));
 }
 
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function numericValueFromText(value) {
+  const match = String(value || "").replace(/,/g, "").match(/\d+(?:\.\d+)?/);
+  if (!match) return null;
+  const number = Number(match[0]);
+  return Number.isFinite(number) ? number : null;
+}
+
+function prepareCountUpNode(node) {
+  const target = Number(node.dataset.countValue || numericValueFromText(node.textContent));
+  if (!Number.isFinite(target)) return null;
+  const suffix = node.getAttribute("data-count-suffix") || (/\+\s*$/.test(node.textContent.trim()) ? "+" : "");
+  node.dataset.countTarget = String(target);
+  node.dataset.countSuffix = suffix;
+  return target;
+}
+
+function setCountFinal(node) {
+  const target = prepareCountUpNode(node);
+  if (target === null) return;
+  const suffix = node.getAttribute("data-count-suffix") || node.dataset.countSuffix || "";
+  node.textContent = `${Math.round(target).toLocaleString("en-GB")}${suffix}`;
+}
+
+function animateCountUpNode(node) {
+  if (node.dataset.countAnimated === "true") return;
+  if (prepareCountUpNode(node) === null) return;
+  node.dataset.countAnimated = "true";
+  setCountFinal(node);
+}
+
+function initCountUp(root = document) {
+  const nodes = root.querySelectorAll("[data-count-up]");
+  if (!nodes.length) return;
+
+  if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+    nodes.forEach(setCountFinal);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        animateCountUpNode(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.2 }
+  );
+
+  nodes.forEach((node) => {
+    prepareCountUpNode(node);
+    observer.observe(node);
+  });
+}
+
+function initScrollReveals(root = document) {
+  const nodes = root.querySelectorAll(".fade-up, .slide-in-left, .slide-in-right, .soft-scale");
+  if (!nodes.length) return;
+
+  if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+    nodes.forEach((node) => node.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -10% 0px", threshold: 0.16 }
+  );
+
+  nodes.forEach((node) => observer.observe(node));
+}
+
+function refreshMotion() {
+  initCountUp();
+  initScrollReveals();
+}
+
 function renderPatterns(data, sourceLabel) {
+  renderOwnerDataDisplays(data);
   renderLiveStats(data);
   setText("[data-updated]", formatPatternDate(data.last_updated || data.updated));
-  setText("[data-patterns-source-status]", sourceLabel || "Latest update loaded.");
-  setText("[data-patterns-status]", "Latest update loaded.");
+  setText("[data-patterns-source-status]", sourceLabel || "");
+  setText("[data-patterns-status]", "");
   setWarning("");
 
   document.querySelectorAll("[data-chart-key]").forEach((container) => {
@@ -281,7 +739,9 @@ function renderPatterns(data, sourceLabel) {
   document.querySelectorAll("[data-chart-card]").forEach((card) => {
     const key = card.getAttribute("data-chart-card");
     const target = card.querySelector(".chart-layout") || card.querySelector("[data-donut-wrap]") || card;
-    renderDonutChart(target, getChartItems(data, key));
+    card.classList.add("owner-ranked-card");
+    if (target) target.className = "owner-ranked-chart";
+    renderOwnerRankedChart(target, getChartItems(data, key));
   });
   document.querySelectorAll("[data-chart-note]").forEach((note) => {
     const key = note.getAttribute("data-chart-note");
@@ -290,6 +750,7 @@ function renderPatterns(data, sourceLabel) {
     note.textContent = text;
   });
   initChartReveal();
+  refreshMotion();
 }
 
 function formatPatternDate(value) {
@@ -326,6 +787,14 @@ function setHomeStat(key, value) {
   const selector = `[data-home-stat="${key}"], [data-home-stat="${aliases[key] || key}"]`;
   document.querySelectorAll(selector).forEach((node) => {
     node.textContent = value || "Snapshot unavailable";
+    if (node.matches("[data-count-up]")) {
+      const target = numericValueFromText(value);
+      if (target !== null) {
+        node.dataset.countValue = String(target);
+        delete node.dataset.countAnimated;
+        setCountFinal(node);
+      }
+    }
   });
 }
 
@@ -338,14 +807,17 @@ function barrierHeadline(label) {
 function getLiveStats(data) {
   const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
   const countries = Number(data.countries_represented);
+  const topBarrier = getChartItems(data, "main_barriers")[0];
   const topInsurance = getChartItems(data, "insurance_status")[0];
   const topHelped = getChartItems(data, "what_would_have_helped")[0];
+  const topCare = getChartItems(data, "care_needed")[0];
   return {
     stories_shared_so_far: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
     total_stories: Number.isFinite(storyCount) ? storyCount.toLocaleString("en-GB") : "Snapshot unavailable",
     countries_represented: Number.isFinite(countries) ? countries.toLocaleString("en-GB") : "Snapshot unavailable",
-    most_common_barrier: data.top_barrier?.label || data.most_common_barrier?.label || data.most_common_barrier || "Snapshot unavailable",
-    most_common_care_type: data.top_care_type?.label || data.most_common_care_type?.label || data.most_common_care_type || "Snapshot unavailable",
+    most_common_barrier: data.top_barrier?.label || data.most_common_barrier?.label || data.most_common_barrier || topBarrier?.label || "Snapshot unavailable",
+    most_common_barrier_percentage: Number.isFinite(topBarrier?.percentage) ? `${topBarrier.percentage.toFixed(1)}%` : "Snapshot unavailable",
+    most_common_care_type: data.top_care_type?.label || data.most_common_care_type?.label || data.most_common_care_type || topCare?.label || "Snapshot unavailable",
     most_common_insurance_status: topInsurance?.label || "Snapshot unavailable",
     most_common_helped: topHelped?.label || "Snapshot unavailable",
     last_updated: formatPatternDate(data.last_updated || data.updated)
@@ -357,7 +829,15 @@ function renderLiveStats(data) {
   Object.entries(stats).forEach(([key, value]) => {
     document.querySelectorAll(`[data-live-stat="${key}"]`).forEach((node) => {
       node.textContent = value;
-    });
+      if (node.matches("[data-count-up]")) {
+        const target = numericValueFromText(value);
+      if (target !== null) {
+        node.dataset.countValue = String(target);
+        delete node.dataset.countAnimated;
+        setCountFinal(node);
+      }
+    }
+  });
   });
   document.querySelectorAll("[data-live-barrier-title]").forEach((node) => {
     node.textContent = barrierHeadline(stats.most_common_barrier);
@@ -366,7 +846,11 @@ function renderLiveStats(data) {
 
 function captionWithHashtag(text) {
   const value = String(text || DEFAULT_SHARE_CAPTION).trim();
-  return /#WaitingRoomStories\b/i.test(value) ? value : `${value}\n\n#WaitingRoomStories`;
+  const additions = [];
+  if (!/#WaitingRoomProject\b/i.test(value)) additions.push("#WaitingRoomProject");
+  if (!/#KingChilliThePug\b/i.test(value)) additions.push("#KingChilliThePug");
+  if (!/#WaitingRoomStories\b/i.test(value)) additions.push("#WaitingRoomStories");
+  return additions.length ? `${value}\n\n${additions.join(" ")}` : value;
 }
 
 function setSnapshotCopy(key, value) {
@@ -383,6 +867,7 @@ function renderHomeSnapshot(data, isFallback) {
   const careType = stats.most_common_care_type;
   const insuranceStatus = stats.most_common_insurance_status;
   const helped = stats.most_common_helped;
+  renderOwnerDataDisplays(data);
   renderLiveStats(data);
   setSnapshotCard("total_stories", stories);
   setSnapshotCard("countries_represented", countries);
@@ -405,6 +890,7 @@ function renderHomeSnapshot(data, isFallback) {
       : "Latest public update loaded."
   );
   setText("[data-home-status]", formatPatternDate(data.last_updated || data.updated));
+  refreshMotion();
 }
 
 function renderHomeSnapshotFallback() {
@@ -528,7 +1014,7 @@ async function copyShareLink(panel) {
     setShareStatus(panel, "Link copied.");
     return true;
   } catch (error) {
-    setShareStatus(panel, "Copy did not work. You can copy the page address from your browser.");
+    setShareStatus(panel, `Copy did not work. Website link: ${SHARE_URL}`);
     return false;
   }
 }
@@ -542,6 +1028,7 @@ async function loadRoadmapSnapshot() {
   for (const source of sources) {
     try {
       const data = await fetchJson(source);
+      renderOwnerDataDisplays(data);
       const storyCount = Number(data.stories_shared_so_far ?? data.total_stories);
       if (Number.isFinite(storyCount)) {
         storiesNode.textContent = storyCount.toLocaleString("en-GB");
@@ -557,6 +1044,41 @@ async function loadRoadmapSnapshot() {
   }
 
   setText("[data-roadmap-status]", "Using the saved project count until the latest charts can load.");
+}
+
+async function loadOwnerDataDisplays() {
+  const root = getOwnerDataRoot();
+  if (!root || getHomeRoot() || getPatternRoot() || getRoadmapRoot()) return;
+
+  const sources = getConfiguredSources(root);
+  let lastError = null;
+
+  for (const source of sources) {
+    try {
+      const data = await fetchJson(source);
+      renderOwnerDataDisplays(data);
+      refreshMotion();
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (lastError) console.warn(lastError.message);
+}
+
+async function loadProfessionalPatterns() {
+  const root = getProfessionalPatternsRoot();
+  if (!root) return;
+
+  const source = getProfessionalPatternSource(root);
+  try {
+    const data = await fetchJson(source);
+    renderProfessionalCharts(data);
+  } catch (error) {
+    renderProfessionalPlaceholder(null);
+    console.warn(error.message);
+  }
 }
 
 async function copyTextToClipboard(text, trigger, successMessage) {
@@ -704,7 +1226,6 @@ function createAssetCard(asset) {
     preview.className = "asset-preview";
     preview.src = asset.image_path;
     preview.alt = asset.alt_text || "";
-    preview.loading = "lazy";
     card.append(preview);
   }
 
@@ -714,13 +1235,18 @@ function createAssetCard(asset) {
   const description = document.createElement("p");
   description.textContent = asset.description || "A shareable project image will appear here once approved.";
 
+  const caption = document.createElement("p");
+  caption.className = "caption-preview";
+  caption.setAttribute("data-caption-text", "");
+  caption.textContent = captionWithHashtag(asset.caption || DEFAULT_SHARE_CAPTION);
+
   const actions = document.createElement("div");
   actions.className = "asset-actions";
 
   const download = document.createElement(isLive ? "a" : "button");
   download.className = "button secondary";
   download.dataset.icon = "download";
-  download.textContent = "Download image";
+  download.textContent = "Download graphic";
   if (isLive) {
     download.href = asset.download_path;
     download.download = "";
@@ -742,24 +1268,13 @@ function createAssetCard(asset) {
     copyCaption.disabled = true;
   }
 
-  const shareProject = document.createElement("button");
-  shareProject.className = "button secondary";
-  shareProject.type = "button";
-  shareProject.dataset.icon = "share";
-  shareProject.textContent = "Share project";
-  if (isLive) {
-    shareProject.addEventListener("click", () => handleNativeShare(card));
-  } else {
-    shareProject.disabled = true;
-  }
-
   const actionStatus = document.createElement("p");
   actionStatus.className = "patterns-status";
   actionStatus.setAttribute("data-action-status", "");
   actionStatus.setAttribute("aria-live", "polite");
 
-  actions.append(download, copyCaption, shareProject);
-  card.append(status, title, description, actions, actionStatus);
+  actions.append(download, copyCaption);
+  card.append(status, title, description, caption, actions, actionStatus);
   return card;
 }
 
@@ -799,15 +1314,22 @@ window.WRSSite = {
   loadHomeSnapshot,
   loadRoadmapSnapshot,
   loadPatterns,
+  loadOwnerDataDisplays,
+  loadProfessionalPatterns,
   loadShareAssets,
-  normaliseChartItems
+  normaliseChartItems,
+  initCountUp,
+  initScrollReveals
 };
 
 loadHomeSnapshot();
 loadRoadmapSnapshot();
 loadPatterns();
+loadOwnerDataDisplays();
+loadProfessionalPatterns();
 initExpandableChangeCards();
 initButtonIcons();
 initShareTools();
 initCaptionTools();
 loadShareAssets();
+refreshMotion();
