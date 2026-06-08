@@ -121,10 +121,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .button-icon { flex: 0 0 auto; width: 18px; height: 18px; margin-right: 8px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
 .text-link { color: var(--teal); font-weight: 950; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
-.campaign-hero { min-height: calc(100vh - 74px); display: grid; align-items: start; padding: 46px 0; }
+.campaign-hero { min-height: clamp(620px, 82vh, 820px); display: grid; align-items: start; padding: clamp(34px, 5vw, 54px) 0; }
 .patterns-hero { min-height: clamp(390px, 54vh, 580px); padding: clamp(28px, 5vw, 54px) 0 clamp(18px, 3vw, 32px); align-items: center; }
-.compact-hero { min-height: clamp(520px, 70vh, 760px); }
-.update-hero { min-height: auto; padding: clamp(44px, 7vw, 86px) 0 clamp(54px, 8vw, 96px); }
+.compact-hero { min-height: clamp(430px, 58vh, 620px); }
+.update-hero { min-height: auto; padding: clamp(36px, 6vw, 72px) 0 clamp(42px, 6vw, 72px); }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr); gap: clamp(24px, 4vw, 58px); align-items: center; }
 .patterns-hero .hero-grid { grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.72fr); }
 .hero-copy h1, .image-band-copy h1, .image-band-copy h2, .section-heading h2, .document-panel h1, .document-panel h2, .share-panel h2 {
@@ -162,7 +162,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .progress-step.completed strong, .progress-step.completed span, .document-label, .band-label { color: var(--gold); }
 .progress-step.professional strong, .progress-step.professional span, .professional-copy .band-label { color: var(--teal); }
 
-.section { padding: clamp(58px, 8vw, 112px) 0; }
+.section { padding: clamp(44px, 6.6vw, 88px) 0; }
 .section.dark-band { background: linear-gradient(180deg, rgba(18,7,18,.1), rgba(8,4,10,.86)); }
 .evidence-texture-band { position: relative; overflow: hidden; background: radial-gradient(circle at 12% 24%, rgba(255,138,168,.16), transparent 22rem), radial-gradient(circle at 86% 14%, rgba(89,208,195,.12), transparent 22rem), linear-gradient(180deg, rgba(18,7,18,.28), rgba(8,4,10,.92)); }
 .evidence-texture-band::before { content: ""; position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(120deg, transparent 0 34px, rgba(255,243,223,.08) 35px, transparent 36px), linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 86px 86px, 42px 42px; pointer-events: none; }
@@ -173,7 +173,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .section-heading p, .document-panel p, .share-panel p, .content-card p, .campaign-panel p { color: var(--ink-soft); }
 
 .campaign-panels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.campaign-panel { position: relative; min-height: 340px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 24px; border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02)); color: var(--ink); text-decoration: none; box-shadow: 0 18px 60px rgba(0,0,0,.22); }
+.campaign-panel { position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 24px; border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02)); color: var(--ink); text-decoration: none; box-shadow: 0 18px 60px rgba(0,0,0,.22); }
 .campaign-panel::before { content: ""; position: absolute; inset: auto -30% -35% auto; width: 190px; height: 190px; border-radius: 50%; background: var(--pink); opacity: .16; }
 .campaign-panel.professional::before { background: var(--teal); } .campaign-panel.change::before { background: var(--sky); }
 .campaign-panel h3 { position: relative; margin: 0 0 12px; font-size: clamp(1.55rem, 2.6vw, 2.35rem); line-height: .98; letter-spacing: -.04em; }
@@ -312,7 +312,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .share-panel h2 { font-size: clamp(2rem, 4vw, 4.4rem); }
 .tool-grid { align-items: stretch; }
 .share-tools-section { position: relative; overflow: hidden; }
-.share-tools-section::before { content: ""; position: absolute; right: max(18px, calc((100vw - var(--max)) / 2)); top: 42px; width: clamp(160px, 22vw, 300px); aspect-ratio: 1.25; opacity: .24; border: 1px solid rgba(255,243,223,.2); border-radius: 18px; background-color: rgba(255,243,223,.1); background-image: url("assets/images/waiting-room-header-side-heart.png"); background-position: center; background-size: 82%; background-repeat: no-repeat; box-shadow: 0 18px 56px rgba(0,0,0,.22); pointer-events: none; }
+.share-tools-section::before { display: none; }
 .share-tools-heading { position: relative; }
 .share-tool-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; }
 .share-asset-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
@@ -333,7 +333,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .timeline-item.is-complete span { background: var(--gold); color: var(--plum-black); }
 .timeline-item h3 { margin: 0; font-size: clamp(1.4rem, 2.8vw, 2.25rem); line-height: 1; letter-spacing: -.035em; }
 .story-section { position: relative; overflow: hidden; }
-.story-section::before { content: ""; position: absolute; left: max(18px, calc((100vw - var(--max)) / 2)); top: 42px; width: clamp(150px, 18vw, 230px); aspect-ratio: 1.25; opacity: .07; background: url("assets/images/waiting-room-header-side-heart.png") center / contain no-repeat; pointer-events: none; }
+.story-section::before { display: none; }
 .story-layout { position: relative; display: grid; grid-template-columns: minmax(260px, .45fr) minmax(0, 1fr); gap: clamp(26px, 5vw, 70px); align-items: start; }
 .story-photo-stack { position: sticky; top: 100px; display: grid; gap: 18px; }
 .story-photo-stack img { width: 100%; max-height: 540px; object-fit: cover; object-position: center 36%; border-radius: 30px; border: 1px solid var(--line-strong); box-shadow: var(--shadow); }

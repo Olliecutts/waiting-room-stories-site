@@ -313,7 +313,7 @@ function getProfessionalChartEntries(data) {
     return {
       key,
       title: chartObject.title || key.replace(/_/g, " "),
-      description: chartObject.description || "Reviewed anonymous Professional Insight multiple-choice responses only.",
+      description: chartObject.description || "",
       items: normaliseProfessionalChartItems(chartObject.items)
     };
   });
@@ -366,10 +366,7 @@ function createProfessionalChartCard(chart) {
   eyebrow.textContent = "Professional Insight";
   const title = document.createElement("h3");
   title.textContent = chart.title;
-  const description = document.createElement("p");
-  description.className = "chart-helper";
-  description.textContent = chart.description;
-  copy.append(eyebrow, title, description);
+  copy.append(eyebrow, title);
 
   const layout = document.createElement("div");
   layout.className = "professional-ranked-chart";
@@ -408,7 +405,7 @@ function renderProfessionalRankedChart(container, items) {
 
     const value = document.createElement("span");
     value.className = "professional-bar-value";
-    value.textContent = `${item.percentage.toFixed(1)}% · ${item.count}`;
+    value.textContent = `${item.percentage.toFixed(1)}%`;
 
     const track = document.createElement("span");
     track.className = "professional-bar-track";
@@ -453,7 +450,7 @@ function renderOwnerRankedChart(container, items) {
 
     const value = document.createElement("span");
     value.className = "owner-bar-value";
-    value.textContent = `${item.percentage.toFixed(1)}% · ${item.count.toLocaleString("en-GB")}`;
+    value.textContent = `${item.percentage.toFixed(1)}%`;
 
     const track = document.createElement("span");
     track.className = "owner-bar-track";
@@ -485,7 +482,7 @@ function renderProfessionalCharts(data) {
   const shell = root.querySelector("[data-professional-charts]");
   const summary =
     data?.summary ||
-    "Reviewed anonymous Professional Insight charts. These charts stay separate from the owner story charts.";
+    "Reviewed anonymous Professional Insight multiple-choice responses only. These charts stay separate from owner story charts.";
   const chartEntries = getProfessionalChartEntries(data).filter((chart) => chart.items.length > 0);
 
   root.classList.add("has-reviewed-professional-charts");
