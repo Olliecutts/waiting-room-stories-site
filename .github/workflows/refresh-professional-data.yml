@@ -1,0 +1,104 @@
+name: Refresh Waiting Room Stories Professional Insight data
+
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "wrs-professional-data-refresh"
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Check Professional Insight endpoint secret
+        id: secret-check
+        env:
+          WRS_PROFESSIONAL_DATA_URL: ${{ secrets.WRS_PROFESSIONAL_DATA_URL }}
+        run: |
+          if [ -z "$WRS_PROFESSIONAL_DATA_URL" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "WRS_PROFESSIONAL_DATA_URL is not configured; skipping Professional Insight refresh."
+            exit 0
+          fi
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch Professional Insight aggregate JSON
+        if: steps.secret-check.outputs.configured == 'true'
+        env:
+          WRS_PROFESSIONAL_DATA_URL: ${{ secrets.WRS_PROFESSIONAL_DATA_URL }}
+        run: |
+          cat > /tmp/fetch-professional-data.cjs <<'NODE'
+          const fs = require('fs');
+
+          async function main() {
+            const url = process.env.WRS_PROFESSIONAL_DATA_URL;
+            if (!url) {
+              throw new Error('Missing WRS_PROFESSIONAL_DATA_URL repository secret.');
+            }
+
+            const response = await fetch(url, {
+              headers: {
+                accept: 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              throw new Error(`Professional Insight endpoint returned HTTP ${response.status}`);
+            }
+
+            const text = await response.text();
+            const payload = JSON.parse(text);
+            fs.writeFileSync('/tmp/wrs_professional_patterns.json', JSON.stringify(payload, null, 2) + '\n');
+          }
+
+          main().catch((error) => {
+            console.error(error.message);
+            process.exit(1);
+          });
+          NODE
+          node /tmp/fetch-professional-data.cjs
+
+      - name: Validate fetched Professional Insight JSON
+        if: steps.secret-check.outputs.configured == 'true'
+        run: node scripts/validate-professional-data.mjs /tmp/wrs_professional_patterns.json
+
+      - name: Update Professional Insight data file
+        if: steps.secret-check.outputs.configured == 'true'
+        run: |
+          cp /tmp/wrs_professional_patterns.json data/professional_patterns_sample.json
+          node scripts/validate-professional-data.mjs data/professional_patterns_sample.json
+
+      - name: Commit if changed
+        if: steps.secret-check.outputs.configured == 'true'
+        run: |
+          if git diff --quiet -- data/professional_patterns_sample.json; then
+            echo "No Professional Insight data changes to commit."
+            exit 0
+          fi
+
+          changed_files="$(git diff --name-only)"
+          if [ "$changed_files" != "data/professional_patterns_sample.json" ]; then
+            echo "Unexpected changed files:"
+            echo "$changed_files"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/professional_patterns_sample.json
+          git commit -m "Refresh Waiting Room Stories Professional Insight data"
+          git push
