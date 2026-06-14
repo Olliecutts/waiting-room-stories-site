@@ -2,7 +2,7 @@ name: Refresh Waiting Room Stories public data
 
 on:
   schedule:
-    - cron: "23 */6 * * *"
+    - cron: "37 5 * * *"
   workflow_dispatch:
 
 permissions:
