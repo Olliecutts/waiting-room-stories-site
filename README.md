@@ -14,7 +14,7 @@ Helping individual animals through verified fundraising is a separate future amb
 | --- | --- |
 | `index.html` | Understand the purpose and choose a useful next step |
 | `share.html` | Understand the owner form, permissions and service boundary |
-| `patterns.html` | Read the evidence status, limits and independent context |
+| `patterns.html` | Read checked owner statistics, UK counts, methods and downloads |
 | `first-pattern-update.html` | Read the dated 10 November correction and next steps |
 | `what-needs-to-change.html` | Read four proposed UK research questions |
 | `professionals.html` | Contribute professional experience separately |
@@ -24,13 +24,15 @@ Helping individual animals through verified fundraising is a separate future amb
 
 Seven older routes remain as redirects to the relevant current page or section. Keep these URLs working.
 
-## Numerical publication is on hold
+## Current statistical release
 
-Both aggregate JSON URLs currently return a fixed nonnumeric review-status object. Public chart hydration has been removed. The two refresh jobs are explicitly disabled in source and no longer scheduled. Their old fetch/integration steps are retained for a future reviewed repair, not immediate reactivation.
+The owner release `2026-11-10-v1` contains 235 distinct current-form submissions recording permission for anonymous campaign use. Its source is a snapshot of the connected response Sheet, not a claim to have reconciled every response in the live Fillout account. The included responses run from 24 May to 7 July 2026. It is self-selected and predominantly US-based; the 24 UK submissions are shown separately as selected counts only.
 
-The source checks only validate this publication hold. **Passing checks is not approval or methodological validation for future statistics.** See [automatic data refresh](docs/automatic-data-refresh.md) for what must be established before numerical publication returns.
+The page is generated as static HTML, so its charts and numbers work without JavaScript. The frozen aggregate JSON, CSV and two-page PDF are public. See [release methods and checks](docs/statistical-release-2026-11-10.md) and the public page for eligibility, denominators, grouping and limitations.
 
-This change removes the current small-cell payloads; it does not erase older public Git history or cached copies. No raw submissions were inspected or changed as part of the website repair.
+Professional Insight remains on a nonnumeric publication hold. Both old automatic refresh jobs remain disabled and unscheduled. Their processed source is not used by this release. [Refresh documentation](docs/automatic-data-refresh.md) explains the boundary and future review requirements.
+
+The source and release were independently checked. Passing code checks alone is not methodological approval for another release. Private source records were inspected read-only for this release; they are not stored in this repository. Older public Git history and cached copies are not erased by this correction.
 
 ## Local preview and checks
 
@@ -47,10 +49,14 @@ python3 scripts/check-site.py
 node --check site.js
 node scripts/validate-public-data.mjs
 node scripts/validate-professional-data.mjs
-node --test tests/publication-hold.test.mjs
+node --test tests/*.test.mjs
+python3 scripts/render-statistics.py --check
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-The static checks cover current routes, legacy redirects, local links and fragments, image alternatives/dimensions, share-caption consistency and the refresh hold. The tests check that aggregate or extra data cannot pass the hold validator. Responsive browser checks remain necessary for layout changes.
+The checks cover routes, links and fragments, image alternatives/dimensions, share captions, disabled refresh jobs, owner schema/arithmetic, the professional hold, consistency of the generated HTML/CSV/JSON, and synthetic source-processing regression cases. Responsive browser checks remain necessary for layout changes.
+
+`scripts/build-statistics.py` accepts only a separately prepared private minimised input outside this repository. It writes an aggregate candidate, not an approved release. Never use real private responses as public test fixtures. `scripts/render-statistics.py` renders a reviewed aggregate; `scripts/build-briefing.py` builds the dated PDF with ReportLab and DejaVu fonts. Visually review the PDF after rebuilding it. CI needs no private data, third-party services or PDF-generation libraries.
 
 ## Artwork and interaction
 
@@ -60,8 +66,8 @@ Share captions are rendered in HTML so the toolkit works without JavaScript. Kee
 
 ## Delivery boundaries
 
-Ollie approved the UK-first direction and website repair on 10 November 2026. Deliver changes through an isolated branch and reviewed pull request, preserving unrelated work. GitHub Pages deploys merged `main` after validation. Verify the deployed pages and data URLs.
+Ollie approved the UK-first direction and website repair on 10 November 2026, then instructed the project to produce public statistics for owners, companies and lawmakers. That instruction authorises this checked release. Deliver changes through an isolated branch and reviewed pull request, preserving unrelated work. GitHub Pages deploys merged `main` after validation. Verify the deployed pages and downloads.
 
-Do not publish or schedule social posts, send outreach, activate a fundraising programme, change private form/storage systems or incur costs under website-repair authority. New numerical publication needs the evidence and permission checks described above.
+Do not publish or schedule social posts, send outreach, activate a fundraising programme, change private form/storage systems or incur costs under website-repair authority. Any later numerical release needs fresh evidence and permission checks; this snapshot is not approval to reactivate the old exporter.
 
 Never add raw responses, identifying owner or professional details, unapproved quotations, private medical records or secrets. Use the verified public project contact route; do not substitute private contact details.

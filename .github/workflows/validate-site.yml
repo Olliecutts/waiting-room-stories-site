@@ -16,10 +16,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
-      - name: Check static pages and publication hold
+      - name: Check static pages and evidence release
         run: |
           python3 scripts/check-site.py
           node --check site.js
           node scripts/validate-public-data.mjs
           node scripts/validate-professional-data.mjs
-          node --test tests/publication-hold.test.mjs
+          node --test tests/*.test.mjs
+          python3 scripts/render-statistics.py --check
+          python3 -m unittest discover -s tests -p "test_*.py"

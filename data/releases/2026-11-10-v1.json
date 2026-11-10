@@ -1,0 +1,331 @@
+{
+  "schema_version": "wrs_owner_statistics_v1",
+  "status": "reviewed_snapshot",
+  "release_id": "2026-11-10-v1",
+  "reviewed_on": "2026-11-10",
+  "source": "current_fillout_response_sheet",
+  "unit": "distinct_form_submissions",
+  "collection_period": {
+    "start": "2026-05-24",
+    "end": "2026-07-07"
+  },
+  "source_records_through": "2026-09-03",
+  "counts": {
+    "source_rows": 295,
+    "distinct_submission_ids": 294,
+    "duplicate_id_rows_removed": 1,
+    "eligible_public_submissions": 235,
+    "excluded_no_unconditional_public_permission": 59,
+    "legacy_entries_not_included": 41
+  },
+  "minimum_public_cell_count": 5,
+  "charts": {
+    "geography": {
+      "question": "What country are you in?",
+      "kind": "single_choice_grouped",
+      "denominator": 235,
+      "missing_answers": 0,
+      "items": [
+        {
+          "id": "usa",
+          "label": "United States",
+          "count": 195,
+          "percentage": 83.0
+        },
+        {
+          "id": "uk",
+          "label": "United Kingdom",
+          "count": 24,
+          "percentage": 10.2
+        },
+        {
+          "id": "canada",
+          "label": "Canada",
+          "count": 7,
+          "percentage": 3.0
+        },
+        {
+          "id": "other_not_stated",
+          "label": "Other locations or not stated",
+          "count": 9,
+          "percentage": 3.8
+        }
+      ]
+    },
+    "cost_influence": {
+      "question": "Was cost part of the decision?",
+      "kind": "single_choice_grouped",
+      "denominator": 235,
+      "missing_answers": 0,
+      "items": [
+        {
+          "id": "yes_or_partly",
+          "label": "Yes or partly",
+          "count": 199,
+          "percentage": 84.7
+        },
+        {
+          "id": "other_cost_answers",
+          "label": "No, unsure or preferred not to say",
+          "count": 36,
+          "percentage": 15.3
+        }
+      ]
+    },
+    "insurance": {
+      "question": "Did you have pet insurance?",
+      "kind": "single_choice_grouped",
+      "denominator": 235,
+      "missing_answers": 0,
+      "items": [
+        {
+          "id": "no_insurance",
+          "label": "No insurance",
+          "count": 184,
+          "percentage": 78.3
+        },
+        {
+          "id": "insurance_difficulty",
+          "label": "Had insurance, but cover ran out, did not cover this, or upfront payment was needed",
+          "count": 34,
+          "percentage": 14.5
+        },
+        {
+          "id": "yes_or_unsure",
+          "label": "Yes, or unsure",
+          "count": 17,
+          "percentage": 7.2
+        }
+      ]
+    },
+    "barriers": {
+      "question": "What was the main barrier?",
+      "kind": "multiple_choice",
+      "denominator": 235,
+      "missing_answers": 0,
+      "multiple_option_submissions": 29,
+      "items": [
+        {
+          "id": "upfront",
+          "label": "Had to pay upfront",
+          "count": 115,
+          "percentage": 48.9
+        },
+        {
+          "id": "treatment_cost",
+          "label": "Surgery or treatment was unaffordable",
+          "count": 42,
+          "percentage": 17.9
+        },
+        {
+          "id": "other_selected",
+          "label": "Other (selected by respondent)",
+          "count": 29,
+          "percentage": 12.3
+        },
+        {
+          "id": "imaging_cost",
+          "label": "Diagnostic imaging was unaffordable",
+          "count": 20,
+          "percentage": 8.5
+        },
+        {
+          "id": "hospital_cost",
+          "label": "ICU/hospitalisation was unaffordable",
+          "count": 19,
+          "percentage": 8.1
+        },
+        {
+          "id": "not_covered",
+          "label": "Insurance did not cover it",
+          "count": 18,
+          "percentage": 7.7
+        },
+        {
+          "id": "payment_plan",
+          "label": "Credit/payment plan was not possible",
+          "count": 16,
+          "percentage": 6.8
+        },
+        {
+          "id": "referral_cost",
+          "label": "Specialist referral was unaffordable",
+          "count": 9,
+          "percentage": 3.8
+        },
+        {
+          "id": "insurance_limit",
+          "label": "Insurance limit ran out",
+          "count": 7,
+          "percentage": 3.0
+        },
+        {
+          "id": "insurance_information_timing",
+          "label": "Unclear policy cover or reimbursement wait",
+          "count": 6,
+          "percentage": 2.6
+        },
+        {
+          "id": "no_fast_support",
+          "label": "There was no fast emergency fund or grant",
+          "count": 5,
+          "percentage": 2.1
+        }
+      ]
+    },
+    "help": {
+      "question": "What would have helped most?",
+      "kind": "multiple_choice",
+      "denominator": 235,
+      "missing_answers": 0,
+      "multiple_option_submissions": 47,
+      "items": [
+        {
+          "id": "safe_payment_plan",
+          "label": "A safe payment plan",
+          "count": 107,
+          "percentage": 45.5
+        },
+        {
+          "id": "fast_grant",
+          "label": "A fast emergency grant",
+          "count": 53,
+          "percentage": 22.6
+        },
+        {
+          "id": "accessible_charity",
+          "label": "A charity or fund I could access quickly",
+          "count": 49,
+          "percentage": 20.9
+        },
+        {
+          "id": "direct_insurance_payment",
+          "label": "Insurance paying the vet directly",
+          "count": 26,
+          "percentage": 11.1
+        },
+        {
+          "id": "other_selected",
+          "label": "Other (selected by respondent)",
+          "count": 25,
+          "percentage": 10.6
+        },
+        {
+          "id": "more_insurance_cover",
+          "label": "Insurance that covered more",
+          "count": 21,
+          "percentage": 8.9
+        },
+        {
+          "id": "simple_explanation",
+          "label": "Someone explaining the options simply",
+          "count": 14,
+          "percentage": 6.0
+        },
+        {
+          "id": "more_time",
+          "label": "More time to decide",
+          "count": 10,
+          "percentage": 4.3
+        },
+        {
+          "id": "clearer_insurance",
+          "label": "Clearer insurance information before the emergency",
+          "count": 8,
+          "percentage": 3.4
+        }
+      ]
+    },
+    "care": {
+      "question": "What care was discussed, needed, delayed, or stopped?",
+      "kind": "multiple_choice",
+      "denominator": 235,
+      "missing_answers": 0,
+      "multiple_option_submissions": 58,
+      "items": [
+        {
+          "id": "surgery",
+          "label": "Surgery",
+          "count": 79,
+          "percentage": 33.6
+        },
+        {
+          "id": "hospitalisation",
+          "label": "ICU or hospitalisation",
+          "count": 58,
+          "percentage": 24.7
+        },
+        {
+          "id": "imaging",
+          "label": "MRI, CT, ultrasound, or other imaging",
+          "count": 52,
+          "percentage": 22.1
+        },
+        {
+          "id": "emergency",
+          "label": "Emergency vet or out-of-hours care",
+          "count": 48,
+          "percentage": 20.4
+        },
+        {
+          "id": "stabilisation",
+          "label": "Emergency medication or stabilisation",
+          "count": 42,
+          "percentage": 17.9
+        },
+        {
+          "id": "referral",
+          "label": "Specialist referral or transfer",
+          "count": 30,
+          "percentage": 12.8
+        },
+        {
+          "id": "ongoing",
+          "label": "Ongoing treatment after discharge",
+          "count": 28,
+          "percentage": 11.9
+        },
+        {
+          "id": "complex_emergency",
+          "label": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
+          "count": 21,
+          "percentage": 8.9
+        },
+        {
+          "id": "cancer_complex",
+          "label": "Cancer treatment or complex medical care",
+          "count": 20,
+          "percentage": 8.5
+        },
+        {
+          "id": "other_unsure",
+          "label": "Other or unsure",
+          "count": 14,
+          "percentage": 6.0
+        }
+      ]
+    }
+  },
+  "uk": {
+    "submissions": 24,
+    "unit": "counts_only",
+    "items": [
+      {
+        "id": "cost_yes_or_partly",
+        "label": "Said cost was part of the decision (Yes or Partly)",
+        "count": 17
+      },
+      {
+        "id": "safe_payment_plan",
+        "label": "Selected a safe payment plan as something that would have helped",
+        "count": 6
+      },
+      {
+        "id": "direct_insurance_payment",
+        "label": "Selected insurance paying the vet directly as something that would have helped",
+        "count": 5
+      }
+    ]
+  },
+  "method_url": "https://waitingroom.kingchillithepug.com/patterns.html#method"
+}

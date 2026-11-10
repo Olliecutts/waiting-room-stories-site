@@ -91,4 +91,4 @@ if set(re.findall(r'<loc>(.*?)</loc>', sitemap)) != expected_urls: ERRORS.append
 if ERRORS:
     print('\n'.join(ERRORS), file=sys.stderr)
     raise SystemExit(1)
-print(f'Static site checks passed: {len(CURRENT)} content pages, {len(pages)-len(CURRENT)} redirects, local links/fragments, share assets and publication hold.')
+print(f'Static site checks passed: {len(CURRENT)} content pages, {len(pages)-len(CURRENT)} redirects, local links/fragments, share assets and disabled automatic refresh.')
