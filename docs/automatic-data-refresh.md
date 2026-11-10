@@ -1,48 +1,42 @@
-# Automatic data refresh — publication hold
+# Statistical releases and automatic refresh
 
 Updated: 10 November 2026.
 
 ## Current state
 
-Numerical publication is paused for both owner and Professional Insight datasets. The website is readable and useful without live charts or counters.
+The owner data is a fixed, independently checked release: `2026-11-10-v1`. Its 235 included submissions come from the current-form response Sheet and record permission for anonymous campaign use. See [the release note](statistical-release-2026-11-10.md) for the source boundary, duplicate handling, denominator and disclosure rules.
 
-- `data/public_patterns_sample.json` returns the owner publication-hold status.
-- `data/professional_patterns_sample.json` returns the professional publication-hold status.
-- Each contains only approved nonnumeric status fields. There are no counts, charts or free-text contributions.
-- Both refresh workflows have no schedule and an explicit `if: ${{ false }}` job guard. Manual dispatch also skips the job.
-- The strict validators reject the former numerical payloads and any unexpected fields.
-- The Pages deployment validates the status files and site before upload.
+- `data/public_patterns_sample.json` is the validated owner release, mirrored in `data/releases/2026-11-10-v1.json`.
+- `patterns.html`, the aggregate CSV and the two-page PDF describe that same dated cohort.
+- `data/professional_patterns_sample.json` remains a nonnumeric publication-hold object.
+- Both old refresh workflows have no schedule and an explicit `if: ${{ false }}` job guard. Manual dispatch also skips the job.
+- The owner validator permits only the fixed aggregate schema and labels. The professional validator rejects numerical or unexpected fields.
+- The Pages deployment validates both datasets, the static website and generated owner HTML/CSV/JSON before publishing.
 
-This is a deliberate hold, not a new evidence-processing platform. The private forms, stored responses, installed Apps Script and repository secrets were not changed by this repair.
+This release does not repair or reactivate the old Apps Script export. Private forms, stored responses, installed scripts, integrations and repository secrets were not changed. No new collection or analytics service was added.
 
-## Why the hold exists
+## Why the old exporter remains disabled
 
-The earlier public source combined historical and current aggregates. Different questions used different counting bases, unique respondent/episode handling was not demonstrated, and the public release did not establish the interpretation of publication choices. Small categories also appeared despite nominal minimum-category metadata.
+The former 402 combined 361 processed rows with a 41-entry legacy aggregate. The processed rows contained 279 distinct generated IDs. The current source Sheet has a different base: 295 rows, 294 platform submission IDs and 235 eligible public-use submissions after applying the stored permission answer. These series cannot be reconciled by simply subtracting exclusions from 402.
 
-Those are reasons to check the release process. Tracked source-code risks do not prove that a particular live submission was used without permission, or that an identifiable privacy breach occurred.
+The old source also used category bases and processing that differ from this release's direct fixed-option answers. Changing its top-line total would not make it equivalent to the checked release. A timestamp on a recurring export does not establish that new form responses arrived, the integration is complete or a release has been reviewed.
 
-The earlier website also displayed old static figures before JavaScript replaced them, and loaded current figures into the supposedly historical first update. Replacing one count with another would not fix those issues.
+## The next release
 
-## Before restoring any numerical release
+1. Reconcile current Fillout Results with the connected response Sheet and inspect integration configuration read-only before claiming that the Sheet contains every completed form. Keep source records, legacy entries and professional responses separate.
+2. Prepare only the necessary fields in a private location. Preserve original submission IDs and timestamps, direct option labels and the recorded campaign-use choice. Never copy identifying details or written accounts into this public repository.
+3. Retain the latest version of a repeated platform ID. Resolve conflicting equal-timestamp versions privately. Do not equate IDs with proven distinct owners or animals.
+4. Exclude contact-first and private-research-only entries from this public release route. Check current permissions, any withdrawals and changes to the collection notice. Follow-up contact permission is separate.
+5. Check field definitions, missing answers, multiple selections and grouping. Reject unknown labels. Recheck country-specific disclosure risks and small complements; do not assume a count of five alone guarantees anonymity.
+6. Build a candidate aggregate outside any publishing automation. Independently review its source reconciliation, methodology, public copy and downloads. Preserve the previous dated release and describe material corrections.
+7. Update the dated renderer and PDF narrative intentionally, then deliver via the usual reviewed pull request and verify the deployed result. A milestone of 500 or 1,000 submissions is not a release criterion.
 
-1. Identify the installed source/export version and actual field definitions without copying private rows into public tooling.
-2. Establish eligible public-use records and how historical consent choices, contact-first entries and private-research-only entries are handled.
-3. Establish the counting unit and how duplicate submissions or repeated episodes are treated, including the historical/current boundary.
-4. Separate country analyses. “Other” and “Prefer not to say” are answer buckets, not countries.
-5. Document the denominator for each question, missing answers, multiple selections and any narrative coding. Do not quietly count two fine codes twice after mapping to the same broad category.
-6. Apply a justified small-group rule to published values and prevent reconstruction where relevant. Hiding only the total is insufficient.
-7. Prepare a fixed dated release, its limitations and a methods note. An automated export timestamp is not a review timestamp.
-8. Have the proposed release checked independently, then obtain Ollie’s approval for public numerical use.
-9. Make one reviewed source change that supplies a suitable numeric schema/validator, updates the site copy and explicitly restores any appropriate refresh mechanism.
-
-A submission milestone of 500 or 1,000 is not a release criterion.
+Automatic refresh is unnecessary at this volume. Consider it only after the live collection/export path has been reconciled and the manual release process is reliable. Do not restore the former schedule as part of a routine copy change.
 
 ## Historical schedule and deployment caveat
 
-Before this hold, the owner workflow was scheduled daily at 05:37 UTC and the professional workflow at 05:47 UTC. The old documentation’s “every six hours” statement was incorrect.
-
-The old jobs committed aggregate files using the Actions token. Do not assume such a push starts a second workflow. Any future automatic deployment chain must be verified against GitHub’s current workflow-trigger rules and observed Actions runs; document a proven route before reactivation.
+Before the hold, owner refresh was scheduled daily at 05:37 UTC and professional refresh at 05:47 UTC. The former documentation's “every six hours” statement was incorrect. The jobs committed using the Actions token; do not assume that such a push starts a second workflow. A future automatic deployment chain would need a separately verified route and observed Actions run.
 
 ## Rollback
 
-The source history preserves the previous website. A full revert would also restore unvalidated figures and refresh behaviour. For a visual or copy regression, make a targeted fix or revert only the affected presentation files; preserve the data-publication hold unless a reviewed release has separately superseded it.
+For a presentation regression, fix or revert the affected presentation files. If a numerical release needs withdrawal, replace it with a clear dated correction/status and disable access to the affected current downloads as appropriate. Do not restore the old mixed aggregate or refresh jobs. Public Git history and external cached copies can remain; withdrawal is not a claim of complete erasure.

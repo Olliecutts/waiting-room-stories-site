@@ -1,0 +1,43 @@
+release_id,collection_start,collection_end,population,question,category,count,denominator,percentage,unit
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What country are you in?,United States,195,235,83.0,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What country are you in?,United Kingdom,24,235,10.2,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What country are you in?,Canada,7,235,3.0,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What country are you in?,Other locations or not stated,9,235,3.8,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,Was cost part of the decision?,Yes or partly,199,235,84.7,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,Was cost part of the decision?,"No, unsure or preferred not to say",36,235,15.3,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,Did you have pet insurance?,No insurance,184,235,78.3,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,Did you have pet insurance?,"Had insurance, but cover ran out, did not cover this, or upfront payment was needed",34,235,14.5,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,Did you have pet insurance?,"Yes, or unsure",17,235,7.2,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Had to pay upfront,115,235,48.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Surgery or treatment was unaffordable,42,235,17.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Other (selected by respondent),29,235,12.3,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Diagnostic imaging was unaffordable,20,235,8.5,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,ICU/hospitalisation was unaffordable,19,235,8.1,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Insurance did not cover it,18,235,7.7,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Credit/payment plan was not possible,16,235,6.8,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Specialist referral was unaffordable,9,235,3.8,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Insurance limit ran out,7,235,3.0,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,Unclear policy cover or reimbursement wait,6,235,2.6,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What was the main barrier?,There was no fast emergency fund or grant,5,235,2.1,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,A safe payment plan,107,235,45.5,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,A fast emergency grant,53,235,22.6,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,A charity or fund I could access quickly,49,235,20.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,Insurance paying the vet directly,26,235,11.1,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,Other (selected by respondent),25,235,10.6,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,Insurance that covered more,21,235,8.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,Someone explaining the options simply,14,235,6.0,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,More time to decide,10,235,4.3,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,What would have helped most?,Clearer insurance information before the emergency,8,235,3.4,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Surgery,79,235,33.6,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",ICU or hospitalisation,58,235,24.7,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?","MRI, CT, ultrasound, or other imaging",52,235,22.1,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Emergency vet or out-of-hours care,48,235,20.4,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Emergency medication or stabilisation,42,235,17.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Specialist referral or transfer,30,235,12.8,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Ongoing treatment after discharge,28,235,11.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?","Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",21,235,8.9,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Cancer treatment or complex medical care,20,235,8.5,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,Included submissions across countries,"What care was discussed, needed, delayed, or stopped?",Other or unsure,14,235,6.0,submissions
+2026-11-10-v1,2026-05-24,2026-07-07,UK subset,Selected UK counts only,Said cost was part of the decision (Yes or Partly),17,24,,submissions; counts only
+2026-11-10-v1,2026-05-24,2026-07-07,UK subset,Selected UK counts only,Selected a safe payment plan as something that would have helped,6,24,,submissions; counts only
+2026-11-10-v1,2026-05-24,2026-07-07,UK subset,Selected UK counts only,Selected insurance paying the vet directly as something that would have helped,5,24,,submissions; counts only

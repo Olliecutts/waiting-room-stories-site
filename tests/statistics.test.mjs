@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { validateStatistics } from '../scripts/validate-statistics.mjs';
+const release = JSON.parse(await readFile(new URL('../data/public_patterns_sample.json', import.meta.url), 'utf8'));
+const copy = () => structuredClone(release);
+test('reviewed aggregate reconciles', () => assert.equal(validateStatistics(copy()), true));
+test('row-level fields cannot enter release', () => { const d=copy(); d.submission_ids=['private']; assert.throws(()=>validateStatistics(d)); });
+test('free text cannot replace a fixed label', () => { const d=copy(); d.charts.barriers.items[0].label='A private narrative'; assert.throws(()=>validateStatistics(d)); });
+test('selection count cannot become a respondent denominator', () => { const d=copy(); d.charts.barriers.denominator=451; assert.throws(()=>validateStatistics(d)); });
+test('percentage arithmetic is enforced', () => { const d=copy(); d.charts.help.items[0].percentage=99; assert.throws(()=>validateStatistics(d)); });
+test('small cells cannot be published', () => { const d=copy(); d.charts.help.items[0].count=2; assert.throws(()=>validateStatistics(d)); });
+test('unique submission reconciliation is enforced', () => { const d=copy(); d.counts.distinct_submission_ids++; assert.throws(()=>validateStatistics(d)); });
+test('UK is a distinct subset', () => { const d=copy(); d.uk.submissions=235; assert.throws(()=>validateStatistics(d)); });
+test('UK percentages cannot be added accidentally', () => { const d=copy(); d.uk.items[0].percentage=70.8; assert.throws(()=>validateStatistics(d)); });
+test('future source dates cannot masquerade as collection dates', () => { const d=copy(); d.collection_period.end='2026-11-11'; assert.throws(()=>validateStatistics(d)); });

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { validatePublicationHold } from '../scripts/validate-publication-hold.mjs';
 
-for (const [dataset, file] of [['owner', 'public_patterns_sample.json'], ['professional', 'professional_patterns_sample.json']]) {
+for (const [dataset, file] of [['professional', 'professional_patterns_sample.json']]) {
   const payload = JSON.parse(fs.readFileSync(new URL(`../data/${file}`, import.meta.url), 'utf8'));
   test(`${dataset}: approved hold is valid`, () => assert.equal(validatePublicationHold(payload, dataset), true));
   test(`${dataset}: an automatic refresh cannot reintroduce charts or extra fields`, () => {

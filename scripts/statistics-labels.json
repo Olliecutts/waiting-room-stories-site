@@ -1,0 +1,77 @@
+{
+  "geography": {
+    "question": "What country are you in?",
+    "kind": "single_choice_grouped",
+    "items": {
+      "usa": "United States",
+      "uk": "United Kingdom",
+      "canada": "Canada",
+      "other_not_stated": "Other locations or not stated"
+    }
+  },
+  "cost_influence": {
+    "question": "Was cost part of the decision?",
+    "kind": "single_choice_grouped",
+    "items": {
+      "yes_or_partly": "Yes or partly",
+      "other_cost_answers": "No, unsure or preferred not to say"
+    }
+  },
+  "insurance": {
+    "question": "Did you have pet insurance?",
+    "kind": "single_choice_grouped",
+    "items": {
+      "no_insurance": "No insurance",
+      "insurance_difficulty": "Had insurance, but cover ran out, did not cover this, or upfront payment was needed",
+      "yes_or_unsure": "Yes, or unsure"
+    }
+  },
+  "barriers": {
+    "question": "What was the main barrier?",
+    "kind": "multiple_choice",
+    "items": {
+      "upfront": "Had to pay upfront",
+      "treatment_cost": "Surgery or treatment was unaffordable",
+      "other_selected": "Other (selected by respondent)",
+      "imaging_cost": "Diagnostic imaging was unaffordable",
+      "hospital_cost": "ICU/hospitalisation was unaffordable",
+      "not_covered": "Insurance did not cover it",
+      "payment_plan": "Credit/payment plan was not possible",
+      "referral_cost": "Specialist referral was unaffordable",
+      "insurance_limit": "Insurance limit ran out",
+      "insurance_information_timing": "Unclear policy cover or reimbursement wait",
+      "no_fast_support": "There was no fast emergency fund or grant"
+    }
+  },
+  "help": {
+    "question": "What would have helped most?",
+    "kind": "multiple_choice",
+    "items": {
+      "safe_payment_plan": "A safe payment plan",
+      "fast_grant": "A fast emergency grant",
+      "accessible_charity": "A charity or fund I could access quickly",
+      "direct_insurance_payment": "Insurance paying the vet directly",
+      "other_selected": "Other (selected by respondent)",
+      "more_insurance_cover": "Insurance that covered more",
+      "simple_explanation": "Someone explaining the options simply",
+      "more_time": "More time to decide",
+      "clearer_insurance": "Clearer insurance information before the emergency"
+    }
+  },
+  "care": {
+    "question": "What care was discussed, needed, delayed, or stopped?",
+    "kind": "multiple_choice",
+    "items": {
+      "surgery": "Surgery",
+      "hospitalisation": "ICU or hospitalisation",
+      "imaging": "MRI, CT, ultrasound, or other imaging",
+      "emergency": "Emergency vet or out-of-hours care",
+      "stabilisation": "Emergency medication or stabilisation",
+      "referral": "Specialist referral or transfer",
+      "ongoing": "Ongoing treatment after discharge",
+      "complex_emergency": "Heart, breathing, neurological, spinal, trauma, poisoning, or other emergency care",
+      "cancer_complex": "Cancer treatment or complex medical care",
+      "other_unsure": "Other or unsure"
+    }
+  }
+}

@@ -35,7 +35,9 @@ jobs:
           node --check site.js
           node scripts/validate-public-data.mjs
           node scripts/validate-professional-data.mjs
-          node --test tests/publication-hold.test.mjs
+          node --test tests/*.test.mjs
+          python3 scripts/render-statistics.py --check
+          python3 -m unittest discover -s tests -p "test_*.py"
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
