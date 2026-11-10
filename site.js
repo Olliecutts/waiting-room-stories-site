@@ -33,7 +33,7 @@
       await navigator.clipboard.writeText(text);
       setStatus(button, success);
     } catch {
-      setStatus(button, 'Copy is unavailable in this browser. Please select and copy the text below.');
+      setStatus(button, 'Copy is unavailable in this browser. Please select and copy the caption text.');
     }
   };
   document.querySelectorAll('[data-copy-caption]').forEach((button) => {

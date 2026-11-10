@@ -110,6 +110,7 @@ p:last-child { margin-bottom: 0; }
 .copyright { padding-top: 30px; margin-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
 .redirect-page { max-width: 780px; padding-block: 80px; }
 @media (max-width: 1080px) {
+  html:not(.js) .site-header { position: static; }
   .nav { flex-wrap: wrap; gap: 16px; padding-block: 16px; min-height: 78px; }
   .nav-links { width: 100%; flex-wrap: wrap; gap: 6px; }
   .js .menu-toggle { display: inline-flex; }
