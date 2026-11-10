@@ -24,6 +24,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Validate before publishing
+        run: |
+          python3 scripts/check-site.py
+          node --check site.js
+          node scripts/validate-public-data.mjs
+          node scripts/validate-professional-data.mjs
+          node --test tests/publication-hold.test.mjs
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
 

@@ -1,116 +1,48 @@
-# Automatic Data Refresh
+# Automatic data refresh — publication hold
 
-This repo can refresh public aggregate JSON without storing or publishing the private response Sheets.
+Updated: 10 November 2026.
 
-Owner-story data and Professional Insight data are separate. They use separate endpoint secrets, separate workflow files, separate validators, and separate static JSON files.
+## Current state
 
-## Owner-story refresh
+Numerical publication is paused for both owner and Professional Insight datasets. The website is readable and useful without live charts or counters.
 
-1. The private response Sheet runs the Waiting Room Stories Apps Script.
-2. The Apps Script web app returns aggregate-only JSON.
-3. GitHub Actions fetches that JSON every 6 hours.
-4. The workflow validates the JSON for required public fields and forbidden private markers.
-5. If the data changed, the workflow commits only `data/public_patterns_sample.json`.
-6. The existing Pages workflow deploys the updated static site.
+- `data/public_patterns_sample.json` returns the owner publication-hold status.
+- `data/professional_patterns_sample.json` returns the professional publication-hold status.
+- Each contains only approved nonnumeric status fields. There are no counts, charts or free-text contributions.
+- Both refresh workflows have no schedule and an explicit `if: ${{ false }}` job guard. Manual dispatch also skips the job.
+- The strict validators reject the former numerical payloads and any unexpected fields.
+- The Pages deployment validates the status files and site before upload.
 
-Workflow:
+This is a deliberate hold, not a new evidence-processing platform. The private forms, stored responses, installed Apps Script and repository secrets were not changed by this repair.
 
-- `Refresh Waiting Room Stories public data`
-- `.github/workflows/refresh-public-data.yml`
+## Why the hold exists
 
-Secret:
+The earlier public source combined historical and current aggregates. Different questions used different counting bases, unique respondent/episode handling was not demonstrated, and the public release did not establish the interpretation of publication choices. Small categories also appeared despite nominal minimum-category metadata.
 
-- `WRS_PUBLIC_DATA_URL`
+Those are reasons to check the release process. Tracked source-code risks do not prove that a particular live submission was used without permission, or that an identifiable privacy breach occurred.
 
-Output:
+The earlier website also displayed old static figures before JavaScript replaced them, and loaded current figures into the supposedly historical first update. Replacing one count with another would not fix those issues.
 
-- `data/public_patterns_sample.json`
+## Before restoring any numerical release
 
-Validator:
+1. Identify the installed source/export version and actual field definitions without copying private rows into public tooling.
+2. Establish eligible public-use records and how historical consent choices, contact-first entries and private-research-only entries are handled.
+3. Establish the counting unit and how duplicate submissions or repeated episodes are treated, including the historical/current boundary.
+4. Separate country analyses. “Other” and “Prefer not to say” are answer buckets, not countries.
+5. Document the denominator for each question, missing answers, multiple selections and any narrative coding. Do not quietly count two fine codes twice after mapping to the same broad category.
+6. Apply a justified small-group rule to published values and prevent reconstruction where relevant. Hiding only the total is insufficient.
+7. Prepare a fixed dated release, its limitations and a methods note. An automated export timestamp is not a review timestamp.
+8. Have the proposed release checked independently, then obtain Ollie’s approval for public numerical use.
+9. Make one reviewed source change that supplies a suitable numeric schema/validator, updates the site copy and explicitly restores any appropriate refresh mechanism.
 
-- `scripts/validate-public-data.mjs`
+A submission milestone of 500 or 1,000 is not a release criterion.
 
-## Professional Insight refresh
+## Historical schedule and deployment caveat
 
-Professional Insight uses a separate public aggregate endpoint. It must not add to the owner story count and must not publish a public Professional response count.
+Before this hold, the owner workflow was scheduled daily at 05:37 UTC and the professional workflow at 05:47 UTC. The old documentation’s “every six hours” statement was incorrect.
 
-Workflow:
+The old jobs committed aggregate files using the Actions token. Do not assume such a push starts a second workflow. Any future automatic deployment chain must be verified against GitHub’s current workflow-trigger rules and observed Actions runs; document a proven route before reactivation.
 
-- `Refresh Waiting Room Stories Professional Insight data`
-- `.github/workflows/refresh-professional-data.yml`
+## Rollback
 
-Secret:
-
-- `WRS_PROFESSIONAL_DATA_URL`
-
-Output:
-
-- `data/professional_patterns_sample.json`
-
-Validator:
-
-- `scripts/validate-professional-data.mjs`
-
-If `WRS_PROFESSIONAL_DATA_URL` is not configured, the workflow exits successfully without changing data. This keeps scheduled runs green while the Professional Insight endpoint is being set up.
-
-## Owner-story manual setup
-
-1. In the live response Sheet, install the latest combined Apps Script from the private control repo.
-2. Run `Process new responses`, then `Export public patterns`.
-3. Confirm the generated JSON contains aggregate categories only.
-4. Deploy the script as a web app:
-   - Deploy > New deployment > Web app
-   - Execute as: Me
-   - Access: Anyone with the link
-5. Copy the web app URL.
-6. In this public repo on GitHub, open Settings > Secrets and variables > Actions.
-7. Add a repository secret named `WRS_PUBLIC_DATA_URL`.
-8. Paste the web app URL as the secret value.
-9. Open Actions > Refresh Waiting Room Stories public data.
-10. Run the workflow manually once.
-11. Confirm `data/public_patterns_sample.json` updates only if the aggregate data changed.
-12. Confirm the Pages deployment updates the live site.
-
-## Professional Insight manual setup
-
-1. In the Professional Insight Sheet, export reviewed aggregate-only Professional Insight JSON.
-2. Confirm the generated JSON contains reviewed aggregate charts only.
-3. Confirm it does not contain raw responses, names, emails, workplaces, written answers, quote text, submission IDs, contact details, reviewer notes, or row-level data.
-4. Deploy the Professional Insight aggregate endpoint as the approved public-safe JSON source.
-5. Copy the endpoint URL.
-6. In this public repo on GitHub, open Settings > Secrets and variables > Actions.
-7. Add a repository secret named `WRS_PROFESSIONAL_DATA_URL`.
-8. Paste the endpoint URL as the secret value.
-9. Open Actions > Refresh Waiting Room Stories Professional Insight data.
-10. Run the workflow manually once.
-11. Confirm `data/professional_patterns_sample.json` updates only if the aggregate data changed.
-12. Confirm the Pages deployment updates the live site.
-
-## Safety checks
-
-The owner-story refresh workflow runs `scripts/validate-public-data.mjs` before committing. It requires:
-
-- `schema_version`
-- `stories_shared_so_far`
-- `countries_represented`
-- `last_updated`
-- `charts`
-
-It fails if the public JSON contains private-field markers such as email, pet name, story text field names, quote markers, reviewer markers, submission identifiers, phone, address, claim, vet, or insurer markers.
-
-The Professional Insight refresh workflow runs `scripts/validate-professional-data.mjs` before committing. It requires:
-
-- `schema_version = wrs_professional_patterns_v1`
-- `status` is `reviewed_aggregate` or `not_enough_reviewed_responses`
-- `endpoint_mode` is `professional_reviewed_aggregate`, `professional_not_enough_reviewed_responses`, or `professional_placeholder`
-- `public_response_count_enabled = false`
-- `public_response_count = null`
-- exactly the approved Professional Insight chart keys
-
-It fails if Professional Insight JSON contains owner-story count fields or private-field markers such as name, email, workplace, phone, address, raw/free-text markers, quote markers, submission markers, contact markers, reviewer notes, pet/story markers, claim-detail markers, vet, or insurer markers.
-
-Both workflows refuse to commit if any file other than their one expected JSON file changes.
-
-The Apps Script URL is stored only as the GitHub secret `WRS_PUBLIC_DATA_URL`; it is not committed to this repo.
-
-The Professional Insight endpoint URL is stored only as the GitHub secret `WRS_PROFESSIONAL_DATA_URL`; it is not committed to this repo.
+The source history preserves the previous website. A full revert would also restore unvalidated figures and refresh behaviour. For a visual or copy regression, make a targeted fix or revert only the affected presentation files; preserve the data-publication hold unless a reviewed release has separately superseded it.
