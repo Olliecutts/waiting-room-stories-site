@@ -1,8 +1,6 @@
 name: Refresh Waiting Room Stories public data
 
 on:
-  schedule:
-    - cron: "37 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -14,6 +12,9 @@ concurrency:
 
 jobs:
   refresh:
+    # Publication hold: methods, permissions and small-group checks are incomplete.
+    # Re-enable only through a reviewed source change; see docs/automatic-data-refresh.md.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

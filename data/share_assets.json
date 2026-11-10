@@ -4,22 +4,22 @@
   "assets": [
     {
       "id": "ask_people_to_share_a_story",
-      "title": "Ask people to share a story",
-      "description": "Use this when asking pet owners to add an owner story to the project.",
+      "title": "Invite an owner to share an experience",
+      "description": "For someone whose emergency or specialist-care decision was affected by cost, insurance or payment arrangements.",
       "image_path": "assets/share/share-your-emergency-vet-care-story.png",
       "download_path": "assets/share/share-your-emergency-vet-care-story.png",
       "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and the words Share your emergency vet care story.",
-      "caption": "If emergency or specialist vet care became hard to reach because of cost, insurance limits, upfront payment, reimbursement delays, or lack of fast support, your story can help. Share your story: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomProject #KingChilliThePug #WaitingRoomStories",
+      "caption": "Did cost, insurance or payment arrangements affect emergency or specialist veterinary care for your animal? Waiting Room Stories is collecting experiences to inform practical reform, starting in the UK. US and other international experiences are welcome too. This is research, not an emergency funding service.\n\nRead more and share your experience: https://waitingroom.kingchillithepug.com/share.html\n\n#WaitingRoomStories #KingChilliThePug",
       "status": "live"
     },
     {
       "id": "pattern_update_share",
-      "title": "Pattern Update share",
-      "description": "Use this when pointing people to the first 250+ Pattern Update and the owner-story charts.",
+      "title": "Explain the UK-first plan",
+      "description": "For introducing the project’s purpose and proposed next steps.",
       "image_path": "assets/share/emergency-care-out-of-reach.png",
       "download_path": "assets/share/emergency-care-out-of-reach.png",
       "alt_text": "The Waiting Room Stories Project graphic with Chilli in a flower hat and text about emergency and specialist vet care being out of reach.",
-      "caption": "The first 250+ Pattern Update is live. Owner stories are starting to show repeated access problems around emergency and specialist vet care. Read the update: https://waitingroom.kingchillithepug.com/first-pattern-update.html\n\n#WaitingRoomProject #KingChilliThePug #WaitingRoomStories",
+      "caption": "Chilli had a community that could hear him. Most animals do not. Waiting Room Stories is starting with UK research on emergency payment explanations, insurance, referrals and support routes, with separate US work to follow.\n\nRead the plan: https://waitingroom.kingchillithepug.com/what-needs-to-change.html\n\n#WaitingRoomStories #KingChilliThePug",
       "status": "live"
     }
   ]

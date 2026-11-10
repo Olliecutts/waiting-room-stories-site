@@ -1,104 +1,67 @@
-# The Waiting Room Stories Project Static Site
+# Waiting Room Stories
 
-Public website files for The Waiting Room Stories Project.
+The existing static website for [Waiting Room Stories](https://waitingroom.kingchillithepug.com/), led by Ollie Cutts / KingChilliThePug.
 
-Target domain: `waitingroom.kingchillithepug.com`.
+## Purpose and current direction
 
-## Public Pages
+The primary purpose is practical reform of financial access to emergency and specialist veterinary care. The first phase focuses on the UK. US and other international experiences remain welcome for separately analysed later work.
 
-- Home: `index.html`
-- Share: `share.html`
-- Patterns: `patterns.html`
-- Evidence so far: `evidence-so-far.html`
-- Change: `what-needs-to-change.html`
-- About: `about.html`
-- Help spread the project: `help-spread.html`
-- Ways to help: `ways-to-help.html`
-- Roadmap: `roadmap.html`
-- Contact: `contact.html`
-- For professionals: `professionals.html`
-- FAQ: `faq.html`
-- How stories are used: `privacy.html`
+Helping individual animals through verified fundraising is a separate future ambition. The project is not an emergency assistance service, charity, grant provider or veterinary payment intermediary. It has no agreed trial or partnership to announce.
 
-`updates.html` remains a plain unlinked placeholder. It is not part of the main public navigation.
+## Pages
 
-## Current Structure
+| File | Visitor purpose |
+| --- | --- |
+| `index.html` | Understand the purpose and choose a useful next step |
+| `share.html` | Understand the owner form, permissions and service boundary |
+| `patterns.html` | Read the evidence status, limits and independent context |
+| `first-pattern-update.html` | Read the dated 10 November correction and next steps |
+| `what-needs-to-change.html` | Read four proposed UK research questions |
+| `professionals.html` | Contribute professional experience separately |
+| `get-involved.html` | Contact Ollie or use the two approved share graphics |
+| `about.html` | Understand Chilli’s origin story and the two missions |
+| `privacy.html` | Understand participation choices and the remaining operational privacy review |
 
-The Phase A restructure makes each page more specific:
+Seven older routes remain as redirects to the relevant current page or section. Keep these URLs working.
 
-- Home is the campaign landing page with a Chilli-led hero, three visitor paths, live snapshot, pattern teaser, origin hook, roadmap teaser, professional teaser, and final CTA.
-- Share is focused on owner story submission only.
-- Get involved owns supporter tools: share buttons, ready-made captions, share graphics, and direct-send guidance.
-- Patterns is the evidence/data page with headline interpretation cards and charts.
-- Evidence so far is a plain-English evidence explainer based on grouped public patterns.
-- Roadmap is the public mission timeline.
-- About is the Chilli origin page.
-- Professionals is the main professional insight route.
-- Ways to Help is the role selector.
-- Contact is a short practical email route page.
+## Numerical publication is on hold
 
-## Assets
+Both aggregate JSON URLs currently return a fixed nonnumeric review-status object. Public chart hydration has been removed. The two refresh jobs are explicitly disabled in source and no longer scheduled. Their old fetch/integration steps are retained for a future reviewed repair, not immediate reactivation.
 
-The current visual identity uses the approved Chilli flower-hat side-heart/header artwork from Ollie's desktop asset folder:
+The source checks only validate this publication hold. **Passing checks is not approval or methodological validation for future statistics.** See [automatic data refresh](docs/automatic-data-refresh.md) for what must be established before numerical publication returns.
 
-- `assets/images/waiting-room-header-side-heart.png`
+This change removes the current small-cell payloads; it does not erase older public Git history or cached copies. No raw submissions were inspected or changed as part of the website repair.
 
-The old placeholder mark is not used as the main site identity. The launch-square social graphic is not used on public site pages.
+## Local preview and checks
 
-## Local Test
-
-From the repo root:
+From this repository root:
 
 ```bash
-python3 -m http.server 8787 --directory campaigns/car_park_stories/site
+python3 -m http.server 8787
 ```
 
-Then open:
+Open `http://127.0.0.1:8787/`. No build system or package install is needed.
 
-```text
-http://127.0.0.1:8787/
+```bash
+python3 scripts/check-site.py
+node --check site.js
+node scripts/validate-public-data.mjs
+node scripts/validate-professional-data.mjs
+node --test tests/publication-hold.test.mjs
 ```
 
-## Safety Rules
+The static checks cover current routes, legacy redirects, local links and fragments, image alternatives/dimensions, share-caption consistency and the refresh hold. The tests check that aggregate or extra data cannot pass the hold validator. Responsive browser checks remain necessary for layout changes.
 
-- Do not deploy until Ollie approves.
-- Do not add full stories, names, emails, pet names, vet names, insurer names, exact locations, claim numbers, or contact details.
-- Keep the site non-anti-vet.
-- Keep Contact, For professionals, and FAQ informational only. They should not imply emergency support, bill payment, charity/fund status, or advice.
-- The form link should remain a link, not an embed, until a later human decision.
-- This is not a donation, charity, emergency support, veterinary advice, legal advice, financial advice, or insurance advice site.
+## Artwork and interaction
 
-## Pattern Data
+The approved Chilli flower-hat artwork and original Chilli photographs remain in use. Only two assets are active in `data/share_assets.json`. Do not add new public artwork without Ollie’s approval.
 
-The patterns page reads `data/public_patterns_sample.json` as its saved project update.
+Share captions are rendered in HTML so the toolkit works without JavaScript. Keep their text in sync with `data/share_assets.json`; the static checker detects differences. JavaScript only enhances the mobile navigation and copy buttons. No analytics scripts or advertising pixels are added.
 
-Live pattern data should come only from a reviewed grouped-pattern JSON endpoint or file using schema `wrs_public_patterns_v2`.
+## Delivery boundaries
 
-Any replacement data must contain grouped categories and percentages only. It must not include story text, names, emails, contact details, pet names, vet names, insurer names, exact locations, claim numbers, quotes, or review notes. Fixed-answer charts should show concrete public answer labels. Written `Other` answers should be reviewed and safely grouped where possible; if they cannot be grouped yet, they should count in the denominator but not appear as a vague public chart segment.
+Ollie approved the UK-first direction and website repair on 10 November 2026. Deliver changes through an isolated branch and reviewed pull request, preserving unrelated work. GitHub Pages deploys merged `main` after validation. Verify the deployed pages and data URLs.
 
-## Share Assets
+Do not publish or schedule social posts, send outreach, activate a fundraising programme, change private form/storage systems or incur costs under website-repair authority. New numerical publication needs the evidence and permission checks described above.
 
-The Share page reads `data/share_assets.json` for the "Help spread the project" section.
-
-The current file points to the first four approved public share graphics under:
-
-- `assets/share/care-existed-love-existed-money-did-not.png`
-- `assets/share/emergency-care-out-of-reach.png`
-- `assets/share/share-your-emergency-vet-care-story.png`
-- `assets/share/share-your-emergency-vet-care-story-cushion.png`
-
-Only add or replace image URLs after Ollie approves the assets for public use.
-
-## Current public structure
-
-The streamlined public site uses these main pages:
-
-- `index.html` — campaign landing page
-- `share.html` — owner story submission route
-- `patterns.html` — evidence summary and live chart patterns
-- `what-needs-to-change.html` — change goals and roadmap milestones
-- `get-involved.html` — share toolkit, share graphics, professional and press routes
-- `about.html` — Chilli origin story and project purpose
-- `privacy.html` — how stories are used, privacy boundaries, and FAQ
-
-Older route pages remain as simple redirects to the nearest current page.
+Never add raw responses, identifying owner or professional details, unapproved quotations, private medical records or secrets. Use the verified public project contact route; do not substitute private contact details.
